@@ -1,0 +1,87 @@
+query GetInfo(
+	$repo_owner : String!
+	$repo_name : String!
+) {
+	viewer {
+		login
+		pullRequests(first:100, states:[OPEN]) {
+			nodes {
+				id
+				number
+				title
+				baseRefName
+				headRefName
+				mergeable
+				reviewDecision
+				repository {
+					id
+				}
+				commits(first:100) {
+					nodes {
+						commit {
+							oid
+							messageHeadline
+							messageBody
+							statusCheckRollup {
+								state
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	repository(owner:$repo_owner, name:$repo_name) {
+		id
+	}
+}
+
+mutation CreatePullRequest(
+	$input : CreatePullRequestInput!
+) {
+	createPullRequest(input:$input) {
+		pullRequest {
+			id
+			number
+		} 
+	}
+}
+
+mutation UpdatePullRequest(
+	$input : UpdatePullRequestInput!
+) {
+	updatePullRequest(input: $input) {
+		pullRequest {
+			number
+		}
+	}
+}
+
+mutation CommentPullRequest(
+	$input : AddCommentInput!
+) {
+	addComment(input: $input) {
+		clientMutationId
+	}
+}
+
+mutation MergePullRequest(
+	$input : MergePullRequestInput!	
+) {
+	mergePullRequest(input: $input) {
+		pullRequest {
+			number
+		}
+	}
+}
+
+mutation ClosePullRequest(
+	$input : ClosePullRequestInput!	
+) {
+	closePullRequest(input: $input) {
+		pullRequest {
+			number
+		}
+	}
+}
+

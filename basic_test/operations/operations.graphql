@@ -1,0 +1,36 @@
+query OneAllTypes {
+	one {
+		oneInt
+		oneIntMust
+		oneIntList
+		oneIntMustList
+		oneIntMustListMust
+	}
+}
+
+query OneWithSubSelections {
+	one {
+		two {
+			twoInt	
+			twoStr
+
+			three {
+				threeInt
+			}
+		}
+	}
+}
+
+query QueryWithInputs($inputOne : String, $inputTwo : String) {
+	one(input : $inputOne) {
+		oneInt
+	}	
+
+	two(input : $inputTwo) {
+		twoInt
+	}	
+}
+
+mutation OneAdd($input : OneInput) {
+	oneAdd(input : $input)
+}

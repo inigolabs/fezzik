@@ -1,0 +1,69 @@
+scalar Time
+
+schema {
+	query : Query
+	mutation : Mutation
+}
+
+type Query {
+	ones : [One]
+	one(input : String) : One
+
+	two(input : String) : Two
+}
+
+type Mutation {
+	oneAdd(input : OneInput) : ID
+}
+
+type One {
+	oneInt : Int
+	oneIntMust : Int!
+	oneIntList : [Int]
+	oneIntMustList : [Int!]
+	oneIntMustListMust : [Int!]!
+	oneStr : String
+	oneBool : Boolean
+
+	oneA : One
+	two : Two
+	three : Three
+}
+
+type Two {
+	twoInt : Int
+	twoStr : String
+	twoBool : Boolean
+
+	oneA : One
+	two : Two
+	three : Three
+}
+
+type Three {
+	threeInt : Int
+	threeStr : String
+	threeBool : Boolean
+
+	oneA : One
+	two : Two
+	three : Three
+}
+
+enum OneEnum {
+	ValA
+	ValB
+	ValC
+}
+
+input OneInput {
+	oneInt : Int
+	oneIntMust : Int!
+	oneIntList : [Int]
+	oneIntMustList : [Int!]
+	oneIntMustListMust : [Int!]!
+	oneStr : String
+	oneBool : Boolean
+	oneEnum : OneEnum
+	oneTime : Time
+}
