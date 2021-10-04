@@ -1,0 +1,6 @@
+githubRepoOwner: inigolabs
+githubRepoName: fezzik
+requireChecks: false
+requireApproval: false
+githubRemote: origin
+githubBranch: master
