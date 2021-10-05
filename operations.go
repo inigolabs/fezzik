@@ -19,19 +19,22 @@ type Info struct {
 }
 
 type OperationInfo struct {
-	Name          string
-	Operation     string
-	ResponseType  string
-	Inputs        string
-	InputVarNames []string
+	Name         string
+	Operation    string
+	ResponseType string
+	Inputs       []OperationInput
+}
+
+type OperationInput struct {
+	Name string
+	Type string
 }
 
 type currOperation struct {
-	name          string
-	operation     *builder
-	response      *builder
-	inputs        *builder
-	inputVarNames []string
+	name      string
+	operation *builder
+	response  *builder
+	inputs    []OperationInput
 }
 
 type visitor struct {
@@ -40,7 +43,8 @@ type visitor struct {
 	cfg        *Config
 	operation  *ast.Document
 	definition *ast.Document
-	inputs     *InputRenderInfo
+
+	inputsInfo *InputRenderInfo
 
 	info *Info
 
@@ -53,7 +57,7 @@ func NewVisitor(cfg *Config, schema *ast.Document, inputsInfo *InputRenderInfo) 
 		Walker:     &walker,
 		cfg:        cfg,
 		definition: schema,
-		inputs:     inputsInfo,
+		inputsInfo: inputsInfo,
 		info: &Info{
 			PackageName: cfg.PackageName,
 		},
@@ -83,7 +87,6 @@ func (v *visitor) EnterOperationDefinition(ref int) {
 	v.curr = &currOperation{
 		operation: NewBuilder(),
 		response:  NewBuilder(),
-		inputs:    NewBuilder(),
 	}
 
 	hasName := v.operation.OperationDefinitions[ref].Name.Length() > 0
@@ -111,11 +114,10 @@ func (v *visitor) EnterOperationDefinition(ref int) {
 
 func (v *visitor) LeaveOperationDefinition(ref int) {
 	v.info.Operations = append(v.info.Operations, &OperationInfo{
-		Name:          v.curr.name,
-		Operation:     v.curr.operation.String(),
-		ResponseType:  v.curr.response.String(),
-		Inputs:        v.curr.inputs.String(),
-		InputVarNames: v.curr.inputVarNames,
+		Name:         v.curr.name,
+		Operation:    v.curr.operation.String(),
+		ResponseType: v.curr.response.String(),
+		Inputs:       v.curr.inputs,
 	})
 }
 
@@ -160,7 +162,7 @@ func (v *visitor) EnterField(ref int) {
 	}
 	if goType, ok := getGoType(v.cfg, typeInfo.Name); ok {
 		v.curr.response.Writeln(goType)
-	} else if _, found := v.inputs.EnumTypes[typeInfo.Name]; found {
+	} else if _, found := v.inputsInfo.EnumTypes[typeInfo.Name]; found {
 		v.curr.response.Writeln(typeInfo.Name)
 	} else {
 		v.curr.response.Write("struct")
@@ -198,8 +200,6 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	}
 
 	// render inputs
-	v.curr.inputVarNames = append(v.curr.inputVarNames, varNameStr)
-
 	typeInfo := getTypeInfo(varDef.Type, v.operation)
 	typeBuilder := new(strings.Builder)
 	if typeInfo.IsList {
@@ -213,8 +213,11 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	} else {
 		typeBuilder.WriteString(typeInfo.Name)
 	}
-	v.curr.inputs.Write(common.UppercaseFirstChar(varNameStr), " ", typeBuilder.String())
-	v.curr.inputs.Writeln(" `", "json:", `"`, varNameStr, `"`, "`")
+
+	v.curr.inputs = append(v.curr.inputs, OperationInput{
+		Name: varNameStr,
+		Type: typeBuilder.String(),
+	})
 
 	log.Debug().Str("name", varNameStr).Bytes("type", varType).Msg("EnterVariableDefinition")
 }
@@ -276,3 +279,78 @@ func (v *visitor) indent() []byte {
 	}
 	return buf
 }
+
+var operationsTemplate string = `
+package {{ .PackageName }}
+
+import (
+	"context"
+
+	"github.com/rs/zerolog/log"
+	"github.com/machinebox/graphql"
+	"github.com/mitchellh/mapstructure"
+)
+
+{{- range $operation := .Operations }}
+
+var {{ $operation.Name }}Operation string = ~~
+{{ $operation.Operation }}
+~~
+
+{{ if len $operation.Inputs }}
+type {{ $operation.Name }}InputArgs struct {
+{{- range $val := $operation.Inputs }}
+{{ capitalize $val.Name }} {{ $val.Type}} ~~json:"{{ $val.Name }}"~~
+{{- end }}
+}
+{{ end }}
+
+type {{ $operation.Name }}Response struct {
+{{ $operation.ResponseType }}
+}
+
+{{ if len $operation.Inputs }}
+func (c *Client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
+	*{{ $operation.Name }}Response, error) {
+{{ else }}
+func (c *Client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
+{{ end }}
+
+	q := graphql.NewRequest({{ $operation.Name }}Operation)
+	{{- range $val := $operation.Inputs }}
+	q.Var("{{ $val.Name }}", input.{{ capitalize $val.Name }})
+	{{- end}}
+	var resp map[string]interface{}
+	err := c.gql.Run(ctx, q, &resp)
+	log.Debug().Interface("resp", resp).Err(err).Msg("{{ $operation.Name }}")
+	if err != nil {
+		return nil, err
+	}
+
+	output := {{ $operation.Name }}Response{}
+	err = mapstructure.Decode(resp, &output)
+	log.Debug().Interface("output", output).Err(err).Msg("{{ $operation.Name }}")
+	if err != nil {
+		return nil, err
+	}
+	return &output, err
+}
+
+{{- end }}
+`
+
+var clientTemplate string = `
+package {{ .PackageName }}
+
+import "github.com/machinebox/graphql"
+
+func NewClient(url string) *Client {
+	return &Client{
+		gql: graphql.NewClient(url),
+	}
+}
+
+type Client struct {
+	gql *graphql.Client
+}
+`

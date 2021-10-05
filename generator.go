@@ -3,11 +3,11 @@ package fezzik
 import (
 	"bytes"
 	"errors"
+	"html/template"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
-	"text/template"
 
 	"github.com/inigolabs/fezzik/common"
 	"github.com/jensneuse/graphql-go-tools/pkg/ast"
@@ -46,7 +46,8 @@ func Generate(cfg *Config) {
 	inputVisitor.Walk()
 	writer, err := os.Create(filepath.Join(genPath, "inputs.go"))
 	check(err)
-	generate("inputs.tmpl", inputVisitor.info, writer)
+	templateStr := strings.ReplaceAll(inputsTemplate, "~~", "`")
+	generate(templateStr, inputVisitor.info, writer)
 
 	// walk operations
 	visitor := NewVisitor(cfg, schema, inputVisitor.info)
@@ -62,11 +63,13 @@ func Generate(cfg *Config) {
 
 	writer, err = os.Create(filepath.Join(genPath, "operations.go"))
 	check(err)
-	generate("operations.tmpl", visitor.info, writer)
+	templateStr = strings.ReplaceAll(operationsTemplate, "~~", "`")
+	generate(templateStr, visitor.info, writer)
 
 	writer, err = os.Create(filepath.Join(genPath, "client.go"))
 	check(err)
-	generate("client.tmpl", visitor.info, writer)
+	templateStr = strings.ReplaceAll(clientTemplate, "~~", "`")
+	generate(templateStr, visitor.info, writer)
 }
 
 func parseSchema(schemaString string) (*ast.Document, error) {
@@ -112,11 +115,7 @@ func parseOperation(operationString string, schema *ast.Document) (*ast.Document
 	return doc, nil
 }
 
-func generate(templateName string, info interface{}, writer io.Writer) {
-	rootDir := common.RootDir()
-
-	templatePath := filepath.Join(rootDir, templateName)
-	templateStr := common.FileRead(templatePath)
+func generate(templateStr string, info interface{}, writer io.Writer) {
 	templateFuncs := template.FuncMap{
 		"capitalize": strings.Title,
 	}

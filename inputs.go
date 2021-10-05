@@ -107,3 +107,35 @@ func (v *inputVisitor) EnterEnumTypeDefinition(ref int) {
 
 	log.Debug().Interface("enum", enumType).Msg("EnterEnumTypeDefinition")
 }
+
+var inputsTemplate string = `
+package {{ .PackageName }}
+
+{{- range $obj := .EnumTypes}}
+type {{ $obj.Name }} int
+const (
+	{{- range $index, $value := $obj.Values }}
+		{{- if not $index }}
+			{{ $obj.Name }}_{{ $value }} {{ $obj.Name }} = iota
+		{{- else }}
+			{{ $obj.Name }}_{{ $value }}
+		{{- end }}
+	{{- end }}
+)
+
+{{ end }}
+
+
+{{- range $obj := .InputTypes }}
+type {{$obj.Name}} struct {
+{{- range $field := $obj.Fields }}
+	{{- if $field.Type.IsList }}
+		{{ capitalize $field.Name }} []{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
+	{{- else }}
+		{{ capitalize $field.Name }} {{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
+	{{- end }}
+{{- end }}
+}
+
+{{ end }}
+`
