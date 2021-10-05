@@ -344,9 +344,15 @@ package {{ .PackageName }}
 
 import "github.com/machinebox/graphql"
 
-func NewClient(url string) *Client {
-	return &Client{
-		gql: graphql.NewClient(url),
+func NewClient(url string, httpclient *http.Client) *Client {
+	if httpclient != nil {
+		return &Client{
+			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
+		}
+	} else {
+		return &Client{
+			gql: graphql.NewClient(url),
+		}
 	}
 }
 

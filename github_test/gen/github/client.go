@@ -1,10 +1,20 @@
 package github
 
-import "github.com/machinebox/graphql"
+import (
+	"net/http"
 
-func NewClient(url string) *Client {
-	return &Client{
-		gql: graphql.NewClient(url),
+	"github.com/machinebox/graphql"
+)
+
+func NewClient(url string, httpclient *http.Client) *Client {
+	if httpclient != nil {
+		return &Client{
+			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
+		}
+	} else {
+		return &Client{
+			gql: graphql.NewClient(url),
+		}
 	}
 }
 
