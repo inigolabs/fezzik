@@ -2,1351 +2,1351 @@ package github
 
 import "time"
 
-type AuditLogOrderField int
+type AuditLogOrderField string
 
 const (
-	AuditLogOrderField_CREATED_AT AuditLogOrderField = iota
+	AuditLogOrderField_CREATED_AT AuditLogOrderField = "CREATED_AT"
 )
 
-type CheckAnnotationLevel int
+type CheckAnnotationLevel string
 
 const (
-	CheckAnnotationLevel_FAILURE CheckAnnotationLevel = iota
-	CheckAnnotationLevel_NOTICE
-	CheckAnnotationLevel_WARNING
+	CheckAnnotationLevel_FAILURE CheckAnnotationLevel = "FAILURE"
+	CheckAnnotationLevel_NOTICE  CheckAnnotationLevel = "NOTICE"
+	CheckAnnotationLevel_WARNING CheckAnnotationLevel = "WARNING"
 )
 
-type CheckConclusionState int
+type CheckConclusionState string
 
 const (
-	CheckConclusionState_ACTION_REQUIRED CheckConclusionState = iota
-	CheckConclusionState_CANCELLED
-	CheckConclusionState_FAILURE
-	CheckConclusionState_NEUTRAL
-	CheckConclusionState_SKIPPED
-	CheckConclusionState_STALE
-	CheckConclusionState_STARTUP_FAILURE
-	CheckConclusionState_SUCCESS
-	CheckConclusionState_TIMED_OUT
+	CheckConclusionState_ACTION_REQUIRED CheckConclusionState = "ACTION_REQUIRED"
+	CheckConclusionState_CANCELLED       CheckConclusionState = "CANCELLED"
+	CheckConclusionState_FAILURE         CheckConclusionState = "FAILURE"
+	CheckConclusionState_NEUTRAL         CheckConclusionState = "NEUTRAL"
+	CheckConclusionState_SKIPPED         CheckConclusionState = "SKIPPED"
+	CheckConclusionState_STALE           CheckConclusionState = "STALE"
+	CheckConclusionState_STARTUP_FAILURE CheckConclusionState = "STARTUP_FAILURE"
+	CheckConclusionState_SUCCESS         CheckConclusionState = "SUCCESS"
+	CheckConclusionState_TIMED_OUT       CheckConclusionState = "TIMED_OUT"
 )
 
-type CheckRunType int
+type CheckRunType string
 
 const (
-	CheckRunType_ALL CheckRunType = iota
-	CheckRunType_LATEST
+	CheckRunType_ALL    CheckRunType = "ALL"
+	CheckRunType_LATEST CheckRunType = "LATEST"
 )
 
-type CheckStatusState int
+type CheckStatusState string
 
 const (
-	CheckStatusState_COMPLETED CheckStatusState = iota
-	CheckStatusState_IN_PROGRESS
-	CheckStatusState_PENDING
-	CheckStatusState_QUEUED
-	CheckStatusState_REQUESTED
-	CheckStatusState_WAITING
+	CheckStatusState_COMPLETED   CheckStatusState = "COMPLETED"
+	CheckStatusState_IN_PROGRESS CheckStatusState = "IN_PROGRESS"
+	CheckStatusState_PENDING     CheckStatusState = "PENDING"
+	CheckStatusState_QUEUED      CheckStatusState = "QUEUED"
+	CheckStatusState_REQUESTED   CheckStatusState = "REQUESTED"
+	CheckStatusState_WAITING     CheckStatusState = "WAITING"
 )
 
-type CollaboratorAffiliation int
+type CollaboratorAffiliation string
 
 const (
-	CollaboratorAffiliation_ALL CollaboratorAffiliation = iota
-	CollaboratorAffiliation_DIRECT
-	CollaboratorAffiliation_OUTSIDE
+	CollaboratorAffiliation_ALL     CollaboratorAffiliation = "ALL"
+	CollaboratorAffiliation_DIRECT  CollaboratorAffiliation = "DIRECT"
+	CollaboratorAffiliation_OUTSIDE CollaboratorAffiliation = "OUTSIDE"
 )
 
-type CommentAuthorAssociation int
+type CommentAuthorAssociation string
 
 const (
-	CommentAuthorAssociation_COLLABORATOR CommentAuthorAssociation = iota
-	CommentAuthorAssociation_CONTRIBUTOR
-	CommentAuthorAssociation_FIRST_TIMER
-	CommentAuthorAssociation_FIRST_TIME_CONTRIBUTOR
-	CommentAuthorAssociation_MANNEQUIN
-	CommentAuthorAssociation_MEMBER
-	CommentAuthorAssociation_NONE
-	CommentAuthorAssociation_OWNER
+	CommentAuthorAssociation_COLLABORATOR           CommentAuthorAssociation = "COLLABORATOR"
+	CommentAuthorAssociation_CONTRIBUTOR            CommentAuthorAssociation = "CONTRIBUTOR"
+	CommentAuthorAssociation_FIRST_TIMER            CommentAuthorAssociation = "FIRST_TIMER"
+	CommentAuthorAssociation_FIRST_TIME_CONTRIBUTOR CommentAuthorAssociation = "FIRST_TIME_CONTRIBUTOR"
+	CommentAuthorAssociation_MANNEQUIN              CommentAuthorAssociation = "MANNEQUIN"
+	CommentAuthorAssociation_MEMBER                 CommentAuthorAssociation = "MEMBER"
+	CommentAuthorAssociation_NONE                   CommentAuthorAssociation = "NONE"
+	CommentAuthorAssociation_OWNER                  CommentAuthorAssociation = "OWNER"
 )
 
-type CommentCannotUpdateReason int
+type CommentCannotUpdateReason string
 
 const (
-	CommentCannotUpdateReason_ARCHIVED CommentCannotUpdateReason = iota
-	CommentCannotUpdateReason_DENIED
-	CommentCannotUpdateReason_INSUFFICIENT_ACCESS
-	CommentCannotUpdateReason_LOCKED
-	CommentCannotUpdateReason_LOGIN_REQUIRED
-	CommentCannotUpdateReason_MAINTENANCE
-	CommentCannotUpdateReason_VERIFIED_EMAIL_REQUIRED
+	CommentCannotUpdateReason_ARCHIVED                CommentCannotUpdateReason = "ARCHIVED"
+	CommentCannotUpdateReason_DENIED                  CommentCannotUpdateReason = "DENIED"
+	CommentCannotUpdateReason_INSUFFICIENT_ACCESS     CommentCannotUpdateReason = "INSUFFICIENT_ACCESS"
+	CommentCannotUpdateReason_LOCKED                  CommentCannotUpdateReason = "LOCKED"
+	CommentCannotUpdateReason_LOGIN_REQUIRED          CommentCannotUpdateReason = "LOGIN_REQUIRED"
+	CommentCannotUpdateReason_MAINTENANCE             CommentCannotUpdateReason = "MAINTENANCE"
+	CommentCannotUpdateReason_VERIFIED_EMAIL_REQUIRED CommentCannotUpdateReason = "VERIFIED_EMAIL_REQUIRED"
 )
 
-type CommitContributionOrderField int
+type CommitContributionOrderField string
 
 const (
-	CommitContributionOrderField_COMMIT_COUNT CommitContributionOrderField = iota
-	CommitContributionOrderField_OCCURRED_AT
+	CommitContributionOrderField_COMMIT_COUNT CommitContributionOrderField = "COMMIT_COUNT"
+	CommitContributionOrderField_OCCURRED_AT  CommitContributionOrderField = "OCCURRED_AT"
 )
 
-type ContributionLevel int
+type ContributionLevel string
 
 const (
-	ContributionLevel_FIRST_QUARTILE ContributionLevel = iota
-	ContributionLevel_FOURTH_QUARTILE
-	ContributionLevel_NONE
-	ContributionLevel_SECOND_QUARTILE
-	ContributionLevel_THIRD_QUARTILE
+	ContributionLevel_FIRST_QUARTILE  ContributionLevel = "FIRST_QUARTILE"
+	ContributionLevel_FOURTH_QUARTILE ContributionLevel = "FOURTH_QUARTILE"
+	ContributionLevel_NONE            ContributionLevel = "NONE"
+	ContributionLevel_SECOND_QUARTILE ContributionLevel = "SECOND_QUARTILE"
+	ContributionLevel_THIRD_QUARTILE  ContributionLevel = "THIRD_QUARTILE"
 )
 
-type DefaultRepositoryPermissionField int
+type DefaultRepositoryPermissionField string
 
 const (
-	DefaultRepositoryPermissionField_ADMIN DefaultRepositoryPermissionField = iota
-	DefaultRepositoryPermissionField_NONE
-	DefaultRepositoryPermissionField_READ
-	DefaultRepositoryPermissionField_WRITE
+	DefaultRepositoryPermissionField_ADMIN DefaultRepositoryPermissionField = "ADMIN"
+	DefaultRepositoryPermissionField_NONE  DefaultRepositoryPermissionField = "NONE"
+	DefaultRepositoryPermissionField_READ  DefaultRepositoryPermissionField = "READ"
+	DefaultRepositoryPermissionField_WRITE DefaultRepositoryPermissionField = "WRITE"
 )
 
-type DeploymentOrderField int
+type DeploymentOrderField string
 
 const (
-	DeploymentOrderField_CREATED_AT DeploymentOrderField = iota
+	DeploymentOrderField_CREATED_AT DeploymentOrderField = "CREATED_AT"
 )
 
-type DeploymentProtectionRuleType int
+type DeploymentProtectionRuleType string
 
 const (
-	DeploymentProtectionRuleType_REQUIRED_REVIEWERS DeploymentProtectionRuleType = iota
-	DeploymentProtectionRuleType_WAIT_TIMER
+	DeploymentProtectionRuleType_REQUIRED_REVIEWERS DeploymentProtectionRuleType = "REQUIRED_REVIEWERS"
+	DeploymentProtectionRuleType_WAIT_TIMER         DeploymentProtectionRuleType = "WAIT_TIMER"
 )
 
-type DeploymentReviewState int
+type DeploymentReviewState string
 
 const (
-	DeploymentReviewState_APPROVED DeploymentReviewState = iota
-	DeploymentReviewState_REJECTED
+	DeploymentReviewState_APPROVED DeploymentReviewState = "APPROVED"
+	DeploymentReviewState_REJECTED DeploymentReviewState = "REJECTED"
 )
 
-type DeploymentState int
+type DeploymentState string
 
 const (
-	DeploymentState_ABANDONED DeploymentState = iota
-	DeploymentState_ACTIVE
-	DeploymentState_DESTROYED
-	DeploymentState_ERROR
-	DeploymentState_FAILURE
-	DeploymentState_INACTIVE
-	DeploymentState_IN_PROGRESS
-	DeploymentState_PENDING
-	DeploymentState_QUEUED
-	DeploymentState_WAITING
+	DeploymentState_ABANDONED   DeploymentState = "ABANDONED"
+	DeploymentState_ACTIVE      DeploymentState = "ACTIVE"
+	DeploymentState_DESTROYED   DeploymentState = "DESTROYED"
+	DeploymentState_ERROR       DeploymentState = "ERROR"
+	DeploymentState_FAILURE     DeploymentState = "FAILURE"
+	DeploymentState_INACTIVE    DeploymentState = "INACTIVE"
+	DeploymentState_IN_PROGRESS DeploymentState = "IN_PROGRESS"
+	DeploymentState_PENDING     DeploymentState = "PENDING"
+	DeploymentState_QUEUED      DeploymentState = "QUEUED"
+	DeploymentState_WAITING     DeploymentState = "WAITING"
 )
 
-type DeploymentStatusState int
+type DeploymentStatusState string
 
 const (
-	DeploymentStatusState_ERROR DeploymentStatusState = iota
-	DeploymentStatusState_FAILURE
-	DeploymentStatusState_INACTIVE
-	DeploymentStatusState_IN_PROGRESS
-	DeploymentStatusState_PENDING
-	DeploymentStatusState_QUEUED
-	DeploymentStatusState_SUCCESS
-	DeploymentStatusState_WAITING
+	DeploymentStatusState_ERROR       DeploymentStatusState = "ERROR"
+	DeploymentStatusState_FAILURE     DeploymentStatusState = "FAILURE"
+	DeploymentStatusState_INACTIVE    DeploymentStatusState = "INACTIVE"
+	DeploymentStatusState_IN_PROGRESS DeploymentStatusState = "IN_PROGRESS"
+	DeploymentStatusState_PENDING     DeploymentStatusState = "PENDING"
+	DeploymentStatusState_QUEUED      DeploymentStatusState = "QUEUED"
+	DeploymentStatusState_SUCCESS     DeploymentStatusState = "SUCCESS"
+	DeploymentStatusState_WAITING     DeploymentStatusState = "WAITING"
 )
 
-type DiffSide int
+type DiffSide string
 
 const (
-	DiffSide_LEFT DiffSide = iota
-	DiffSide_RIGHT
+	DiffSide_LEFT  DiffSide = "LEFT"
+	DiffSide_RIGHT DiffSide = "RIGHT"
 )
 
-type DiscussionOrderField int
+type DiscussionOrderField string
 
 const (
-	DiscussionOrderField_CREATED_AT DiscussionOrderField = iota
-	DiscussionOrderField_UPDATED_AT
+	DiscussionOrderField_CREATED_AT DiscussionOrderField = "CREATED_AT"
+	DiscussionOrderField_UPDATED_AT DiscussionOrderField = "UPDATED_AT"
 )
 
-type EnterpriseAdministratorInvitationOrderField int
+type EnterpriseAdministratorInvitationOrderField string
 
 const (
-	EnterpriseAdministratorInvitationOrderField_CREATED_AT EnterpriseAdministratorInvitationOrderField = iota
+	EnterpriseAdministratorInvitationOrderField_CREATED_AT EnterpriseAdministratorInvitationOrderField = "CREATED_AT"
 )
 
-type EnterpriseAdministratorRole int
+type EnterpriseAdministratorRole string
 
 const (
-	EnterpriseAdministratorRole_BILLING_MANAGER EnterpriseAdministratorRole = iota
-	EnterpriseAdministratorRole_OWNER
+	EnterpriseAdministratorRole_BILLING_MANAGER EnterpriseAdministratorRole = "BILLING_MANAGER"
+	EnterpriseAdministratorRole_OWNER           EnterpriseAdministratorRole = "OWNER"
 )
 
-type EnterpriseDefaultRepositoryPermissionSettingValue int
+type EnterpriseDefaultRepositoryPermissionSettingValue string
 
 const (
-	EnterpriseDefaultRepositoryPermissionSettingValue_ADMIN EnterpriseDefaultRepositoryPermissionSettingValue = iota
-	EnterpriseDefaultRepositoryPermissionSettingValue_NONE
-	EnterpriseDefaultRepositoryPermissionSettingValue_NO_POLICY
-	EnterpriseDefaultRepositoryPermissionSettingValue_READ
-	EnterpriseDefaultRepositoryPermissionSettingValue_WRITE
+	EnterpriseDefaultRepositoryPermissionSettingValue_ADMIN     EnterpriseDefaultRepositoryPermissionSettingValue = "ADMIN"
+	EnterpriseDefaultRepositoryPermissionSettingValue_NONE      EnterpriseDefaultRepositoryPermissionSettingValue = "NONE"
+	EnterpriseDefaultRepositoryPermissionSettingValue_NO_POLICY EnterpriseDefaultRepositoryPermissionSettingValue = "NO_POLICY"
+	EnterpriseDefaultRepositoryPermissionSettingValue_READ      EnterpriseDefaultRepositoryPermissionSettingValue = "READ"
+	EnterpriseDefaultRepositoryPermissionSettingValue_WRITE     EnterpriseDefaultRepositoryPermissionSettingValue = "WRITE"
 )
 
-type EnterpriseEnabledDisabledSettingValue int
+type EnterpriseEnabledDisabledSettingValue string
 
 const (
-	EnterpriseEnabledDisabledSettingValue_DISABLED EnterpriseEnabledDisabledSettingValue = iota
-	EnterpriseEnabledDisabledSettingValue_ENABLED
-	EnterpriseEnabledDisabledSettingValue_NO_POLICY
+	EnterpriseEnabledDisabledSettingValue_DISABLED  EnterpriseEnabledDisabledSettingValue = "DISABLED"
+	EnterpriseEnabledDisabledSettingValue_ENABLED   EnterpriseEnabledDisabledSettingValue = "ENABLED"
+	EnterpriseEnabledDisabledSettingValue_NO_POLICY EnterpriseEnabledDisabledSettingValue = "NO_POLICY"
 )
 
-type EnterpriseEnabledSettingValue int
+type EnterpriseEnabledSettingValue string
 
 const (
-	EnterpriseEnabledSettingValue_ENABLED EnterpriseEnabledSettingValue = iota
-	EnterpriseEnabledSettingValue_NO_POLICY
+	EnterpriseEnabledSettingValue_ENABLED   EnterpriseEnabledSettingValue = "ENABLED"
+	EnterpriseEnabledSettingValue_NO_POLICY EnterpriseEnabledSettingValue = "NO_POLICY"
 )
 
-type EnterpriseMemberOrderField int
+type EnterpriseMemberOrderField string
 
 const (
-	EnterpriseMemberOrderField_CREATED_AT EnterpriseMemberOrderField = iota
-	EnterpriseMemberOrderField_LOGIN
+	EnterpriseMemberOrderField_CREATED_AT EnterpriseMemberOrderField = "CREATED_AT"
+	EnterpriseMemberOrderField_LOGIN      EnterpriseMemberOrderField = "LOGIN"
 )
 
-type EnterpriseMembersCanCreateRepositoriesSettingValue int
+type EnterpriseMembersCanCreateRepositoriesSettingValue string
 
 const (
-	EnterpriseMembersCanCreateRepositoriesSettingValue_ALL EnterpriseMembersCanCreateRepositoriesSettingValue = iota
-	EnterpriseMembersCanCreateRepositoriesSettingValue_DISABLED
-	EnterpriseMembersCanCreateRepositoriesSettingValue_NO_POLICY
-	EnterpriseMembersCanCreateRepositoriesSettingValue_PRIVATE
-	EnterpriseMembersCanCreateRepositoriesSettingValue_PUBLIC
+	EnterpriseMembersCanCreateRepositoriesSettingValue_ALL       EnterpriseMembersCanCreateRepositoriesSettingValue = "ALL"
+	EnterpriseMembersCanCreateRepositoriesSettingValue_DISABLED  EnterpriseMembersCanCreateRepositoriesSettingValue = "DISABLED"
+	EnterpriseMembersCanCreateRepositoriesSettingValue_NO_POLICY EnterpriseMembersCanCreateRepositoriesSettingValue = "NO_POLICY"
+	EnterpriseMembersCanCreateRepositoriesSettingValue_PRIVATE   EnterpriseMembersCanCreateRepositoriesSettingValue = "PRIVATE"
+	EnterpriseMembersCanCreateRepositoriesSettingValue_PUBLIC    EnterpriseMembersCanCreateRepositoriesSettingValue = "PUBLIC"
 )
 
-type EnterpriseMembersCanMakePurchasesSettingValue int
+type EnterpriseMembersCanMakePurchasesSettingValue string
 
 const (
-	EnterpriseMembersCanMakePurchasesSettingValue_DISABLED EnterpriseMembersCanMakePurchasesSettingValue = iota
-	EnterpriseMembersCanMakePurchasesSettingValue_ENABLED
+	EnterpriseMembersCanMakePurchasesSettingValue_DISABLED EnterpriseMembersCanMakePurchasesSettingValue = "DISABLED"
+	EnterpriseMembersCanMakePurchasesSettingValue_ENABLED  EnterpriseMembersCanMakePurchasesSettingValue = "ENABLED"
 )
 
-type EnterpriseServerInstallationOrderField int
+type EnterpriseServerInstallationOrderField string
 
 const (
-	EnterpriseServerInstallationOrderField_CREATED_AT EnterpriseServerInstallationOrderField = iota
-	EnterpriseServerInstallationOrderField_CUSTOMER_NAME
-	EnterpriseServerInstallationOrderField_HOST_NAME
+	EnterpriseServerInstallationOrderField_CREATED_AT    EnterpriseServerInstallationOrderField = "CREATED_AT"
+	EnterpriseServerInstallationOrderField_CUSTOMER_NAME EnterpriseServerInstallationOrderField = "CUSTOMER_NAME"
+	EnterpriseServerInstallationOrderField_HOST_NAME     EnterpriseServerInstallationOrderField = "HOST_NAME"
 )
 
-type EnterpriseServerUserAccountEmailOrderField int
+type EnterpriseServerUserAccountEmailOrderField string
 
 const (
-	EnterpriseServerUserAccountEmailOrderField_EMAIL EnterpriseServerUserAccountEmailOrderField = iota
+	EnterpriseServerUserAccountEmailOrderField_EMAIL EnterpriseServerUserAccountEmailOrderField = "EMAIL"
 )
 
-type EnterpriseServerUserAccountOrderField int
+type EnterpriseServerUserAccountOrderField string
 
 const (
-	EnterpriseServerUserAccountOrderField_LOGIN EnterpriseServerUserAccountOrderField = iota
-	EnterpriseServerUserAccountOrderField_REMOTE_CREATED_AT
+	EnterpriseServerUserAccountOrderField_LOGIN             EnterpriseServerUserAccountOrderField = "LOGIN"
+	EnterpriseServerUserAccountOrderField_REMOTE_CREATED_AT EnterpriseServerUserAccountOrderField = "REMOTE_CREATED_AT"
 )
 
-type EnterpriseServerUserAccountsUploadOrderField int
+type EnterpriseServerUserAccountsUploadOrderField string
 
 const (
-	EnterpriseServerUserAccountsUploadOrderField_CREATED_AT EnterpriseServerUserAccountsUploadOrderField = iota
+	EnterpriseServerUserAccountsUploadOrderField_CREATED_AT EnterpriseServerUserAccountsUploadOrderField = "CREATED_AT"
 )
 
-type EnterpriseServerUserAccountsUploadSyncState int
+type EnterpriseServerUserAccountsUploadSyncState string
 
 const (
-	EnterpriseServerUserAccountsUploadSyncState_FAILURE EnterpriseServerUserAccountsUploadSyncState = iota
-	EnterpriseServerUserAccountsUploadSyncState_PENDING
-	EnterpriseServerUserAccountsUploadSyncState_SUCCESS
+	EnterpriseServerUserAccountsUploadSyncState_FAILURE EnterpriseServerUserAccountsUploadSyncState = "FAILURE"
+	EnterpriseServerUserAccountsUploadSyncState_PENDING EnterpriseServerUserAccountsUploadSyncState = "PENDING"
+	EnterpriseServerUserAccountsUploadSyncState_SUCCESS EnterpriseServerUserAccountsUploadSyncState = "SUCCESS"
 )
 
-type EnterpriseUserAccountMembershipRole int
+type EnterpriseUserAccountMembershipRole string
 
 const (
-	EnterpriseUserAccountMembershipRole_MEMBER EnterpriseUserAccountMembershipRole = iota
-	EnterpriseUserAccountMembershipRole_OWNER
+	EnterpriseUserAccountMembershipRole_MEMBER EnterpriseUserAccountMembershipRole = "MEMBER"
+	EnterpriseUserAccountMembershipRole_OWNER  EnterpriseUserAccountMembershipRole = "OWNER"
 )
 
-type EnterpriseUserDeployment int
+type EnterpriseUserDeployment string
 
 const (
-	EnterpriseUserDeployment_CLOUD EnterpriseUserDeployment = iota
-	EnterpriseUserDeployment_SERVER
+	EnterpriseUserDeployment_CLOUD  EnterpriseUserDeployment = "CLOUD"
+	EnterpriseUserDeployment_SERVER EnterpriseUserDeployment = "SERVER"
 )
 
-type FileViewedState int
+type FileViewedState string
 
 const (
-	FileViewedState_DISMISSED FileViewedState = iota
-	FileViewedState_UNVIEWED
-	FileViewedState_VIEWED
+	FileViewedState_DISMISSED FileViewedState = "DISMISSED"
+	FileViewedState_UNVIEWED  FileViewedState = "UNVIEWED"
+	FileViewedState_VIEWED    FileViewedState = "VIEWED"
 )
 
-type FundingPlatform int
+type FundingPlatform string
 
 const (
-	FundingPlatform_COMMUNITY_BRIDGE FundingPlatform = iota
-	FundingPlatform_CUSTOM
-	FundingPlatform_GITHUB
-	FundingPlatform_ISSUEHUNT
-	FundingPlatform_KO_FI
-	FundingPlatform_LIBERAPAY
-	FundingPlatform_OPEN_COLLECTIVE
-	FundingPlatform_OTECHIE
-	FundingPlatform_PATREON
-	FundingPlatform_TIDELIFT
+	FundingPlatform_COMMUNITY_BRIDGE FundingPlatform = "COMMUNITY_BRIDGE"
+	FundingPlatform_CUSTOM           FundingPlatform = "CUSTOM"
+	FundingPlatform_GITHUB           FundingPlatform = "GITHUB"
+	FundingPlatform_ISSUEHUNT        FundingPlatform = "ISSUEHUNT"
+	FundingPlatform_KO_FI            FundingPlatform = "KO_FI"
+	FundingPlatform_LIBERAPAY        FundingPlatform = "LIBERAPAY"
+	FundingPlatform_OPEN_COLLECTIVE  FundingPlatform = "OPEN_COLLECTIVE"
+	FundingPlatform_OTECHIE          FundingPlatform = "OTECHIE"
+	FundingPlatform_PATREON          FundingPlatform = "PATREON"
+	FundingPlatform_TIDELIFT         FundingPlatform = "TIDELIFT"
 )
 
-type GistOrderField int
+type GistOrderField string
 
 const (
-	GistOrderField_CREATED_AT GistOrderField = iota
-	GistOrderField_PUSHED_AT
-	GistOrderField_UPDATED_AT
+	GistOrderField_CREATED_AT GistOrderField = "CREATED_AT"
+	GistOrderField_PUSHED_AT  GistOrderField = "PUSHED_AT"
+	GistOrderField_UPDATED_AT GistOrderField = "UPDATED_AT"
 )
 
-type GistPrivacy int
+type GistPrivacy string
 
 const (
-	GistPrivacy_ALL GistPrivacy = iota
-	GistPrivacy_PUBLIC
-	GistPrivacy_SECRET
+	GistPrivacy_ALL    GistPrivacy = "ALL"
+	GistPrivacy_PUBLIC GistPrivacy = "PUBLIC"
+	GistPrivacy_SECRET GistPrivacy = "SECRET"
 )
 
-type GitSignatureState int
+type GitSignatureState string
 
 const (
-	GitSignatureState_BAD_CERT GitSignatureState = iota
-	GitSignatureState_BAD_EMAIL
-	GitSignatureState_EXPIRED_KEY
-	GitSignatureState_GPGVERIFY_ERROR
-	GitSignatureState_GPGVERIFY_UNAVAILABLE
-	GitSignatureState_INVALID
-	GitSignatureState_MALFORMED_SIG
-	GitSignatureState_NOT_SIGNING_KEY
-	GitSignatureState_NO_USER
-	GitSignatureState_OCSP_ERROR
-	GitSignatureState_OCSP_PENDING
-	GitSignatureState_OCSP_REVOKED
-	GitSignatureState_UNKNOWN_KEY
-	GitSignatureState_UNKNOWN_SIG_TYPE
-	GitSignatureState_UNSIGNED
-	GitSignatureState_UNVERIFIED_EMAIL
-	GitSignatureState_VALID
+	GitSignatureState_BAD_CERT              GitSignatureState = "BAD_CERT"
+	GitSignatureState_BAD_EMAIL             GitSignatureState = "BAD_EMAIL"
+	GitSignatureState_EXPIRED_KEY           GitSignatureState = "EXPIRED_KEY"
+	GitSignatureState_GPGVERIFY_ERROR       GitSignatureState = "GPGVERIFY_ERROR"
+	GitSignatureState_GPGVERIFY_UNAVAILABLE GitSignatureState = "GPGVERIFY_UNAVAILABLE"
+	GitSignatureState_INVALID               GitSignatureState = "INVALID"
+	GitSignatureState_MALFORMED_SIG         GitSignatureState = "MALFORMED_SIG"
+	GitSignatureState_NOT_SIGNING_KEY       GitSignatureState = "NOT_SIGNING_KEY"
+	GitSignatureState_NO_USER               GitSignatureState = "NO_USER"
+	GitSignatureState_OCSP_ERROR            GitSignatureState = "OCSP_ERROR"
+	GitSignatureState_OCSP_PENDING          GitSignatureState = "OCSP_PENDING"
+	GitSignatureState_OCSP_REVOKED          GitSignatureState = "OCSP_REVOKED"
+	GitSignatureState_UNKNOWN_KEY           GitSignatureState = "UNKNOWN_KEY"
+	GitSignatureState_UNKNOWN_SIG_TYPE      GitSignatureState = "UNKNOWN_SIG_TYPE"
+	GitSignatureState_UNSIGNED              GitSignatureState = "UNSIGNED"
+	GitSignatureState_UNVERIFIED_EMAIL      GitSignatureState = "UNVERIFIED_EMAIL"
+	GitSignatureState_VALID                 GitSignatureState = "VALID"
 )
 
-type IdentityProviderConfigurationState int
+type IdentityProviderConfigurationState string
 
 const (
-	IdentityProviderConfigurationState_CONFIGURED IdentityProviderConfigurationState = iota
-	IdentityProviderConfigurationState_ENFORCED
-	IdentityProviderConfigurationState_UNCONFIGURED
+	IdentityProviderConfigurationState_CONFIGURED   IdentityProviderConfigurationState = "CONFIGURED"
+	IdentityProviderConfigurationState_ENFORCED     IdentityProviderConfigurationState = "ENFORCED"
+	IdentityProviderConfigurationState_UNCONFIGURED IdentityProviderConfigurationState = "UNCONFIGURED"
 )
 
-type IpAllowListEnabledSettingValue int
+type IpAllowListEnabledSettingValue string
 
 const (
-	IpAllowListEnabledSettingValue_DISABLED IpAllowListEnabledSettingValue = iota
-	IpAllowListEnabledSettingValue_ENABLED
+	IpAllowListEnabledSettingValue_DISABLED IpAllowListEnabledSettingValue = "DISABLED"
+	IpAllowListEnabledSettingValue_ENABLED  IpAllowListEnabledSettingValue = "ENABLED"
 )
 
-type IpAllowListEntryOrderField int
+type IpAllowListEntryOrderField string
 
 const (
-	IpAllowListEntryOrderField_ALLOW_LIST_VALUE IpAllowListEntryOrderField = iota
-	IpAllowListEntryOrderField_CREATED_AT
+	IpAllowListEntryOrderField_ALLOW_LIST_VALUE IpAllowListEntryOrderField = "ALLOW_LIST_VALUE"
+	IpAllowListEntryOrderField_CREATED_AT       IpAllowListEntryOrderField = "CREATED_AT"
 )
 
-type IpAllowListForInstalledAppsEnabledSettingValue int
+type IpAllowListForInstalledAppsEnabledSettingValue string
 
 const (
-	IpAllowListForInstalledAppsEnabledSettingValue_DISABLED IpAllowListForInstalledAppsEnabledSettingValue = iota
-	IpAllowListForInstalledAppsEnabledSettingValue_ENABLED
+	IpAllowListForInstalledAppsEnabledSettingValue_DISABLED IpAllowListForInstalledAppsEnabledSettingValue = "DISABLED"
+	IpAllowListForInstalledAppsEnabledSettingValue_ENABLED  IpAllowListForInstalledAppsEnabledSettingValue = "ENABLED"
 )
 
-type IssueCommentOrderField int
+type IssueCommentOrderField string
 
 const (
-	IssueCommentOrderField_UPDATED_AT IssueCommentOrderField = iota
+	IssueCommentOrderField_UPDATED_AT IssueCommentOrderField = "UPDATED_AT"
 )
 
-type IssueOrderField int
+type IssueOrderField string
 
 const (
-	IssueOrderField_COMMENTS IssueOrderField = iota
-	IssueOrderField_CREATED_AT
-	IssueOrderField_UPDATED_AT
+	IssueOrderField_COMMENTS   IssueOrderField = "COMMENTS"
+	IssueOrderField_CREATED_AT IssueOrderField = "CREATED_AT"
+	IssueOrderField_UPDATED_AT IssueOrderField = "UPDATED_AT"
 )
 
-type IssueState int
+type IssueState string
 
 const (
-	IssueState_CLOSED IssueState = iota
-	IssueState_OPEN
+	IssueState_CLOSED IssueState = "CLOSED"
+	IssueState_OPEN   IssueState = "OPEN"
 )
 
-type IssueTimelineItemsItemType int
+type IssueTimelineItemsItemType string
 
 const (
-	IssueTimelineItemsItemType_ADDED_TO_PROJECT_EVENT IssueTimelineItemsItemType = iota
-	IssueTimelineItemsItemType_ASSIGNED_EVENT
-	IssueTimelineItemsItemType_CLOSED_EVENT
-	IssueTimelineItemsItemType_COMMENT_DELETED_EVENT
-	IssueTimelineItemsItemType_CONNECTED_EVENT
-	IssueTimelineItemsItemType_CONVERTED_NOTE_TO_ISSUE_EVENT
-	IssueTimelineItemsItemType_CROSS_REFERENCED_EVENT
-	IssueTimelineItemsItemType_DEMILESTONED_EVENT
-	IssueTimelineItemsItemType_DISCONNECTED_EVENT
-	IssueTimelineItemsItemType_ISSUE_COMMENT
-	IssueTimelineItemsItemType_LABELED_EVENT
-	IssueTimelineItemsItemType_LOCKED_EVENT
-	IssueTimelineItemsItemType_MARKED_AS_DUPLICATE_EVENT
-	IssueTimelineItemsItemType_MENTIONED_EVENT
-	IssueTimelineItemsItemType_MILESTONED_EVENT
-	IssueTimelineItemsItemType_MOVED_COLUMNS_IN_PROJECT_EVENT
-	IssueTimelineItemsItemType_PINNED_EVENT
-	IssueTimelineItemsItemType_REFERENCED_EVENT
-	IssueTimelineItemsItemType_REMOVED_FROM_PROJECT_EVENT
-	IssueTimelineItemsItemType_RENAMED_TITLE_EVENT
-	IssueTimelineItemsItemType_REOPENED_EVENT
-	IssueTimelineItemsItemType_SUBSCRIBED_EVENT
-	IssueTimelineItemsItemType_TRANSFERRED_EVENT
-	IssueTimelineItemsItemType_UNASSIGNED_EVENT
-	IssueTimelineItemsItemType_UNLABELED_EVENT
-	IssueTimelineItemsItemType_UNLOCKED_EVENT
-	IssueTimelineItemsItemType_UNMARKED_AS_DUPLICATE_EVENT
-	IssueTimelineItemsItemType_UNPINNED_EVENT
-	IssueTimelineItemsItemType_UNSUBSCRIBED_EVENT
-	IssueTimelineItemsItemType_USER_BLOCKED_EVENT
+	IssueTimelineItemsItemType_ADDED_TO_PROJECT_EVENT         IssueTimelineItemsItemType = "ADDED_TO_PROJECT_EVENT"
+	IssueTimelineItemsItemType_ASSIGNED_EVENT                 IssueTimelineItemsItemType = "ASSIGNED_EVENT"
+	IssueTimelineItemsItemType_CLOSED_EVENT                   IssueTimelineItemsItemType = "CLOSED_EVENT"
+	IssueTimelineItemsItemType_COMMENT_DELETED_EVENT          IssueTimelineItemsItemType = "COMMENT_DELETED_EVENT"
+	IssueTimelineItemsItemType_CONNECTED_EVENT                IssueTimelineItemsItemType = "CONNECTED_EVENT"
+	IssueTimelineItemsItemType_CONVERTED_NOTE_TO_ISSUE_EVENT  IssueTimelineItemsItemType = "CONVERTED_NOTE_TO_ISSUE_EVENT"
+	IssueTimelineItemsItemType_CROSS_REFERENCED_EVENT         IssueTimelineItemsItemType = "CROSS_REFERENCED_EVENT"
+	IssueTimelineItemsItemType_DEMILESTONED_EVENT             IssueTimelineItemsItemType = "DEMILESTONED_EVENT"
+	IssueTimelineItemsItemType_DISCONNECTED_EVENT             IssueTimelineItemsItemType = "DISCONNECTED_EVENT"
+	IssueTimelineItemsItemType_ISSUE_COMMENT                  IssueTimelineItemsItemType = "ISSUE_COMMENT"
+	IssueTimelineItemsItemType_LABELED_EVENT                  IssueTimelineItemsItemType = "LABELED_EVENT"
+	IssueTimelineItemsItemType_LOCKED_EVENT                   IssueTimelineItemsItemType = "LOCKED_EVENT"
+	IssueTimelineItemsItemType_MARKED_AS_DUPLICATE_EVENT      IssueTimelineItemsItemType = "MARKED_AS_DUPLICATE_EVENT"
+	IssueTimelineItemsItemType_MENTIONED_EVENT                IssueTimelineItemsItemType = "MENTIONED_EVENT"
+	IssueTimelineItemsItemType_MILESTONED_EVENT               IssueTimelineItemsItemType = "MILESTONED_EVENT"
+	IssueTimelineItemsItemType_MOVED_COLUMNS_IN_PROJECT_EVENT IssueTimelineItemsItemType = "MOVED_COLUMNS_IN_PROJECT_EVENT"
+	IssueTimelineItemsItemType_PINNED_EVENT                   IssueTimelineItemsItemType = "PINNED_EVENT"
+	IssueTimelineItemsItemType_REFERENCED_EVENT               IssueTimelineItemsItemType = "REFERENCED_EVENT"
+	IssueTimelineItemsItemType_REMOVED_FROM_PROJECT_EVENT     IssueTimelineItemsItemType = "REMOVED_FROM_PROJECT_EVENT"
+	IssueTimelineItemsItemType_RENAMED_TITLE_EVENT            IssueTimelineItemsItemType = "RENAMED_TITLE_EVENT"
+	IssueTimelineItemsItemType_REOPENED_EVENT                 IssueTimelineItemsItemType = "REOPENED_EVENT"
+	IssueTimelineItemsItemType_SUBSCRIBED_EVENT               IssueTimelineItemsItemType = "SUBSCRIBED_EVENT"
+	IssueTimelineItemsItemType_TRANSFERRED_EVENT              IssueTimelineItemsItemType = "TRANSFERRED_EVENT"
+	IssueTimelineItemsItemType_UNASSIGNED_EVENT               IssueTimelineItemsItemType = "UNASSIGNED_EVENT"
+	IssueTimelineItemsItemType_UNLABELED_EVENT                IssueTimelineItemsItemType = "UNLABELED_EVENT"
+	IssueTimelineItemsItemType_UNLOCKED_EVENT                 IssueTimelineItemsItemType = "UNLOCKED_EVENT"
+	IssueTimelineItemsItemType_UNMARKED_AS_DUPLICATE_EVENT    IssueTimelineItemsItemType = "UNMARKED_AS_DUPLICATE_EVENT"
+	IssueTimelineItemsItemType_UNPINNED_EVENT                 IssueTimelineItemsItemType = "UNPINNED_EVENT"
+	IssueTimelineItemsItemType_UNSUBSCRIBED_EVENT             IssueTimelineItemsItemType = "UNSUBSCRIBED_EVENT"
+	IssueTimelineItemsItemType_USER_BLOCKED_EVENT             IssueTimelineItemsItemType = "USER_BLOCKED_EVENT"
 )
 
-type LabelOrderField int
+type LabelOrderField string
 
 const (
-	LabelOrderField_CREATED_AT LabelOrderField = iota
-	LabelOrderField_NAME
+	LabelOrderField_CREATED_AT LabelOrderField = "CREATED_AT"
+	LabelOrderField_NAME       LabelOrderField = "NAME"
 )
 
-type LanguageOrderField int
+type LanguageOrderField string
 
 const (
-	LanguageOrderField_SIZE LanguageOrderField = iota
+	LanguageOrderField_SIZE LanguageOrderField = "SIZE"
 )
 
-type LockReason int
+type LockReason string
 
 const (
-	LockReason_OFF_TOPIC LockReason = iota
-	LockReason_RESOLVED
-	LockReason_SPAM
-	LockReason_TOO_HEATED
+	LockReason_OFF_TOPIC  LockReason = "OFF_TOPIC"
+	LockReason_RESOLVED   LockReason = "RESOLVED"
+	LockReason_SPAM       LockReason = "SPAM"
+	LockReason_TOO_HEATED LockReason = "TOO_HEATED"
 )
 
-type MergeStateStatus int
+type MergeStateStatus string
 
 const (
-	MergeStateStatus_BEHIND MergeStateStatus = iota
-	MergeStateStatus_BLOCKED
-	MergeStateStatus_CLEAN
-	MergeStateStatus_DIRTY
-	MergeStateStatus_DRAFT
-	MergeStateStatus_HAS_HOOKS
-	MergeStateStatus_UNKNOWN
-	MergeStateStatus_UNSTABLE
+	MergeStateStatus_BEHIND    MergeStateStatus = "BEHIND"
+	MergeStateStatus_BLOCKED   MergeStateStatus = "BLOCKED"
+	MergeStateStatus_CLEAN     MergeStateStatus = "CLEAN"
+	MergeStateStatus_DIRTY     MergeStateStatus = "DIRTY"
+	MergeStateStatus_DRAFT     MergeStateStatus = "DRAFT"
+	MergeStateStatus_HAS_HOOKS MergeStateStatus = "HAS_HOOKS"
+	MergeStateStatus_UNKNOWN   MergeStateStatus = "UNKNOWN"
+	MergeStateStatus_UNSTABLE  MergeStateStatus = "UNSTABLE"
 )
 
-type MergeableState int
+type MergeableState string
 
 const (
-	MergeableState_CONFLICTING MergeableState = iota
-	MergeableState_MERGEABLE
-	MergeableState_UNKNOWN
+	MergeableState_CONFLICTING MergeableState = "CONFLICTING"
+	MergeableState_MERGEABLE   MergeableState = "MERGEABLE"
+	MergeableState_UNKNOWN     MergeableState = "UNKNOWN"
 )
 
-type MilestoneOrderField int
+type MilestoneOrderField string
 
 const (
-	MilestoneOrderField_CREATED_AT MilestoneOrderField = iota
-	MilestoneOrderField_DUE_DATE
-	MilestoneOrderField_NUMBER
-	MilestoneOrderField_UPDATED_AT
+	MilestoneOrderField_CREATED_AT MilestoneOrderField = "CREATED_AT"
+	MilestoneOrderField_DUE_DATE   MilestoneOrderField = "DUE_DATE"
+	MilestoneOrderField_NUMBER     MilestoneOrderField = "NUMBER"
+	MilestoneOrderField_UPDATED_AT MilestoneOrderField = "UPDATED_AT"
 )
 
-type MilestoneState int
+type MilestoneState string
 
 const (
-	MilestoneState_CLOSED MilestoneState = iota
-	MilestoneState_OPEN
+	MilestoneState_CLOSED MilestoneState = "CLOSED"
+	MilestoneState_OPEN   MilestoneState = "OPEN"
 )
 
-type NotificationRestrictionSettingValue int
+type NotificationRestrictionSettingValue string
 
 const (
-	NotificationRestrictionSettingValue_DISABLED NotificationRestrictionSettingValue = iota
-	NotificationRestrictionSettingValue_ENABLED
+	NotificationRestrictionSettingValue_DISABLED NotificationRestrictionSettingValue = "DISABLED"
+	NotificationRestrictionSettingValue_ENABLED  NotificationRestrictionSettingValue = "ENABLED"
 )
 
-type OauthApplicationCreateAuditEntryState int
+type OauthApplicationCreateAuditEntryState string
 
 const (
-	OauthApplicationCreateAuditEntryState_ACTIVE OauthApplicationCreateAuditEntryState = iota
-	OauthApplicationCreateAuditEntryState_PENDING_DELETION
-	OauthApplicationCreateAuditEntryState_SUSPENDED
+	OauthApplicationCreateAuditEntryState_ACTIVE           OauthApplicationCreateAuditEntryState = "ACTIVE"
+	OauthApplicationCreateAuditEntryState_PENDING_DELETION OauthApplicationCreateAuditEntryState = "PENDING_DELETION"
+	OauthApplicationCreateAuditEntryState_SUSPENDED        OauthApplicationCreateAuditEntryState = "SUSPENDED"
 )
 
-type OperationType int
+type OperationType string
 
 const (
-	OperationType_ACCESS OperationType = iota
-	OperationType_AUTHENTICATION
-	OperationType_CREATE
-	OperationType_MODIFY
-	OperationType_REMOVE
-	OperationType_RESTORE
-	OperationType_TRANSFER
+	OperationType_ACCESS         OperationType = "ACCESS"
+	OperationType_AUTHENTICATION OperationType = "AUTHENTICATION"
+	OperationType_CREATE         OperationType = "CREATE"
+	OperationType_MODIFY         OperationType = "MODIFY"
+	OperationType_REMOVE         OperationType = "REMOVE"
+	OperationType_RESTORE        OperationType = "RESTORE"
+	OperationType_TRANSFER       OperationType = "TRANSFER"
 )
 
-type OrderDirection int
+type OrderDirection string
 
 const (
-	OrderDirection_ASC OrderDirection = iota
-	OrderDirection_DESC
+	OrderDirection_ASC  OrderDirection = "ASC"
+	OrderDirection_DESC OrderDirection = "DESC"
 )
 
-type OrgAddMemberAuditEntryPermission int
+type OrgAddMemberAuditEntryPermission string
 
 const (
-	OrgAddMemberAuditEntryPermission_ADMIN OrgAddMemberAuditEntryPermission = iota
-	OrgAddMemberAuditEntryPermission_READ
+	OrgAddMemberAuditEntryPermission_ADMIN OrgAddMemberAuditEntryPermission = "ADMIN"
+	OrgAddMemberAuditEntryPermission_READ  OrgAddMemberAuditEntryPermission = "READ"
 )
 
-type OrgCreateAuditEntryBillingPlan int
+type OrgCreateAuditEntryBillingPlan string
 
 const (
-	OrgCreateAuditEntryBillingPlan_BUSINESS OrgCreateAuditEntryBillingPlan = iota
-	OrgCreateAuditEntryBillingPlan_BUSINESS_PLUS
-	OrgCreateAuditEntryBillingPlan_FREE
-	OrgCreateAuditEntryBillingPlan_TIERED_PER_SEAT
-	OrgCreateAuditEntryBillingPlan_UNLIMITED
+	OrgCreateAuditEntryBillingPlan_BUSINESS        OrgCreateAuditEntryBillingPlan = "BUSINESS"
+	OrgCreateAuditEntryBillingPlan_BUSINESS_PLUS   OrgCreateAuditEntryBillingPlan = "BUSINESS_PLUS"
+	OrgCreateAuditEntryBillingPlan_FREE            OrgCreateAuditEntryBillingPlan = "FREE"
+	OrgCreateAuditEntryBillingPlan_TIERED_PER_SEAT OrgCreateAuditEntryBillingPlan = "TIERED_PER_SEAT"
+	OrgCreateAuditEntryBillingPlan_UNLIMITED       OrgCreateAuditEntryBillingPlan = "UNLIMITED"
 )
 
-type OrgRemoveBillingManagerAuditEntryReason int
+type OrgRemoveBillingManagerAuditEntryReason string
 
 const (
-	OrgRemoveBillingManagerAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING OrgRemoveBillingManagerAuditEntryReason = iota
-	OrgRemoveBillingManagerAuditEntryReason_SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY
-	OrgRemoveBillingManagerAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE
+	OrgRemoveBillingManagerAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING                  OrgRemoveBillingManagerAuditEntryReason = "SAML_EXTERNAL_IDENTITY_MISSING"
+	OrgRemoveBillingManagerAuditEntryReason_SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY OrgRemoveBillingManagerAuditEntryReason = "SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY"
+	OrgRemoveBillingManagerAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE           OrgRemoveBillingManagerAuditEntryReason = "TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE"
 )
 
-type OrgRemoveMemberAuditEntryMembershipType int
+type OrgRemoveMemberAuditEntryMembershipType string
 
 const (
-	OrgRemoveMemberAuditEntryMembershipType_ADMIN OrgRemoveMemberAuditEntryMembershipType = iota
-	OrgRemoveMemberAuditEntryMembershipType_BILLING_MANAGER
-	OrgRemoveMemberAuditEntryMembershipType_DIRECT_MEMBER
-	OrgRemoveMemberAuditEntryMembershipType_OUTSIDE_COLLABORATOR
-	OrgRemoveMemberAuditEntryMembershipType_UNAFFILIATED
+	OrgRemoveMemberAuditEntryMembershipType_ADMIN                OrgRemoveMemberAuditEntryMembershipType = "ADMIN"
+	OrgRemoveMemberAuditEntryMembershipType_BILLING_MANAGER      OrgRemoveMemberAuditEntryMembershipType = "BILLING_MANAGER"
+	OrgRemoveMemberAuditEntryMembershipType_DIRECT_MEMBER        OrgRemoveMemberAuditEntryMembershipType = "DIRECT_MEMBER"
+	OrgRemoveMemberAuditEntryMembershipType_OUTSIDE_COLLABORATOR OrgRemoveMemberAuditEntryMembershipType = "OUTSIDE_COLLABORATOR"
+	OrgRemoveMemberAuditEntryMembershipType_UNAFFILIATED         OrgRemoveMemberAuditEntryMembershipType = "UNAFFILIATED"
 )
 
-type OrgRemoveMemberAuditEntryReason int
+type OrgRemoveMemberAuditEntryReason string
 
 const (
-	OrgRemoveMemberAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING OrgRemoveMemberAuditEntryReason = iota
-	OrgRemoveMemberAuditEntryReason_SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY
-	OrgRemoveMemberAuditEntryReason_TWO_FACTOR_ACCOUNT_RECOVERY
-	OrgRemoveMemberAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE
-	OrgRemoveMemberAuditEntryReason_USER_ACCOUNT_DELETED
+	OrgRemoveMemberAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING                  OrgRemoveMemberAuditEntryReason = "SAML_EXTERNAL_IDENTITY_MISSING"
+	OrgRemoveMemberAuditEntryReason_SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY OrgRemoveMemberAuditEntryReason = "SAML_SSO_ENFORCEMENT_REQUIRES_EXTERNAL_IDENTITY"
+	OrgRemoveMemberAuditEntryReason_TWO_FACTOR_ACCOUNT_RECOVERY                     OrgRemoveMemberAuditEntryReason = "TWO_FACTOR_ACCOUNT_RECOVERY"
+	OrgRemoveMemberAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE           OrgRemoveMemberAuditEntryReason = "TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE"
+	OrgRemoveMemberAuditEntryReason_USER_ACCOUNT_DELETED                            OrgRemoveMemberAuditEntryReason = "USER_ACCOUNT_DELETED"
 )
 
-type OrgRemoveOutsideCollaboratorAuditEntryMembershipType int
+type OrgRemoveOutsideCollaboratorAuditEntryMembershipType string
 
 const (
-	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_BILLING_MANAGER OrgRemoveOutsideCollaboratorAuditEntryMembershipType = iota
-	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_OUTSIDE_COLLABORATOR
-	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_UNAFFILIATED
+	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_BILLING_MANAGER      OrgRemoveOutsideCollaboratorAuditEntryMembershipType = "BILLING_MANAGER"
+	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_OUTSIDE_COLLABORATOR OrgRemoveOutsideCollaboratorAuditEntryMembershipType = "OUTSIDE_COLLABORATOR"
+	OrgRemoveOutsideCollaboratorAuditEntryMembershipType_UNAFFILIATED         OrgRemoveOutsideCollaboratorAuditEntryMembershipType = "UNAFFILIATED"
 )
 
-type OrgRemoveOutsideCollaboratorAuditEntryReason int
+type OrgRemoveOutsideCollaboratorAuditEntryReason string
 
 const (
-	OrgRemoveOutsideCollaboratorAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING OrgRemoveOutsideCollaboratorAuditEntryReason = iota
-	OrgRemoveOutsideCollaboratorAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE
+	OrgRemoveOutsideCollaboratorAuditEntryReason_SAML_EXTERNAL_IDENTITY_MISSING        OrgRemoveOutsideCollaboratorAuditEntryReason = "SAML_EXTERNAL_IDENTITY_MISSING"
+	OrgRemoveOutsideCollaboratorAuditEntryReason_TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE OrgRemoveOutsideCollaboratorAuditEntryReason = "TWO_FACTOR_REQUIREMENT_NON_COMPLIANCE"
 )
 
-type OrgUpdateDefaultRepositoryPermissionAuditEntryPermission int
+type OrgUpdateDefaultRepositoryPermissionAuditEntryPermission string
 
 const (
-	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_ADMIN OrgUpdateDefaultRepositoryPermissionAuditEntryPermission = iota
-	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_NONE
-	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_READ
-	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_WRITE
+	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_ADMIN OrgUpdateDefaultRepositoryPermissionAuditEntryPermission = "ADMIN"
+	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_NONE  OrgUpdateDefaultRepositoryPermissionAuditEntryPermission = "NONE"
+	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_READ  OrgUpdateDefaultRepositoryPermissionAuditEntryPermission = "READ"
+	OrgUpdateDefaultRepositoryPermissionAuditEntryPermission_WRITE OrgUpdateDefaultRepositoryPermissionAuditEntryPermission = "WRITE"
 )
 
-type OrgUpdateMemberAuditEntryPermission int
+type OrgUpdateMemberAuditEntryPermission string
 
 const (
-	OrgUpdateMemberAuditEntryPermission_ADMIN OrgUpdateMemberAuditEntryPermission = iota
-	OrgUpdateMemberAuditEntryPermission_READ
+	OrgUpdateMemberAuditEntryPermission_ADMIN OrgUpdateMemberAuditEntryPermission = "ADMIN"
+	OrgUpdateMemberAuditEntryPermission_READ  OrgUpdateMemberAuditEntryPermission = "READ"
 )
 
-type OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility int
+type OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility string
 
 const (
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_ALL OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = iota
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_INTERNAL
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_NONE
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PRIVATE
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PRIVATE_INTERNAL
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC_INTERNAL
-	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC_PRIVATE
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_ALL              OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "ALL"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_INTERNAL         OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "INTERNAL"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_NONE             OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "NONE"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PRIVATE          OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "PRIVATE"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PRIVATE_INTERNAL OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "PRIVATE_INTERNAL"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC           OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "PUBLIC"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC_INTERNAL  OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "PUBLIC_INTERNAL"
+	OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility_PUBLIC_PRIVATE   OrgUpdateMemberRepositoryCreationPermissionAuditEntryVisibility = "PUBLIC_PRIVATE"
 )
 
-type OrganizationInvitationRole int
+type OrganizationInvitationRole string
 
 const (
-	OrganizationInvitationRole_ADMIN OrganizationInvitationRole = iota
-	OrganizationInvitationRole_BILLING_MANAGER
-	OrganizationInvitationRole_DIRECT_MEMBER
-	OrganizationInvitationRole_REINSTATE
+	OrganizationInvitationRole_ADMIN           OrganizationInvitationRole = "ADMIN"
+	OrganizationInvitationRole_BILLING_MANAGER OrganizationInvitationRole = "BILLING_MANAGER"
+	OrganizationInvitationRole_DIRECT_MEMBER   OrganizationInvitationRole = "DIRECT_MEMBER"
+	OrganizationInvitationRole_REINSTATE       OrganizationInvitationRole = "REINSTATE"
 )
 
-type OrganizationInvitationType int
+type OrganizationInvitationType string
 
 const (
-	OrganizationInvitationType_EMAIL OrganizationInvitationType = iota
-	OrganizationInvitationType_USER
+	OrganizationInvitationType_EMAIL OrganizationInvitationType = "EMAIL"
+	OrganizationInvitationType_USER  OrganizationInvitationType = "USER"
 )
 
-type OrganizationMemberRole int
+type OrganizationMemberRole string
 
 const (
-	OrganizationMemberRole_ADMIN OrganizationMemberRole = iota
-	OrganizationMemberRole_MEMBER
+	OrganizationMemberRole_ADMIN  OrganizationMemberRole = "ADMIN"
+	OrganizationMemberRole_MEMBER OrganizationMemberRole = "MEMBER"
 )
 
-type OrganizationMembersCanCreateRepositoriesSettingValue int
+type OrganizationMembersCanCreateRepositoriesSettingValue string
 
 const (
-	OrganizationMembersCanCreateRepositoriesSettingValue_ALL OrganizationMembersCanCreateRepositoriesSettingValue = iota
-	OrganizationMembersCanCreateRepositoriesSettingValue_DISABLED
-	OrganizationMembersCanCreateRepositoriesSettingValue_PRIVATE
+	OrganizationMembersCanCreateRepositoriesSettingValue_ALL      OrganizationMembersCanCreateRepositoriesSettingValue = "ALL"
+	OrganizationMembersCanCreateRepositoriesSettingValue_DISABLED OrganizationMembersCanCreateRepositoriesSettingValue = "DISABLED"
+	OrganizationMembersCanCreateRepositoriesSettingValue_PRIVATE  OrganizationMembersCanCreateRepositoriesSettingValue = "PRIVATE"
 )
 
-type OrganizationOrderField int
+type OrganizationOrderField string
 
 const (
-	OrganizationOrderField_CREATED_AT OrganizationOrderField = iota
-	OrganizationOrderField_LOGIN
+	OrganizationOrderField_CREATED_AT OrganizationOrderField = "CREATED_AT"
+	OrganizationOrderField_LOGIN      OrganizationOrderField = "LOGIN"
 )
 
-type PackageFileOrderField int
+type PackageFileOrderField string
 
 const (
-	PackageFileOrderField_CREATED_AT PackageFileOrderField = iota
+	PackageFileOrderField_CREATED_AT PackageFileOrderField = "CREATED_AT"
 )
 
-type PackageOrderField int
+type PackageOrderField string
 
 const (
-	PackageOrderField_CREATED_AT PackageOrderField = iota
+	PackageOrderField_CREATED_AT PackageOrderField = "CREATED_AT"
 )
 
-type PackageType int
+type PackageType string
 
 const (
-	PackageType_DEBIAN PackageType = iota
-	PackageType_DOCKER
-	PackageType_MAVEN
-	PackageType_NPM
-	PackageType_NUGET
-	PackageType_PYPI
-	PackageType_RUBYGEMS
+	PackageType_DEBIAN   PackageType = "DEBIAN"
+	PackageType_DOCKER   PackageType = "DOCKER"
+	PackageType_MAVEN    PackageType = "MAVEN"
+	PackageType_NPM      PackageType = "NPM"
+	PackageType_NUGET    PackageType = "NUGET"
+	PackageType_PYPI     PackageType = "PYPI"
+	PackageType_RUBYGEMS PackageType = "RUBYGEMS"
 )
 
-type PackageVersionOrderField int
+type PackageVersionOrderField string
 
 const (
-	PackageVersionOrderField_CREATED_AT PackageVersionOrderField = iota
+	PackageVersionOrderField_CREATED_AT PackageVersionOrderField = "CREATED_AT"
 )
 
-type PinnableItemType int
+type PinnableItemType string
 
 const (
-	PinnableItemType_GIST PinnableItemType = iota
-	PinnableItemType_ISSUE
-	PinnableItemType_ORGANIZATION
-	PinnableItemType_PROJECT
-	PinnableItemType_PULL_REQUEST
-	PinnableItemType_REPOSITORY
-	PinnableItemType_TEAM
-	PinnableItemType_USER
+	PinnableItemType_GIST         PinnableItemType = "GIST"
+	PinnableItemType_ISSUE        PinnableItemType = "ISSUE"
+	PinnableItemType_ORGANIZATION PinnableItemType = "ORGANIZATION"
+	PinnableItemType_PROJECT      PinnableItemType = "PROJECT"
+	PinnableItemType_PULL_REQUEST PinnableItemType = "PULL_REQUEST"
+	PinnableItemType_REPOSITORY   PinnableItemType = "REPOSITORY"
+	PinnableItemType_TEAM         PinnableItemType = "TEAM"
+	PinnableItemType_USER         PinnableItemType = "USER"
 )
 
-type PinnedDiscussionGradient int
+type PinnedDiscussionGradient string
 
 const (
-	PinnedDiscussionGradient_BLUE_MINT PinnedDiscussionGradient = iota
-	PinnedDiscussionGradient_BLUE_PURPLE
-	PinnedDiscussionGradient_PINK_BLUE
-	PinnedDiscussionGradient_PURPLE_CORAL
-	PinnedDiscussionGradient_RED_ORANGE
+	PinnedDiscussionGradient_BLUE_MINT    PinnedDiscussionGradient = "BLUE_MINT"
+	PinnedDiscussionGradient_BLUE_PURPLE  PinnedDiscussionGradient = "BLUE_PURPLE"
+	PinnedDiscussionGradient_PINK_BLUE    PinnedDiscussionGradient = "PINK_BLUE"
+	PinnedDiscussionGradient_PURPLE_CORAL PinnedDiscussionGradient = "PURPLE_CORAL"
+	PinnedDiscussionGradient_RED_ORANGE   PinnedDiscussionGradient = "RED_ORANGE"
 )
 
-type PinnedDiscussionPattern int
+type PinnedDiscussionPattern string
 
 const (
-	PinnedDiscussionPattern_CHEVRON_UP PinnedDiscussionPattern = iota
-	PinnedDiscussionPattern_DOT
-	PinnedDiscussionPattern_DOT_FILL
-	PinnedDiscussionPattern_HEART_FILL
-	PinnedDiscussionPattern_PLUS
-	PinnedDiscussionPattern_ZAP
+	PinnedDiscussionPattern_CHEVRON_UP PinnedDiscussionPattern = "CHEVRON_UP"
+	PinnedDiscussionPattern_DOT        PinnedDiscussionPattern = "DOT"
+	PinnedDiscussionPattern_DOT_FILL   PinnedDiscussionPattern = "DOT_FILL"
+	PinnedDiscussionPattern_HEART_FILL PinnedDiscussionPattern = "HEART_FILL"
+	PinnedDiscussionPattern_PLUS       PinnedDiscussionPattern = "PLUS"
+	PinnedDiscussionPattern_ZAP        PinnedDiscussionPattern = "ZAP"
 )
 
-type ProjectCardArchivedState int
+type ProjectCardArchivedState string
 
 const (
-	ProjectCardArchivedState_ARCHIVED ProjectCardArchivedState = iota
-	ProjectCardArchivedState_NOT_ARCHIVED
+	ProjectCardArchivedState_ARCHIVED     ProjectCardArchivedState = "ARCHIVED"
+	ProjectCardArchivedState_NOT_ARCHIVED ProjectCardArchivedState = "NOT_ARCHIVED"
 )
 
-type ProjectCardState int
+type ProjectCardState string
 
 const (
-	ProjectCardState_CONTENT_ONLY ProjectCardState = iota
-	ProjectCardState_NOTE_ONLY
-	ProjectCardState_REDACTED
+	ProjectCardState_CONTENT_ONLY ProjectCardState = "CONTENT_ONLY"
+	ProjectCardState_NOTE_ONLY    ProjectCardState = "NOTE_ONLY"
+	ProjectCardState_REDACTED     ProjectCardState = "REDACTED"
 )
 
-type ProjectColumnPurpose int
+type ProjectColumnPurpose string
 
 const (
-	ProjectColumnPurpose_DONE ProjectColumnPurpose = iota
-	ProjectColumnPurpose_IN_PROGRESS
-	ProjectColumnPurpose_TODO
+	ProjectColumnPurpose_DONE        ProjectColumnPurpose = "DONE"
+	ProjectColumnPurpose_IN_PROGRESS ProjectColumnPurpose = "IN_PROGRESS"
+	ProjectColumnPurpose_TODO        ProjectColumnPurpose = "TODO"
 )
 
-type ProjectOrderField int
+type ProjectOrderField string
 
 const (
-	ProjectOrderField_CREATED_AT ProjectOrderField = iota
-	ProjectOrderField_NAME
-	ProjectOrderField_UPDATED_AT
+	ProjectOrderField_CREATED_AT ProjectOrderField = "CREATED_AT"
+	ProjectOrderField_NAME       ProjectOrderField = "NAME"
+	ProjectOrderField_UPDATED_AT ProjectOrderField = "UPDATED_AT"
 )
 
-type ProjectState int
+type ProjectState string
 
 const (
-	ProjectState_CLOSED ProjectState = iota
-	ProjectState_OPEN
+	ProjectState_CLOSED ProjectState = "CLOSED"
+	ProjectState_OPEN   ProjectState = "OPEN"
 )
 
-type ProjectTemplate int
+type ProjectTemplate string
 
 const (
-	ProjectTemplate_AUTOMATED_KANBAN_V2 ProjectTemplate = iota
-	ProjectTemplate_AUTOMATED_REVIEWS_KANBAN
-	ProjectTemplate_BASIC_KANBAN
-	ProjectTemplate_BUG_TRIAGE
+	ProjectTemplate_AUTOMATED_KANBAN_V2      ProjectTemplate = "AUTOMATED_KANBAN_V2"
+	ProjectTemplate_AUTOMATED_REVIEWS_KANBAN ProjectTemplate = "AUTOMATED_REVIEWS_KANBAN"
+	ProjectTemplate_BASIC_KANBAN             ProjectTemplate = "BASIC_KANBAN"
+	ProjectTemplate_BUG_TRIAGE               ProjectTemplate = "BUG_TRIAGE"
 )
 
-type PullRequestMergeMethod int
+type PullRequestMergeMethod string
 
 const (
-	PullRequestMergeMethod_MERGE PullRequestMergeMethod = iota
-	PullRequestMergeMethod_REBASE
-	PullRequestMergeMethod_SQUASH
+	PullRequestMergeMethod_MERGE  PullRequestMergeMethod = "MERGE"
+	PullRequestMergeMethod_REBASE PullRequestMergeMethod = "REBASE"
+	PullRequestMergeMethod_SQUASH PullRequestMergeMethod = "SQUASH"
 )
 
-type PullRequestOrderField int
+type PullRequestOrderField string
 
 const (
-	PullRequestOrderField_CREATED_AT PullRequestOrderField = iota
-	PullRequestOrderField_UPDATED_AT
+	PullRequestOrderField_CREATED_AT PullRequestOrderField = "CREATED_AT"
+	PullRequestOrderField_UPDATED_AT PullRequestOrderField = "UPDATED_AT"
 )
 
-type PullRequestReviewCommentState int
+type PullRequestReviewCommentState string
 
 const (
-	PullRequestReviewCommentState_PENDING PullRequestReviewCommentState = iota
-	PullRequestReviewCommentState_SUBMITTED
+	PullRequestReviewCommentState_PENDING   PullRequestReviewCommentState = "PENDING"
+	PullRequestReviewCommentState_SUBMITTED PullRequestReviewCommentState = "SUBMITTED"
 )
 
-type PullRequestReviewDecision int
+type PullRequestReviewDecision string
 
 const (
-	PullRequestReviewDecision_APPROVED PullRequestReviewDecision = iota
-	PullRequestReviewDecision_CHANGES_REQUESTED
-	PullRequestReviewDecision_REVIEW_REQUIRED
+	PullRequestReviewDecision_APPROVED          PullRequestReviewDecision = "APPROVED"
+	PullRequestReviewDecision_CHANGES_REQUESTED PullRequestReviewDecision = "CHANGES_REQUESTED"
+	PullRequestReviewDecision_REVIEW_REQUIRED   PullRequestReviewDecision = "REVIEW_REQUIRED"
 )
 
-type PullRequestReviewEvent int
+type PullRequestReviewEvent string
 
 const (
-	PullRequestReviewEvent_APPROVE PullRequestReviewEvent = iota
-	PullRequestReviewEvent_COMMENT
-	PullRequestReviewEvent_DISMISS
-	PullRequestReviewEvent_REQUEST_CHANGES
+	PullRequestReviewEvent_APPROVE         PullRequestReviewEvent = "APPROVE"
+	PullRequestReviewEvent_COMMENT         PullRequestReviewEvent = "COMMENT"
+	PullRequestReviewEvent_DISMISS         PullRequestReviewEvent = "DISMISS"
+	PullRequestReviewEvent_REQUEST_CHANGES PullRequestReviewEvent = "REQUEST_CHANGES"
 )
 
-type PullRequestReviewState int
+type PullRequestReviewState string
 
 const (
-	PullRequestReviewState_APPROVED PullRequestReviewState = iota
-	PullRequestReviewState_CHANGES_REQUESTED
-	PullRequestReviewState_COMMENTED
-	PullRequestReviewState_DISMISSED
-	PullRequestReviewState_PENDING
+	PullRequestReviewState_APPROVED          PullRequestReviewState = "APPROVED"
+	PullRequestReviewState_CHANGES_REQUESTED PullRequestReviewState = "CHANGES_REQUESTED"
+	PullRequestReviewState_COMMENTED         PullRequestReviewState = "COMMENTED"
+	PullRequestReviewState_DISMISSED         PullRequestReviewState = "DISMISSED"
+	PullRequestReviewState_PENDING           PullRequestReviewState = "PENDING"
 )
 
-type PullRequestState int
+type PullRequestState string
 
 const (
-	PullRequestState_CLOSED PullRequestState = iota
-	PullRequestState_MERGED
-	PullRequestState_OPEN
+	PullRequestState_CLOSED PullRequestState = "CLOSED"
+	PullRequestState_MERGED PullRequestState = "MERGED"
+	PullRequestState_OPEN   PullRequestState = "OPEN"
 )
 
-type PullRequestTimelineItemsItemType int
+type PullRequestTimelineItemsItemType string
 
 const (
-	PullRequestTimelineItemsItemType_ADDED_TO_PROJECT_EVENT PullRequestTimelineItemsItemType = iota
-	PullRequestTimelineItemsItemType_ASSIGNED_EVENT
-	PullRequestTimelineItemsItemType_AUTOMATIC_BASE_CHANGE_FAILED_EVENT
-	PullRequestTimelineItemsItemType_AUTOMATIC_BASE_CHANGE_SUCCEEDED_EVENT
-	PullRequestTimelineItemsItemType_AUTO_MERGE_DISABLED_EVENT
-	PullRequestTimelineItemsItemType_AUTO_MERGE_ENABLED_EVENT
-	PullRequestTimelineItemsItemType_AUTO_REBASE_ENABLED_EVENT
-	PullRequestTimelineItemsItemType_AUTO_SQUASH_ENABLED_EVENT
-	PullRequestTimelineItemsItemType_BASE_REF_CHANGED_EVENT
-	PullRequestTimelineItemsItemType_BASE_REF_DELETED_EVENT
-	PullRequestTimelineItemsItemType_BASE_REF_FORCE_PUSHED_EVENT
-	PullRequestTimelineItemsItemType_CLOSED_EVENT
-	PullRequestTimelineItemsItemType_COMMENT_DELETED_EVENT
-	PullRequestTimelineItemsItemType_CONNECTED_EVENT
-	PullRequestTimelineItemsItemType_CONVERTED_NOTE_TO_ISSUE_EVENT
-	PullRequestTimelineItemsItemType_CONVERT_TO_DRAFT_EVENT
-	PullRequestTimelineItemsItemType_CROSS_REFERENCED_EVENT
-	PullRequestTimelineItemsItemType_DEMILESTONED_EVENT
-	PullRequestTimelineItemsItemType_DEPLOYED_EVENT
-	PullRequestTimelineItemsItemType_DEPLOYMENT_ENVIRONMENT_CHANGED_EVENT
-	PullRequestTimelineItemsItemType_DISCONNECTED_EVENT
-	PullRequestTimelineItemsItemType_HEAD_REF_DELETED_EVENT
-	PullRequestTimelineItemsItemType_HEAD_REF_FORCE_PUSHED_EVENT
-	PullRequestTimelineItemsItemType_HEAD_REF_RESTORED_EVENT
-	PullRequestTimelineItemsItemType_ISSUE_COMMENT
-	PullRequestTimelineItemsItemType_LABELED_EVENT
-	PullRequestTimelineItemsItemType_LOCKED_EVENT
-	PullRequestTimelineItemsItemType_MARKED_AS_DUPLICATE_EVENT
-	PullRequestTimelineItemsItemType_MENTIONED_EVENT
-	PullRequestTimelineItemsItemType_MERGED_EVENT
-	PullRequestTimelineItemsItemType_MILESTONED_EVENT
-	PullRequestTimelineItemsItemType_MOVED_COLUMNS_IN_PROJECT_EVENT
-	PullRequestTimelineItemsItemType_PINNED_EVENT
-	PullRequestTimelineItemsItemType_PULL_REQUEST_COMMIT
-	PullRequestTimelineItemsItemType_PULL_REQUEST_COMMIT_COMMENT_THREAD
-	PullRequestTimelineItemsItemType_PULL_REQUEST_REVIEW
-	PullRequestTimelineItemsItemType_PULL_REQUEST_REVIEW_THREAD
-	PullRequestTimelineItemsItemType_PULL_REQUEST_REVISION_MARKER
-	PullRequestTimelineItemsItemType_READY_FOR_REVIEW_EVENT
-	PullRequestTimelineItemsItemType_REFERENCED_EVENT
-	PullRequestTimelineItemsItemType_REMOVED_FROM_PROJECT_EVENT
-	PullRequestTimelineItemsItemType_RENAMED_TITLE_EVENT
-	PullRequestTimelineItemsItemType_REOPENED_EVENT
-	PullRequestTimelineItemsItemType_REVIEW_DISMISSED_EVENT
-	PullRequestTimelineItemsItemType_REVIEW_REQUESTED_EVENT
-	PullRequestTimelineItemsItemType_REVIEW_REQUEST_REMOVED_EVENT
-	PullRequestTimelineItemsItemType_SUBSCRIBED_EVENT
-	PullRequestTimelineItemsItemType_TRANSFERRED_EVENT
-	PullRequestTimelineItemsItemType_UNASSIGNED_EVENT
-	PullRequestTimelineItemsItemType_UNLABELED_EVENT
-	PullRequestTimelineItemsItemType_UNLOCKED_EVENT
-	PullRequestTimelineItemsItemType_UNMARKED_AS_DUPLICATE_EVENT
-	PullRequestTimelineItemsItemType_UNPINNED_EVENT
-	PullRequestTimelineItemsItemType_UNSUBSCRIBED_EVENT
-	PullRequestTimelineItemsItemType_USER_BLOCKED_EVENT
+	PullRequestTimelineItemsItemType_ADDED_TO_PROJECT_EVENT                PullRequestTimelineItemsItemType = "ADDED_TO_PROJECT_EVENT"
+	PullRequestTimelineItemsItemType_ASSIGNED_EVENT                        PullRequestTimelineItemsItemType = "ASSIGNED_EVENT"
+	PullRequestTimelineItemsItemType_AUTOMATIC_BASE_CHANGE_FAILED_EVENT    PullRequestTimelineItemsItemType = "AUTOMATIC_BASE_CHANGE_FAILED_EVENT"
+	PullRequestTimelineItemsItemType_AUTOMATIC_BASE_CHANGE_SUCCEEDED_EVENT PullRequestTimelineItemsItemType = "AUTOMATIC_BASE_CHANGE_SUCCEEDED_EVENT"
+	PullRequestTimelineItemsItemType_AUTO_MERGE_DISABLED_EVENT             PullRequestTimelineItemsItemType = "AUTO_MERGE_DISABLED_EVENT"
+	PullRequestTimelineItemsItemType_AUTO_MERGE_ENABLED_EVENT              PullRequestTimelineItemsItemType = "AUTO_MERGE_ENABLED_EVENT"
+	PullRequestTimelineItemsItemType_AUTO_REBASE_ENABLED_EVENT             PullRequestTimelineItemsItemType = "AUTO_REBASE_ENABLED_EVENT"
+	PullRequestTimelineItemsItemType_AUTO_SQUASH_ENABLED_EVENT             PullRequestTimelineItemsItemType = "AUTO_SQUASH_ENABLED_EVENT"
+	PullRequestTimelineItemsItemType_BASE_REF_CHANGED_EVENT                PullRequestTimelineItemsItemType = "BASE_REF_CHANGED_EVENT"
+	PullRequestTimelineItemsItemType_BASE_REF_DELETED_EVENT                PullRequestTimelineItemsItemType = "BASE_REF_DELETED_EVENT"
+	PullRequestTimelineItemsItemType_BASE_REF_FORCE_PUSHED_EVENT           PullRequestTimelineItemsItemType = "BASE_REF_FORCE_PUSHED_EVENT"
+	PullRequestTimelineItemsItemType_CLOSED_EVENT                          PullRequestTimelineItemsItemType = "CLOSED_EVENT"
+	PullRequestTimelineItemsItemType_COMMENT_DELETED_EVENT                 PullRequestTimelineItemsItemType = "COMMENT_DELETED_EVENT"
+	PullRequestTimelineItemsItemType_CONNECTED_EVENT                       PullRequestTimelineItemsItemType = "CONNECTED_EVENT"
+	PullRequestTimelineItemsItemType_CONVERTED_NOTE_TO_ISSUE_EVENT         PullRequestTimelineItemsItemType = "CONVERTED_NOTE_TO_ISSUE_EVENT"
+	PullRequestTimelineItemsItemType_CONVERT_TO_DRAFT_EVENT                PullRequestTimelineItemsItemType = "CONVERT_TO_DRAFT_EVENT"
+	PullRequestTimelineItemsItemType_CROSS_REFERENCED_EVENT                PullRequestTimelineItemsItemType = "CROSS_REFERENCED_EVENT"
+	PullRequestTimelineItemsItemType_DEMILESTONED_EVENT                    PullRequestTimelineItemsItemType = "DEMILESTONED_EVENT"
+	PullRequestTimelineItemsItemType_DEPLOYED_EVENT                        PullRequestTimelineItemsItemType = "DEPLOYED_EVENT"
+	PullRequestTimelineItemsItemType_DEPLOYMENT_ENVIRONMENT_CHANGED_EVENT  PullRequestTimelineItemsItemType = "DEPLOYMENT_ENVIRONMENT_CHANGED_EVENT"
+	PullRequestTimelineItemsItemType_DISCONNECTED_EVENT                    PullRequestTimelineItemsItemType = "DISCONNECTED_EVENT"
+	PullRequestTimelineItemsItemType_HEAD_REF_DELETED_EVENT                PullRequestTimelineItemsItemType = "HEAD_REF_DELETED_EVENT"
+	PullRequestTimelineItemsItemType_HEAD_REF_FORCE_PUSHED_EVENT           PullRequestTimelineItemsItemType = "HEAD_REF_FORCE_PUSHED_EVENT"
+	PullRequestTimelineItemsItemType_HEAD_REF_RESTORED_EVENT               PullRequestTimelineItemsItemType = "HEAD_REF_RESTORED_EVENT"
+	PullRequestTimelineItemsItemType_ISSUE_COMMENT                         PullRequestTimelineItemsItemType = "ISSUE_COMMENT"
+	PullRequestTimelineItemsItemType_LABELED_EVENT                         PullRequestTimelineItemsItemType = "LABELED_EVENT"
+	PullRequestTimelineItemsItemType_LOCKED_EVENT                          PullRequestTimelineItemsItemType = "LOCKED_EVENT"
+	PullRequestTimelineItemsItemType_MARKED_AS_DUPLICATE_EVENT             PullRequestTimelineItemsItemType = "MARKED_AS_DUPLICATE_EVENT"
+	PullRequestTimelineItemsItemType_MENTIONED_EVENT                       PullRequestTimelineItemsItemType = "MENTIONED_EVENT"
+	PullRequestTimelineItemsItemType_MERGED_EVENT                          PullRequestTimelineItemsItemType = "MERGED_EVENT"
+	PullRequestTimelineItemsItemType_MILESTONED_EVENT                      PullRequestTimelineItemsItemType = "MILESTONED_EVENT"
+	PullRequestTimelineItemsItemType_MOVED_COLUMNS_IN_PROJECT_EVENT        PullRequestTimelineItemsItemType = "MOVED_COLUMNS_IN_PROJECT_EVENT"
+	PullRequestTimelineItemsItemType_PINNED_EVENT                          PullRequestTimelineItemsItemType = "PINNED_EVENT"
+	PullRequestTimelineItemsItemType_PULL_REQUEST_COMMIT                   PullRequestTimelineItemsItemType = "PULL_REQUEST_COMMIT"
+	PullRequestTimelineItemsItemType_PULL_REQUEST_COMMIT_COMMENT_THREAD    PullRequestTimelineItemsItemType = "PULL_REQUEST_COMMIT_COMMENT_THREAD"
+	PullRequestTimelineItemsItemType_PULL_REQUEST_REVIEW                   PullRequestTimelineItemsItemType = "PULL_REQUEST_REVIEW"
+	PullRequestTimelineItemsItemType_PULL_REQUEST_REVIEW_THREAD            PullRequestTimelineItemsItemType = "PULL_REQUEST_REVIEW_THREAD"
+	PullRequestTimelineItemsItemType_PULL_REQUEST_REVISION_MARKER          PullRequestTimelineItemsItemType = "PULL_REQUEST_REVISION_MARKER"
+	PullRequestTimelineItemsItemType_READY_FOR_REVIEW_EVENT                PullRequestTimelineItemsItemType = "READY_FOR_REVIEW_EVENT"
+	PullRequestTimelineItemsItemType_REFERENCED_EVENT                      PullRequestTimelineItemsItemType = "REFERENCED_EVENT"
+	PullRequestTimelineItemsItemType_REMOVED_FROM_PROJECT_EVENT            PullRequestTimelineItemsItemType = "REMOVED_FROM_PROJECT_EVENT"
+	PullRequestTimelineItemsItemType_RENAMED_TITLE_EVENT                   PullRequestTimelineItemsItemType = "RENAMED_TITLE_EVENT"
+	PullRequestTimelineItemsItemType_REOPENED_EVENT                        PullRequestTimelineItemsItemType = "REOPENED_EVENT"
+	PullRequestTimelineItemsItemType_REVIEW_DISMISSED_EVENT                PullRequestTimelineItemsItemType = "REVIEW_DISMISSED_EVENT"
+	PullRequestTimelineItemsItemType_REVIEW_REQUESTED_EVENT                PullRequestTimelineItemsItemType = "REVIEW_REQUESTED_EVENT"
+	PullRequestTimelineItemsItemType_REVIEW_REQUEST_REMOVED_EVENT          PullRequestTimelineItemsItemType = "REVIEW_REQUEST_REMOVED_EVENT"
+	PullRequestTimelineItemsItemType_SUBSCRIBED_EVENT                      PullRequestTimelineItemsItemType = "SUBSCRIBED_EVENT"
+	PullRequestTimelineItemsItemType_TRANSFERRED_EVENT                     PullRequestTimelineItemsItemType = "TRANSFERRED_EVENT"
+	PullRequestTimelineItemsItemType_UNASSIGNED_EVENT                      PullRequestTimelineItemsItemType = "UNASSIGNED_EVENT"
+	PullRequestTimelineItemsItemType_UNLABELED_EVENT                       PullRequestTimelineItemsItemType = "UNLABELED_EVENT"
+	PullRequestTimelineItemsItemType_UNLOCKED_EVENT                        PullRequestTimelineItemsItemType = "UNLOCKED_EVENT"
+	PullRequestTimelineItemsItemType_UNMARKED_AS_DUPLICATE_EVENT           PullRequestTimelineItemsItemType = "UNMARKED_AS_DUPLICATE_EVENT"
+	PullRequestTimelineItemsItemType_UNPINNED_EVENT                        PullRequestTimelineItemsItemType = "UNPINNED_EVENT"
+	PullRequestTimelineItemsItemType_UNSUBSCRIBED_EVENT                    PullRequestTimelineItemsItemType = "UNSUBSCRIBED_EVENT"
+	PullRequestTimelineItemsItemType_USER_BLOCKED_EVENT                    PullRequestTimelineItemsItemType = "USER_BLOCKED_EVENT"
 )
 
-type PullRequestUpdateState int
+type PullRequestUpdateState string
 
 const (
-	PullRequestUpdateState_CLOSED PullRequestUpdateState = iota
-	PullRequestUpdateState_OPEN
+	PullRequestUpdateState_CLOSED PullRequestUpdateState = "CLOSED"
+	PullRequestUpdateState_OPEN   PullRequestUpdateState = "OPEN"
 )
 
-type ReactionContent int
+type ReactionContent string
 
 const (
-	ReactionContent_CONFUSED ReactionContent = iota
-	ReactionContent_EYES
-	ReactionContent_HEART
-	ReactionContent_HOORAY
-	ReactionContent_LAUGH
-	ReactionContent_ROCKET
-	ReactionContent_THUMBS_DOWN
-	ReactionContent_THUMBS_UP
+	ReactionContent_CONFUSED    ReactionContent = "CONFUSED"
+	ReactionContent_EYES        ReactionContent = "EYES"
+	ReactionContent_HEART       ReactionContent = "HEART"
+	ReactionContent_HOORAY      ReactionContent = "HOORAY"
+	ReactionContent_LAUGH       ReactionContent = "LAUGH"
+	ReactionContent_ROCKET      ReactionContent = "ROCKET"
+	ReactionContent_THUMBS_DOWN ReactionContent = "THUMBS_DOWN"
+	ReactionContent_THUMBS_UP   ReactionContent = "THUMBS_UP"
 )
 
-type ReactionOrderField int
+type ReactionOrderField string
 
 const (
-	ReactionOrderField_CREATED_AT ReactionOrderField = iota
+	ReactionOrderField_CREATED_AT ReactionOrderField = "CREATED_AT"
 )
 
-type RefOrderField int
+type RefOrderField string
 
 const (
-	RefOrderField_ALPHABETICAL RefOrderField = iota
-	RefOrderField_TAG_COMMIT_DATE
+	RefOrderField_ALPHABETICAL    RefOrderField = "ALPHABETICAL"
+	RefOrderField_TAG_COMMIT_DATE RefOrderField = "TAG_COMMIT_DATE"
 )
 
-type ReleaseOrderField int
+type ReleaseOrderField string
 
 const (
-	ReleaseOrderField_CREATED_AT ReleaseOrderField = iota
-	ReleaseOrderField_NAME
+	ReleaseOrderField_CREATED_AT ReleaseOrderField = "CREATED_AT"
+	ReleaseOrderField_NAME       ReleaseOrderField = "NAME"
 )
 
-type RepoAccessAuditEntryVisibility int
+type RepoAccessAuditEntryVisibility string
 
 const (
-	RepoAccessAuditEntryVisibility_INTERNAL RepoAccessAuditEntryVisibility = iota
-	RepoAccessAuditEntryVisibility_PRIVATE
-	RepoAccessAuditEntryVisibility_PUBLIC
+	RepoAccessAuditEntryVisibility_INTERNAL RepoAccessAuditEntryVisibility = "INTERNAL"
+	RepoAccessAuditEntryVisibility_PRIVATE  RepoAccessAuditEntryVisibility = "PRIVATE"
+	RepoAccessAuditEntryVisibility_PUBLIC   RepoAccessAuditEntryVisibility = "PUBLIC"
 )
 
-type RepoAddMemberAuditEntryVisibility int
+type RepoAddMemberAuditEntryVisibility string
 
 const (
-	RepoAddMemberAuditEntryVisibility_INTERNAL RepoAddMemberAuditEntryVisibility = iota
-	RepoAddMemberAuditEntryVisibility_PRIVATE
-	RepoAddMemberAuditEntryVisibility_PUBLIC
+	RepoAddMemberAuditEntryVisibility_INTERNAL RepoAddMemberAuditEntryVisibility = "INTERNAL"
+	RepoAddMemberAuditEntryVisibility_PRIVATE  RepoAddMemberAuditEntryVisibility = "PRIVATE"
+	RepoAddMemberAuditEntryVisibility_PUBLIC   RepoAddMemberAuditEntryVisibility = "PUBLIC"
 )
 
-type RepoArchivedAuditEntryVisibility int
+type RepoArchivedAuditEntryVisibility string
 
 const (
-	RepoArchivedAuditEntryVisibility_INTERNAL RepoArchivedAuditEntryVisibility = iota
-	RepoArchivedAuditEntryVisibility_PRIVATE
-	RepoArchivedAuditEntryVisibility_PUBLIC
+	RepoArchivedAuditEntryVisibility_INTERNAL RepoArchivedAuditEntryVisibility = "INTERNAL"
+	RepoArchivedAuditEntryVisibility_PRIVATE  RepoArchivedAuditEntryVisibility = "PRIVATE"
+	RepoArchivedAuditEntryVisibility_PUBLIC   RepoArchivedAuditEntryVisibility = "PUBLIC"
 )
 
-type RepoChangeMergeSettingAuditEntryMergeType int
+type RepoChangeMergeSettingAuditEntryMergeType string
 
 const (
-	RepoChangeMergeSettingAuditEntryMergeType_MERGE RepoChangeMergeSettingAuditEntryMergeType = iota
-	RepoChangeMergeSettingAuditEntryMergeType_REBASE
-	RepoChangeMergeSettingAuditEntryMergeType_SQUASH
+	RepoChangeMergeSettingAuditEntryMergeType_MERGE  RepoChangeMergeSettingAuditEntryMergeType = "MERGE"
+	RepoChangeMergeSettingAuditEntryMergeType_REBASE RepoChangeMergeSettingAuditEntryMergeType = "REBASE"
+	RepoChangeMergeSettingAuditEntryMergeType_SQUASH RepoChangeMergeSettingAuditEntryMergeType = "SQUASH"
 )
 
-type RepoCreateAuditEntryVisibility int
+type RepoCreateAuditEntryVisibility string
 
 const (
-	RepoCreateAuditEntryVisibility_INTERNAL RepoCreateAuditEntryVisibility = iota
-	RepoCreateAuditEntryVisibility_PRIVATE
-	RepoCreateAuditEntryVisibility_PUBLIC
+	RepoCreateAuditEntryVisibility_INTERNAL RepoCreateAuditEntryVisibility = "INTERNAL"
+	RepoCreateAuditEntryVisibility_PRIVATE  RepoCreateAuditEntryVisibility = "PRIVATE"
+	RepoCreateAuditEntryVisibility_PUBLIC   RepoCreateAuditEntryVisibility = "PUBLIC"
 )
 
-type RepoDestroyAuditEntryVisibility int
+type RepoDestroyAuditEntryVisibility string
 
 const (
-	RepoDestroyAuditEntryVisibility_INTERNAL RepoDestroyAuditEntryVisibility = iota
-	RepoDestroyAuditEntryVisibility_PRIVATE
-	RepoDestroyAuditEntryVisibility_PUBLIC
+	RepoDestroyAuditEntryVisibility_INTERNAL RepoDestroyAuditEntryVisibility = "INTERNAL"
+	RepoDestroyAuditEntryVisibility_PRIVATE  RepoDestroyAuditEntryVisibility = "PRIVATE"
+	RepoDestroyAuditEntryVisibility_PUBLIC   RepoDestroyAuditEntryVisibility = "PUBLIC"
 )
 
-type RepoRemoveMemberAuditEntryVisibility int
+type RepoRemoveMemberAuditEntryVisibility string
 
 const (
-	RepoRemoveMemberAuditEntryVisibility_INTERNAL RepoRemoveMemberAuditEntryVisibility = iota
-	RepoRemoveMemberAuditEntryVisibility_PRIVATE
-	RepoRemoveMemberAuditEntryVisibility_PUBLIC
+	RepoRemoveMemberAuditEntryVisibility_INTERNAL RepoRemoveMemberAuditEntryVisibility = "INTERNAL"
+	RepoRemoveMemberAuditEntryVisibility_PRIVATE  RepoRemoveMemberAuditEntryVisibility = "PRIVATE"
+	RepoRemoveMemberAuditEntryVisibility_PUBLIC   RepoRemoveMemberAuditEntryVisibility = "PUBLIC"
 )
 
-type ReportedContentClassifiers int
+type ReportedContentClassifiers string
 
 const (
-	ReportedContentClassifiers_ABUSE ReportedContentClassifiers = iota
-	ReportedContentClassifiers_DUPLICATE
-	ReportedContentClassifiers_OFF_TOPIC
-	ReportedContentClassifiers_OUTDATED
-	ReportedContentClassifiers_RESOLVED
-	ReportedContentClassifiers_SPAM
+	ReportedContentClassifiers_ABUSE     ReportedContentClassifiers = "ABUSE"
+	ReportedContentClassifiers_DUPLICATE ReportedContentClassifiers = "DUPLICATE"
+	ReportedContentClassifiers_OFF_TOPIC ReportedContentClassifiers = "OFF_TOPIC"
+	ReportedContentClassifiers_OUTDATED  ReportedContentClassifiers = "OUTDATED"
+	ReportedContentClassifiers_RESOLVED  ReportedContentClassifiers = "RESOLVED"
+	ReportedContentClassifiers_SPAM      ReportedContentClassifiers = "SPAM"
 )
 
-type RepositoryAffiliation int
+type RepositoryAffiliation string
 
 const (
-	RepositoryAffiliation_COLLABORATOR RepositoryAffiliation = iota
-	RepositoryAffiliation_ORGANIZATION_MEMBER
-	RepositoryAffiliation_OWNER
+	RepositoryAffiliation_COLLABORATOR        RepositoryAffiliation = "COLLABORATOR"
+	RepositoryAffiliation_ORGANIZATION_MEMBER RepositoryAffiliation = "ORGANIZATION_MEMBER"
+	RepositoryAffiliation_OWNER               RepositoryAffiliation = "OWNER"
 )
 
-type RepositoryContributionType int
+type RepositoryContributionType string
 
 const (
-	RepositoryContributionType_COMMIT RepositoryContributionType = iota
-	RepositoryContributionType_ISSUE
-	RepositoryContributionType_PULL_REQUEST
-	RepositoryContributionType_PULL_REQUEST_REVIEW
-	RepositoryContributionType_REPOSITORY
+	RepositoryContributionType_COMMIT              RepositoryContributionType = "COMMIT"
+	RepositoryContributionType_ISSUE               RepositoryContributionType = "ISSUE"
+	RepositoryContributionType_PULL_REQUEST        RepositoryContributionType = "PULL_REQUEST"
+	RepositoryContributionType_PULL_REQUEST_REVIEW RepositoryContributionType = "PULL_REQUEST_REVIEW"
+	RepositoryContributionType_REPOSITORY          RepositoryContributionType = "REPOSITORY"
 )
 
-type RepositoryInteractionLimit int
+type RepositoryInteractionLimit string
 
 const (
-	RepositoryInteractionLimit_COLLABORATORS_ONLY RepositoryInteractionLimit = iota
-	RepositoryInteractionLimit_CONTRIBUTORS_ONLY
-	RepositoryInteractionLimit_EXISTING_USERS
-	RepositoryInteractionLimit_NO_LIMIT
+	RepositoryInteractionLimit_COLLABORATORS_ONLY RepositoryInteractionLimit = "COLLABORATORS_ONLY"
+	RepositoryInteractionLimit_CONTRIBUTORS_ONLY  RepositoryInteractionLimit = "CONTRIBUTORS_ONLY"
+	RepositoryInteractionLimit_EXISTING_USERS     RepositoryInteractionLimit = "EXISTING_USERS"
+	RepositoryInteractionLimit_NO_LIMIT           RepositoryInteractionLimit = "NO_LIMIT"
 )
 
-type RepositoryInteractionLimitExpiry int
+type RepositoryInteractionLimitExpiry string
 
 const (
-	RepositoryInteractionLimitExpiry_ONE_DAY RepositoryInteractionLimitExpiry = iota
-	RepositoryInteractionLimitExpiry_ONE_MONTH
-	RepositoryInteractionLimitExpiry_ONE_WEEK
-	RepositoryInteractionLimitExpiry_SIX_MONTHS
-	RepositoryInteractionLimitExpiry_THREE_DAYS
+	RepositoryInteractionLimitExpiry_ONE_DAY    RepositoryInteractionLimitExpiry = "ONE_DAY"
+	RepositoryInteractionLimitExpiry_ONE_MONTH  RepositoryInteractionLimitExpiry = "ONE_MONTH"
+	RepositoryInteractionLimitExpiry_ONE_WEEK   RepositoryInteractionLimitExpiry = "ONE_WEEK"
+	RepositoryInteractionLimitExpiry_SIX_MONTHS RepositoryInteractionLimitExpiry = "SIX_MONTHS"
+	RepositoryInteractionLimitExpiry_THREE_DAYS RepositoryInteractionLimitExpiry = "THREE_DAYS"
 )
 
-type RepositoryInteractionLimitOrigin int
+type RepositoryInteractionLimitOrigin string
 
 const (
-	RepositoryInteractionLimitOrigin_ORGANIZATION RepositoryInteractionLimitOrigin = iota
-	RepositoryInteractionLimitOrigin_REPOSITORY
-	RepositoryInteractionLimitOrigin_USER
+	RepositoryInteractionLimitOrigin_ORGANIZATION RepositoryInteractionLimitOrigin = "ORGANIZATION"
+	RepositoryInteractionLimitOrigin_REPOSITORY   RepositoryInteractionLimitOrigin = "REPOSITORY"
+	RepositoryInteractionLimitOrigin_USER         RepositoryInteractionLimitOrigin = "USER"
 )
 
-type RepositoryInvitationOrderField int
+type RepositoryInvitationOrderField string
 
 const (
-	RepositoryInvitationOrderField_CREATED_AT RepositoryInvitationOrderField = iota
-	RepositoryInvitationOrderField_INVITEE_LOGIN
+	RepositoryInvitationOrderField_CREATED_AT    RepositoryInvitationOrderField = "CREATED_AT"
+	RepositoryInvitationOrderField_INVITEE_LOGIN RepositoryInvitationOrderField = "INVITEE_LOGIN"
 )
 
-type RepositoryLockReason int
+type RepositoryLockReason string
 
 const (
-	RepositoryLockReason_BILLING RepositoryLockReason = iota
-	RepositoryLockReason_MIGRATING
-	RepositoryLockReason_MOVING
-	RepositoryLockReason_RENAME
+	RepositoryLockReason_BILLING   RepositoryLockReason = "BILLING"
+	RepositoryLockReason_MIGRATING RepositoryLockReason = "MIGRATING"
+	RepositoryLockReason_MOVING    RepositoryLockReason = "MOVING"
+	RepositoryLockReason_RENAME    RepositoryLockReason = "RENAME"
 )
 
-type RepositoryOrderField int
+type RepositoryOrderField string
 
 const (
-	RepositoryOrderField_CREATED_AT RepositoryOrderField = iota
-	RepositoryOrderField_NAME
-	RepositoryOrderField_PUSHED_AT
-	RepositoryOrderField_STARGAZERS
-	RepositoryOrderField_UPDATED_AT
+	RepositoryOrderField_CREATED_AT RepositoryOrderField = "CREATED_AT"
+	RepositoryOrderField_NAME       RepositoryOrderField = "NAME"
+	RepositoryOrderField_PUSHED_AT  RepositoryOrderField = "PUSHED_AT"
+	RepositoryOrderField_STARGAZERS RepositoryOrderField = "STARGAZERS"
+	RepositoryOrderField_UPDATED_AT RepositoryOrderField = "UPDATED_AT"
 )
 
-type RepositoryPermission int
+type RepositoryPermission string
 
 const (
-	RepositoryPermission_ADMIN RepositoryPermission = iota
-	RepositoryPermission_MAINTAIN
-	RepositoryPermission_READ
-	RepositoryPermission_TRIAGE
-	RepositoryPermission_WRITE
+	RepositoryPermission_ADMIN    RepositoryPermission = "ADMIN"
+	RepositoryPermission_MAINTAIN RepositoryPermission = "MAINTAIN"
+	RepositoryPermission_READ     RepositoryPermission = "READ"
+	RepositoryPermission_TRIAGE   RepositoryPermission = "TRIAGE"
+	RepositoryPermission_WRITE    RepositoryPermission = "WRITE"
 )
 
-type RepositoryPrivacy int
+type RepositoryPrivacy string
 
 const (
-	RepositoryPrivacy_PRIVATE RepositoryPrivacy = iota
-	RepositoryPrivacy_PUBLIC
+	RepositoryPrivacy_PRIVATE RepositoryPrivacy = "PRIVATE"
+	RepositoryPrivacy_PUBLIC  RepositoryPrivacy = "PUBLIC"
 )
 
-type RepositoryVisibility int
+type RepositoryVisibility string
 
 const (
-	RepositoryVisibility_INTERNAL RepositoryVisibility = iota
-	RepositoryVisibility_PRIVATE
-	RepositoryVisibility_PUBLIC
+	RepositoryVisibility_INTERNAL RepositoryVisibility = "INTERNAL"
+	RepositoryVisibility_PRIVATE  RepositoryVisibility = "PRIVATE"
+	RepositoryVisibility_PUBLIC   RepositoryVisibility = "PUBLIC"
 )
 
-type RequestableCheckStatusState int
+type RequestableCheckStatusState string
 
 const (
-	RequestableCheckStatusState_COMPLETED RequestableCheckStatusState = iota
-	RequestableCheckStatusState_IN_PROGRESS
-	RequestableCheckStatusState_PENDING
-	RequestableCheckStatusState_QUEUED
-	RequestableCheckStatusState_WAITING
+	RequestableCheckStatusState_COMPLETED   RequestableCheckStatusState = "COMPLETED"
+	RequestableCheckStatusState_IN_PROGRESS RequestableCheckStatusState = "IN_PROGRESS"
+	RequestableCheckStatusState_PENDING     RequestableCheckStatusState = "PENDING"
+	RequestableCheckStatusState_QUEUED      RequestableCheckStatusState = "QUEUED"
+	RequestableCheckStatusState_WAITING     RequestableCheckStatusState = "WAITING"
 )
 
-type SamlDigestAlgorithm int
+type SamlDigestAlgorithm string
 
 const (
-	SamlDigestAlgorithm_SHA1 SamlDigestAlgorithm = iota
-	SamlDigestAlgorithm_SHA256
-	SamlDigestAlgorithm_SHA384
-	SamlDigestAlgorithm_SHA512
+	SamlDigestAlgorithm_SHA1   SamlDigestAlgorithm = "SHA1"
+	SamlDigestAlgorithm_SHA256 SamlDigestAlgorithm = "SHA256"
+	SamlDigestAlgorithm_SHA384 SamlDigestAlgorithm = "SHA384"
+	SamlDigestAlgorithm_SHA512 SamlDigestAlgorithm = "SHA512"
 )
 
-type SamlSignatureAlgorithm int
+type SamlSignatureAlgorithm string
 
 const (
-	SamlSignatureAlgorithm_RSA_SHA1 SamlSignatureAlgorithm = iota
-	SamlSignatureAlgorithm_RSA_SHA256
-	SamlSignatureAlgorithm_RSA_SHA384
-	SamlSignatureAlgorithm_RSA_SHA512
+	SamlSignatureAlgorithm_RSA_SHA1   SamlSignatureAlgorithm = "RSA_SHA1"
+	SamlSignatureAlgorithm_RSA_SHA256 SamlSignatureAlgorithm = "RSA_SHA256"
+	SamlSignatureAlgorithm_RSA_SHA384 SamlSignatureAlgorithm = "RSA_SHA384"
+	SamlSignatureAlgorithm_RSA_SHA512 SamlSignatureAlgorithm = "RSA_SHA512"
 )
 
-type SavedReplyOrderField int
+type SavedReplyOrderField string
 
 const (
-	SavedReplyOrderField_UPDATED_AT SavedReplyOrderField = iota
+	SavedReplyOrderField_UPDATED_AT SavedReplyOrderField = "UPDATED_AT"
 )
 
-type SearchType int
+type SearchType string
 
 const (
-	SearchType_DISCUSSION SearchType = iota
-	SearchType_ISSUE
-	SearchType_REPOSITORY
-	SearchType_USER
+	SearchType_DISCUSSION SearchType = "DISCUSSION"
+	SearchType_ISSUE      SearchType = "ISSUE"
+	SearchType_REPOSITORY SearchType = "REPOSITORY"
+	SearchType_USER       SearchType = "USER"
 )
 
-type SecurityAdvisoryEcosystem int
+type SecurityAdvisoryEcosystem string
 
 const (
-	SecurityAdvisoryEcosystem_COMPOSER SecurityAdvisoryEcosystem = iota
-	SecurityAdvisoryEcosystem_GO
-	SecurityAdvisoryEcosystem_MAVEN
-	SecurityAdvisoryEcosystem_NPM
-	SecurityAdvisoryEcosystem_NUGET
-	SecurityAdvisoryEcosystem_OTHER
-	SecurityAdvisoryEcosystem_PIP
-	SecurityAdvisoryEcosystem_RUBYGEMS
+	SecurityAdvisoryEcosystem_COMPOSER SecurityAdvisoryEcosystem = "COMPOSER"
+	SecurityAdvisoryEcosystem_GO       SecurityAdvisoryEcosystem = "GO"
+	SecurityAdvisoryEcosystem_MAVEN    SecurityAdvisoryEcosystem = "MAVEN"
+	SecurityAdvisoryEcosystem_NPM      SecurityAdvisoryEcosystem = "NPM"
+	SecurityAdvisoryEcosystem_NUGET    SecurityAdvisoryEcosystem = "NUGET"
+	SecurityAdvisoryEcosystem_OTHER    SecurityAdvisoryEcosystem = "OTHER"
+	SecurityAdvisoryEcosystem_PIP      SecurityAdvisoryEcosystem = "PIP"
+	SecurityAdvisoryEcosystem_RUBYGEMS SecurityAdvisoryEcosystem = "RUBYGEMS"
 )
 
-type SecurityAdvisoryIdentifierType int
+type SecurityAdvisoryIdentifierType string
 
 const (
-	SecurityAdvisoryIdentifierType_CVE SecurityAdvisoryIdentifierType = iota
-	SecurityAdvisoryIdentifierType_GHSA
+	SecurityAdvisoryIdentifierType_CVE  SecurityAdvisoryIdentifierType = "CVE"
+	SecurityAdvisoryIdentifierType_GHSA SecurityAdvisoryIdentifierType = "GHSA"
 )
 
-type SecurityAdvisoryOrderField int
+type SecurityAdvisoryOrderField string
 
 const (
-	SecurityAdvisoryOrderField_PUBLISHED_AT SecurityAdvisoryOrderField = iota
-	SecurityAdvisoryOrderField_UPDATED_AT
+	SecurityAdvisoryOrderField_PUBLISHED_AT SecurityAdvisoryOrderField = "PUBLISHED_AT"
+	SecurityAdvisoryOrderField_UPDATED_AT   SecurityAdvisoryOrderField = "UPDATED_AT"
 )
 
-type SecurityAdvisorySeverity int
+type SecurityAdvisorySeverity string
 
 const (
-	SecurityAdvisorySeverity_CRITICAL SecurityAdvisorySeverity = iota
-	SecurityAdvisorySeverity_HIGH
-	SecurityAdvisorySeverity_LOW
-	SecurityAdvisorySeverity_MODERATE
+	SecurityAdvisorySeverity_CRITICAL SecurityAdvisorySeverity = "CRITICAL"
+	SecurityAdvisorySeverity_HIGH     SecurityAdvisorySeverity = "HIGH"
+	SecurityAdvisorySeverity_LOW      SecurityAdvisorySeverity = "LOW"
+	SecurityAdvisorySeverity_MODERATE SecurityAdvisorySeverity = "MODERATE"
 )
 
-type SecurityVulnerabilityOrderField int
+type SecurityVulnerabilityOrderField string
 
 const (
-	SecurityVulnerabilityOrderField_UPDATED_AT SecurityVulnerabilityOrderField = iota
+	SecurityVulnerabilityOrderField_UPDATED_AT SecurityVulnerabilityOrderField = "UPDATED_AT"
 )
 
-type SponsorableOrderField int
+type SponsorableOrderField string
 
 const (
-	SponsorableOrderField_LOGIN SponsorableOrderField = iota
+	SponsorableOrderField_LOGIN SponsorableOrderField = "LOGIN"
 )
 
-type SponsorsActivityAction int
+type SponsorsActivityAction string
 
 const (
-	SponsorsActivityAction_CANCELLED_SPONSORSHIP SponsorsActivityAction = iota
-	SponsorsActivityAction_NEW_SPONSORSHIP
-	SponsorsActivityAction_PENDING_CHANGE
-	SponsorsActivityAction_REFUND
-	SponsorsActivityAction_SPONSOR_MATCH_DISABLED
-	SponsorsActivityAction_TIER_CHANGE
+	SponsorsActivityAction_CANCELLED_SPONSORSHIP  SponsorsActivityAction = "CANCELLED_SPONSORSHIP"
+	SponsorsActivityAction_NEW_SPONSORSHIP        SponsorsActivityAction = "NEW_SPONSORSHIP"
+	SponsorsActivityAction_PENDING_CHANGE         SponsorsActivityAction = "PENDING_CHANGE"
+	SponsorsActivityAction_REFUND                 SponsorsActivityAction = "REFUND"
+	SponsorsActivityAction_SPONSOR_MATCH_DISABLED SponsorsActivityAction = "SPONSOR_MATCH_DISABLED"
+	SponsorsActivityAction_TIER_CHANGE            SponsorsActivityAction = "TIER_CHANGE"
 )
 
-type SponsorsActivityOrderField int
+type SponsorsActivityOrderField string
 
 const (
-	SponsorsActivityOrderField_TIMESTAMP SponsorsActivityOrderField = iota
+	SponsorsActivityOrderField_TIMESTAMP SponsorsActivityOrderField = "TIMESTAMP"
 )
 
-type SponsorsActivityPeriod int
+type SponsorsActivityPeriod string
 
 const (
-	SponsorsActivityPeriod_ALL SponsorsActivityPeriod = iota
-	SponsorsActivityPeriod_DAY
-	SponsorsActivityPeriod_MONTH
-	SponsorsActivityPeriod_WEEK
+	SponsorsActivityPeriod_ALL   SponsorsActivityPeriod = "ALL"
+	SponsorsActivityPeriod_DAY   SponsorsActivityPeriod = "DAY"
+	SponsorsActivityPeriod_MONTH SponsorsActivityPeriod = "MONTH"
+	SponsorsActivityPeriod_WEEK  SponsorsActivityPeriod = "WEEK"
 )
 
-type SponsorsGoalKind int
+type SponsorsGoalKind string
 
 const (
-	SponsorsGoalKind_MONTHLY_SPONSORSHIP_AMOUNT SponsorsGoalKind = iota
-	SponsorsGoalKind_TOTAL_SPONSORS_COUNT
+	SponsorsGoalKind_MONTHLY_SPONSORSHIP_AMOUNT SponsorsGoalKind = "MONTHLY_SPONSORSHIP_AMOUNT"
+	SponsorsGoalKind_TOTAL_SPONSORS_COUNT       SponsorsGoalKind = "TOTAL_SPONSORS_COUNT"
 )
 
-type SponsorsTierOrderField int
+type SponsorsTierOrderField string
 
 const (
-	SponsorsTierOrderField_CREATED_AT SponsorsTierOrderField = iota
-	SponsorsTierOrderField_MONTHLY_PRICE_IN_CENTS
+	SponsorsTierOrderField_CREATED_AT             SponsorsTierOrderField = "CREATED_AT"
+	SponsorsTierOrderField_MONTHLY_PRICE_IN_CENTS SponsorsTierOrderField = "MONTHLY_PRICE_IN_CENTS"
 )
 
-type SponsorshipOrderField int
+type SponsorshipOrderField string
 
 const (
-	SponsorshipOrderField_CREATED_AT SponsorshipOrderField = iota
+	SponsorshipOrderField_CREATED_AT SponsorshipOrderField = "CREATED_AT"
 )
 
-type SponsorshipPrivacy int
+type SponsorshipPrivacy string
 
 const (
-	SponsorshipPrivacy_PRIVATE SponsorshipPrivacy = iota
-	SponsorshipPrivacy_PUBLIC
+	SponsorshipPrivacy_PRIVATE SponsorshipPrivacy = "PRIVATE"
+	SponsorshipPrivacy_PUBLIC  SponsorshipPrivacy = "PUBLIC"
 )
 
-type StarOrderField int
+type StarOrderField string
 
 const (
-	StarOrderField_STARRED_AT StarOrderField = iota
+	StarOrderField_STARRED_AT StarOrderField = "STARRED_AT"
 )
 
-type StatusState int
+type StatusState string
 
 const (
-	StatusState_ERROR StatusState = iota
-	StatusState_EXPECTED
-	StatusState_FAILURE
-	StatusState_PENDING
-	StatusState_SUCCESS
+	StatusState_ERROR    StatusState = "ERROR"
+	StatusState_EXPECTED StatusState = "EXPECTED"
+	StatusState_FAILURE  StatusState = "FAILURE"
+	StatusState_PENDING  StatusState = "PENDING"
+	StatusState_SUCCESS  StatusState = "SUCCESS"
 )
 
-type SubscriptionState int
+type SubscriptionState string
 
 const (
-	SubscriptionState_IGNORED SubscriptionState = iota
-	SubscriptionState_SUBSCRIBED
-	SubscriptionState_UNSUBSCRIBED
+	SubscriptionState_IGNORED      SubscriptionState = "IGNORED"
+	SubscriptionState_SUBSCRIBED   SubscriptionState = "SUBSCRIBED"
+	SubscriptionState_UNSUBSCRIBED SubscriptionState = "UNSUBSCRIBED"
 )
 
-type TeamDiscussionCommentOrderField int
+type TeamDiscussionCommentOrderField string
 
 const (
-	TeamDiscussionCommentOrderField_NUMBER TeamDiscussionCommentOrderField = iota
+	TeamDiscussionCommentOrderField_NUMBER TeamDiscussionCommentOrderField = "NUMBER"
 )
 
-type TeamDiscussionOrderField int
+type TeamDiscussionOrderField string
 
 const (
-	TeamDiscussionOrderField_CREATED_AT TeamDiscussionOrderField = iota
+	TeamDiscussionOrderField_CREATED_AT TeamDiscussionOrderField = "CREATED_AT"
 )
 
-type TeamMemberOrderField int
+type TeamMemberOrderField string
 
 const (
-	TeamMemberOrderField_CREATED_AT TeamMemberOrderField = iota
-	TeamMemberOrderField_LOGIN
+	TeamMemberOrderField_CREATED_AT TeamMemberOrderField = "CREATED_AT"
+	TeamMemberOrderField_LOGIN      TeamMemberOrderField = "LOGIN"
 )
 
-type TeamMemberRole int
+type TeamMemberRole string
 
 const (
-	TeamMemberRole_MAINTAINER TeamMemberRole = iota
-	TeamMemberRole_MEMBER
+	TeamMemberRole_MAINTAINER TeamMemberRole = "MAINTAINER"
+	TeamMemberRole_MEMBER     TeamMemberRole = "MEMBER"
 )
 
-type TeamMembershipType int
+type TeamMembershipType string
 
 const (
-	TeamMembershipType_ALL TeamMembershipType = iota
-	TeamMembershipType_CHILD_TEAM
-	TeamMembershipType_IMMEDIATE
+	TeamMembershipType_ALL        TeamMembershipType = "ALL"
+	TeamMembershipType_CHILD_TEAM TeamMembershipType = "CHILD_TEAM"
+	TeamMembershipType_IMMEDIATE  TeamMembershipType = "IMMEDIATE"
 )
 
-type TeamOrderField int
+type TeamOrderField string
 
 const (
-	TeamOrderField_NAME TeamOrderField = iota
+	TeamOrderField_NAME TeamOrderField = "NAME"
 )
 
-type TeamPrivacy int
+type TeamPrivacy string
 
 const (
-	TeamPrivacy_SECRET TeamPrivacy = iota
-	TeamPrivacy_VISIBLE
+	TeamPrivacy_SECRET  TeamPrivacy = "SECRET"
+	TeamPrivacy_VISIBLE TeamPrivacy = "VISIBLE"
 )
 
-type TeamRepositoryOrderField int
+type TeamRepositoryOrderField string
 
 const (
-	TeamRepositoryOrderField_CREATED_AT TeamRepositoryOrderField = iota
-	TeamRepositoryOrderField_NAME
-	TeamRepositoryOrderField_PERMISSION
-	TeamRepositoryOrderField_PUSHED_AT
-	TeamRepositoryOrderField_STARGAZERS
-	TeamRepositoryOrderField_UPDATED_AT
+	TeamRepositoryOrderField_CREATED_AT TeamRepositoryOrderField = "CREATED_AT"
+	TeamRepositoryOrderField_NAME       TeamRepositoryOrderField = "NAME"
+	TeamRepositoryOrderField_PERMISSION TeamRepositoryOrderField = "PERMISSION"
+	TeamRepositoryOrderField_PUSHED_AT  TeamRepositoryOrderField = "PUSHED_AT"
+	TeamRepositoryOrderField_STARGAZERS TeamRepositoryOrderField = "STARGAZERS"
+	TeamRepositoryOrderField_UPDATED_AT TeamRepositoryOrderField = "UPDATED_AT"
 )
 
-type TeamReviewAssignmentAlgorithm int
+type TeamReviewAssignmentAlgorithm string
 
 const (
-	TeamReviewAssignmentAlgorithm_LOAD_BALANCE TeamReviewAssignmentAlgorithm = iota
-	TeamReviewAssignmentAlgorithm_ROUND_ROBIN
+	TeamReviewAssignmentAlgorithm_LOAD_BALANCE TeamReviewAssignmentAlgorithm = "LOAD_BALANCE"
+	TeamReviewAssignmentAlgorithm_ROUND_ROBIN  TeamReviewAssignmentAlgorithm = "ROUND_ROBIN"
 )
 
-type TeamRole int
+type TeamRole string
 
 const (
-	TeamRole_ADMIN TeamRole = iota
-	TeamRole_MEMBER
+	TeamRole_ADMIN  TeamRole = "ADMIN"
+	TeamRole_MEMBER TeamRole = "MEMBER"
 )
 
-type TopicSuggestionDeclineReason int
+type TopicSuggestionDeclineReason string
 
 const (
-	TopicSuggestionDeclineReason_NOT_RELEVANT TopicSuggestionDeclineReason = iota
-	TopicSuggestionDeclineReason_PERSONAL_PREFERENCE
-	TopicSuggestionDeclineReason_TOO_GENERAL
-	TopicSuggestionDeclineReason_TOO_SPECIFIC
+	TopicSuggestionDeclineReason_NOT_RELEVANT        TopicSuggestionDeclineReason = "NOT_RELEVANT"
+	TopicSuggestionDeclineReason_PERSONAL_PREFERENCE TopicSuggestionDeclineReason = "PERSONAL_PREFERENCE"
+	TopicSuggestionDeclineReason_TOO_GENERAL         TopicSuggestionDeclineReason = "TOO_GENERAL"
+	TopicSuggestionDeclineReason_TOO_SPECIFIC        TopicSuggestionDeclineReason = "TOO_SPECIFIC"
 )
 
-type UserBlockDuration int
+type UserBlockDuration string
 
 const (
-	UserBlockDuration_ONE_DAY UserBlockDuration = iota
-	UserBlockDuration_ONE_MONTH
-	UserBlockDuration_ONE_WEEK
-	UserBlockDuration_PERMANENT
-	UserBlockDuration_THREE_DAYS
+	UserBlockDuration_ONE_DAY    UserBlockDuration = "ONE_DAY"
+	UserBlockDuration_ONE_MONTH  UserBlockDuration = "ONE_MONTH"
+	UserBlockDuration_ONE_WEEK   UserBlockDuration = "ONE_WEEK"
+	UserBlockDuration_PERMANENT  UserBlockDuration = "PERMANENT"
+	UserBlockDuration_THREE_DAYS UserBlockDuration = "THREE_DAYS"
 )
 
-type UserStatusOrderField int
+type UserStatusOrderField string
 
 const (
-	UserStatusOrderField_UPDATED_AT UserStatusOrderField = iota
+	UserStatusOrderField_UPDATED_AT UserStatusOrderField = "UPDATED_AT"
 )
 
-type VerifiableDomainOrderField int
+type VerifiableDomainOrderField string
 
 const (
-	VerifiableDomainOrderField_CREATED_AT VerifiableDomainOrderField = iota
-	VerifiableDomainOrderField_DOMAIN
+	VerifiableDomainOrderField_CREATED_AT VerifiableDomainOrderField = "CREATED_AT"
+	VerifiableDomainOrderField_DOMAIN     VerifiableDomainOrderField = "DOMAIN"
 )
 
 type AcceptEnterpriseAdministratorInvitationInput struct {

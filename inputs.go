@@ -112,14 +112,10 @@ var inputsTemplate string = `
 package {{ .PackageName }}
 
 {{- range $obj := .EnumTypes}}
-type {{ $obj.Name }} int
+type {{ $obj.Name }} string
 const (
-	{{- range $index, $value := $obj.Values }}
-		{{- if not $index }}
-			{{ $obj.Name }}_{{ $value }} {{ $obj.Name }} = iota
-		{{- else }}
-			{{ $obj.Name }}_{{ $value }}
-		{{- end }}
+	{{- range $value := $obj.Values }}
+			{{ $obj.Name }}_{{ $value }} {{ $obj.Name }} = "{{ $value }}"
 	{{- end }}
 )
 

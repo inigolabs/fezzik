@@ -2,12 +2,12 @@ package basic
 
 import "time"
 
-type OneEnum int
+type OneEnum string
 
 const (
-	OneEnum_ValA OneEnum = iota
-	OneEnum_ValB
-	OneEnum_ValC
+	OneEnum_ValA OneEnum = "ValA"
+	OneEnum_ValB OneEnum = "ValB"
+	OneEnum_ValC OneEnum = "ValC"
 )
 
 type OneInput struct {
