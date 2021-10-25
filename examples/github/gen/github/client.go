@@ -7,7 +7,7 @@ import (
 	"github.com/machinebox/graphql"
 )
 
-type ClientInterface interface {
+type Client interface {
 	GetInfo(ctx context.Context, input *GetInfoInputArgs) (*GetInfoResponse, error)
 	CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (*CreatePullRequestResponse, error)
 	UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (*UpdatePullRequestResponse, error)
@@ -16,7 +16,7 @@ type ClientInterface interface {
 	ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (*ClosePullRequestResponse, error)
 }
 
-func NewClient(url string, httpclient *http.Client) ClientInterface {
+func NewClient(url string, httpclient *http.Client) Client {
 	if httpclient != nil {
 		return &client{
 			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),

@@ -344,7 +344,7 @@ package {{ .PackageName }}
 
 import "github.com/machinebox/graphql"
 
-type ClientInterface interface {
+type Client interface {
 {{- range $operation := .Operations }}
 {{- if len $operation.Inputs }}
 	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, error)
@@ -354,7 +354,7 @@ type ClientInterface interface {
 {{- end }}
 }
 
-func NewClient(url string, httpclient *http.Client) ClientInterface {
+func NewClient(url string, httpclient *http.Client) Client {
 	if httpclient != nil {
 		return &client{
 			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
