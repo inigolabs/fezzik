@@ -310,10 +310,10 @@ type {{ $operation.Name }}Response struct {
 }
 
 {{ if len $operation.Inputs }}
-func (c *Client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
+func (c *client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
 	*{{ $operation.Name }}Response, error) {
 {{ else }}
-func (c *Client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
+func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
 {{ end }}
 
 	q := graphql.NewRequest({{ $operation.Name }}Operation)
@@ -344,19 +344,29 @@ package {{ .PackageName }}
 
 import "github.com/machinebox/graphql"
 
-func NewClient(url string, httpclient *http.Client) *Client {
+type ClientInterface interface {
+{{- range $operation := .Operations }}
+{{- if len $operation.Inputs }}
+	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, error)
+{{- else }}
+	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error)
+{{- end }}	
+{{- end }}
+}
+
+func NewClient(url string, httpclient *http.Client) ClientInterface {
 	if httpclient != nil {
-		return &Client{
+		return &client{
 			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
 		}
 	} else {
-		return &Client{
+		return &client{
 			gql: graphql.NewClient(url),
 		}
 	}
 }
 
-type Client struct {
+type client struct {
 	gql *graphql.Client
 }
 `

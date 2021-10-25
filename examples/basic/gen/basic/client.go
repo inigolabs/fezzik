@@ -1,23 +1,31 @@
 package basic
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/machinebox/graphql"
 )
 
-func NewClient(url string, httpclient *http.Client) *Client {
+type ClientInterface interface {
+	OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error)
+	OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error)
+	QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (*QueryWithInputsResponse, error)
+	OneAdd(ctx context.Context, input *OneAddInputArgs) (*OneAddResponse, error)
+}
+
+func NewClient(url string, httpclient *http.Client) ClientInterface {
 	if httpclient != nil {
-		return &Client{
+		return &client{
 			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
 		}
 	} else {
-		return &Client{
+		return &client{
 			gql: graphql.NewClient(url),
 		}
 	}
 }
 
-type Client struct {
+type client struct {
 	gql *graphql.Client
 }

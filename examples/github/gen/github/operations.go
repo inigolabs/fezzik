@@ -85,7 +85,7 @@ type GetInfoResponse struct {
 	}
 }
 
-func (c *Client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
+func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	*GetInfoResponse, error) {
 
 	q := graphql.NewRequest(GetInfoOperation)
@@ -131,7 +131,7 @@ type CreatePullRequestResponse struct {
 	}
 }
 
-func (c *Client) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
+func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
 	*CreatePullRequestResponse, error) {
 
 	q := graphql.NewRequest(CreatePullRequestOperation)
@@ -174,7 +174,7 @@ type UpdatePullRequestResponse struct {
 	}
 }
 
-func (c *Client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
+func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
 	*UpdatePullRequestResponse, error) {
 
 	q := graphql.NewRequest(UpdatePullRequestOperation)
@@ -213,7 +213,7 @@ type CommentPullRequestResponse struct {
 	}
 }
 
-func (c *Client) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
+func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
 	*CommentPullRequestResponse, error) {
 
 	q := graphql.NewRequest(CommentPullRequestOperation)
@@ -256,7 +256,7 @@ type MergePullRequestResponse struct {
 	}
 }
 
-func (c *Client) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
+func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
 	*MergePullRequestResponse, error) {
 
 	q := graphql.NewRequest(MergePullRequestOperation)
@@ -299,7 +299,7 @@ type ClosePullRequestResponse struct {
 	}
 }
 
-func (c *Client) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
+func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
 	*ClosePullRequestResponse, error) {
 
 	q := graphql.NewRequest(ClosePullRequestOperation)

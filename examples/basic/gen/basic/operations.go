@@ -30,7 +30,7 @@ type OneAllTypesResponse struct {
 	}
 }
 
-func (c *Client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) {
+func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) {
 
 	q := graphql.NewRequest(OneAllTypesOperation)
 	var resp map[string]interface{}
@@ -75,7 +75,7 @@ type OneWithSubSelectionsResponse struct {
 	}
 }
 
-func (c *Client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error) {
+func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error) {
 
 	q := graphql.NewRequest(OneWithSubSelectionsOperation)
 	var resp map[string]interface{}
@@ -119,7 +119,7 @@ type QueryWithInputsResponse struct {
 	}
 }
 
-func (c *Client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (
+func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (
 	*QueryWithInputsResponse, error) {
 
 	q := graphql.NewRequest(QueryWithInputsOperation)
@@ -155,7 +155,7 @@ type OneAddResponse struct {
 	OneAdd *string
 }
 
-func (c *Client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
+func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 	*OneAddResponse, error) {
 
 	q := graphql.NewRequest(OneAddOperation)
