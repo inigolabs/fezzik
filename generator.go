@@ -42,9 +42,6 @@ func Generate(cfg *Config) {
 	schema, err := parseSchema(schemaBuilder.String())
 	check(err)
 
-	if cfg.PackageName == "mocks" {
-		panic("PackageName cannot be 'mocks'")
-	}
 	genPath := filepath.Join(cfg.PackageDir, cfg.PackageName)
 	err = os.MkdirAll(genPath, os.ModePerm)
 	check(err)
@@ -78,7 +75,7 @@ func Generate(cfg *Config) {
 	check(err)
 	templateStr = strings.ReplaceAll(clientTemplate, "~~", "`")
 	generate(templateStr, visitor.info, writer)
-	generateMocks()
+	generateMocks(cfg)
 }
 
 func parseSchema(schemaString string) (*ast.Document, error) {
@@ -140,42 +137,42 @@ func generate(templateStr string, info interface{}, writer io.Writer) {
 	check(err)
 }
 
-func generateMocks() {
-	cfg := mockery_config.Config{
-		All:            true,
+func generateMocks(cfg *Config) {
+	mcfg := mockery_config.Config{
+		Name:           "Client",
 		Case:           "underscore",
 		Dir:            ".",
 		LogLevel:       "error",
 		Outpkg:         "mocks",
-		Output:         "gen/mocks",
+		Output:         filepath.Join(cfg.PackageDir, cfg.PackageName, "mocks"),
 		UnrollVariadic: true,
 	}
 
 	osp := &mockery.FileOutputStreamProvider{
-		Config:                    cfg,
-		BaseDir:                   cfg.Output,
-		InPackage:                 cfg.InPackage,
-		TestOnly:                  cfg.TestOnly,
-		Case:                      cfg.Case,
-		KeepTree:                  cfg.KeepTree,
-		KeepTreeOriginalDirectory: cfg.Dir,
-		FileName:                  cfg.FileName,
+		Config:                    mcfg,
+		BaseDir:                   mcfg.Output,
+		InPackage:                 mcfg.InPackage,
+		TestOnly:                  mcfg.TestOnly,
+		Case:                      mcfg.Case,
+		KeepTree:                  mcfg.KeepTree,
+		KeepTreeOriginalDirectory: mcfg.Dir,
+		FileName:                  mcfg.FileName,
 	}
 
 	visitor := &mockery.GeneratorVisitor{
-		Config:            cfg,
-		InPackage:         cfg.InPackage,
-		Note:              cfg.Note,
+		Config:            mcfg,
+		InPackage:         mcfg.InPackage,
+		Note:              mcfg.Note,
 		Boilerplate:       "",
 		Osp:               osp,
-		PackageName:       cfg.Outpkg,
-		PackageNamePrefix: cfg.Packageprefix,
-		StructName:        cfg.StructName,
+		PackageName:       mcfg.Outpkg,
+		PackageNamePrefix: mcfg.Packageprefix,
+		StructName:        mcfg.StructName,
 	}
 
 	walker := mockery.Walker{
-		Config:    cfg,
-		BaseDir:   cfg.Dir,
+		Config:    mcfg,
+		BaseDir:   mcfg.Dir,
 		Recursive: true,
 		Filter:    regexp.MustCompile(".*"),
 		LimitOne:  false,
