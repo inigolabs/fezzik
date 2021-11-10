@@ -31,6 +31,7 @@ func main() {
 			"GitObjectID": "string",
 			"GitRefname":  "string",
 		},
+		GenerateMocks: true,
 	}
 	fezzik.Generate(cfg)
 }

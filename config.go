@@ -11,4 +11,6 @@ type Config struct {
 	ScalarTypeMap map[string]string `yaml:"scalar_type_map"`
 
 	DirectiveStructSuffix string
+
+	GenerateMocks bool
 }

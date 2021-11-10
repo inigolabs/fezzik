@@ -83,7 +83,10 @@ func Generate(cfg *Config) {
 	check(err)
 	templateStr = strings.ReplaceAll(clientTemplate, "~~", "`")
 	generate(templateStr, visitor.info, writer)
-	generateMocks(cfg)
+
+	if cfg.GenerateMocks {
+		generateMocks(cfg)
+	}
 }
 
 func parseSchema(schemaString string) (*ast.Document, error) {
