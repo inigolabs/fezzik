@@ -25,8 +25,19 @@ import (
 )
 
 func Generate(cfg *Config) {
-	schemaFiles, err := filepath.Glob(cfg.Schemas)
-	check(err)
+	var schemaFiles []string
+	for _, schemaGlob := range cfg.Schemas {
+		files, err := filepath.Glob(schemaGlob)
+		check(err)
+		schemaFiles = append(schemaFiles, files...)
+	}
+
+	var operationFiles []string
+	for _, operationGlob := range cfg.Operations {
+		files, err := filepath.Glob(operationGlob)
+		check(err)
+		operationFiles = append(operationFiles, files...)
+	}
 
 	// parse schema
 	schemaBuilder := new(strings.Builder)
@@ -56,8 +67,6 @@ func Generate(cfg *Config) {
 
 	// walk operations
 	visitor := NewVisitor(cfg, schema, inputVisitor.info)
-	operationFiles, err := filepath.Glob(cfg.Operations)
-	check(err)
 	for _, operationFile := range operationFiles {
 		operationStr := common.FileRead(operationFile)
 		operation, err := parseOperation(operationStr, schema)
