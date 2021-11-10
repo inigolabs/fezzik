@@ -17,8 +17,8 @@ func init() {
 
 func main() {
 	cfg := &fezzik.Config{
-		Schemas:    "schemas/*.graphql",
-		Operations: "operations/*.graphql",
+		Schemas:    []string{"schemas/*.graphql"},
+		Operations: []string{"operations/*.graphql"},
 
 		PackageName: "github",
 		PackageDir:  "gen",
