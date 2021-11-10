@@ -41,11 +41,10 @@ func Generate(cfg *Config) {
 
 	// parse schema
 	schemaBuilder := new(strings.Builder)
-	schemaBuilder.WriteString("scalar ID\n")
-	schemaBuilder.WriteString("scalar Int\n")
-	schemaBuilder.WriteString("scalar String\n")
-	schemaBuilder.WriteString("scalar Boolean\n")
-	schemaBuilder.WriteString("scalar Float\n")
+	for _, scalar := range cfg.ScalarBuiltIn {
+		schemaBuilder.WriteString("scalar " + scalar + "\n")
+	}
+
 	for _, schemaFileName := range schemaFiles {
 		_, err := io.Copy(schemaBuilder, common.FileReader(schemaFileName))
 		check(err)

@@ -22,6 +22,9 @@ func main() {
 
 		PackageName: "github",
 		PackageDir:  "gen",
+		ScalarBuiltIn: []string{
+			"Int", "ID", "String", "Boolean", "Float",
+		},
 		ScalarTypeMap: map[string]string{
 			"DateTime":    "time.Time",
 			"URI":         "string",
