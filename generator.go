@@ -185,8 +185,8 @@ func generateMocks(cfg *Config) {
 		Config:    mcfg,
 		BaseDir:   mcfg.Dir,
 		Recursive: true,
-		Filter:    regexp.MustCompile(".*"),
-		LimitOne:  false,
+		Filter:    regexp.MustCompile("Client"),
+		LimitOne:  true,
 	}
 
 	ctx := context.Background()
