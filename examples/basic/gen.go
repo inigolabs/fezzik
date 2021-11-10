@@ -28,6 +28,7 @@ func main() {
 		ScalarTypeMap: map[string]string{
 			"Time": "time.Time",
 		},
+		GenerateMocks: true,
 	}
 	fezzik.Generate(cfg)
 }
