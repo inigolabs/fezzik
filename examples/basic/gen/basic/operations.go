@@ -95,19 +95,19 @@ func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelection
 }
 
 var QueryWithInputsOperation string = `
-query QueryWithInputs($inputOne : String, $inputTwo : String) {
-   one(input: $inputOne) {
+query QueryWithInputs($input_one : String, $input_two : String) {
+   one(input: $input_one) {
       oneInt
    }
-   two(input: $inputTwo) {
+   two(input: $input_two) {
       twoInt
    }
 }
 `
 
 type QueryWithInputsInputArgs struct {
-	InputOne *string `json:"inputOne"`
-	InputTwo *string `json:"inputTwo"`
+	InputOne *string `json:"input_one"`
+	InputTwo *string `json:"input_two"`
 }
 
 type QueryWithInputsResponse struct {
@@ -123,8 +123,8 @@ func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInpu
 	*QueryWithInputsResponse, error) {
 
 	q := graphql.NewRequest(QueryWithInputsOperation)
-	q.Var("inputOne", input.InputOne)
-	q.Var("inputTwo", input.InputTwo)
+	q.Var("input_one", input.InputOne)
+	q.Var("input_two", input.InputTwo)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("QueryWithInputs")

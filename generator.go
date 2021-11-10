@@ -20,6 +20,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"golang.org/x/tools/imports"
 
+	"github.com/iancoleman/strcase"
 	mockery "github.com/vektra/mockery/v2/pkg"
 	mockery_config "github.com/vektra/mockery/v2/pkg/config"
 )
@@ -134,7 +135,7 @@ func parseOperation(operationString string, schema *ast.Document) (*ast.Document
 
 func generate(templateStr string, info interface{}, writer io.Writer) {
 	templateFuncs := template.FuncMap{
-		"capitalize": strings.Title,
+		"pascal": strcase.ToCamel,
 	}
 	template := template.Must(template.New("tmpl").Funcs(templateFuncs).Parse(templateStr))
 	var out bytes.Buffer
