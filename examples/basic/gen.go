@@ -22,6 +22,9 @@ func main() {
 
 		PackageName: "basic",
 		PackageDir:  "gen",
+		ScalarBuiltIn: []string{
+			"Int", "ID", "String", "Boolean", "Float",
+		},
 		ScalarTypeMap: map[string]string{
 			"Time": "time.Time",
 		},
