@@ -46,8 +46,8 @@ query GetInfo($repo_owner : String!, $repo_name : String!) {
 `
 
 type GetInfoInputArgs struct {
-	Repo_owner string `json:"repo_owner"`
-	Repo_name  string `json:"repo_name"`
+	RepoOwner string `json:"repo_owner"`
+	RepoName  string `json:"repo_name"`
 }
 
 type GetInfoResponse struct {
@@ -89,8 +89,8 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	*GetInfoResponse, error) {
 
 	q := graphql.NewRequest(GetInfoOperation)
-	q.Var("repo_owner", input.Repo_owner)
-	q.Var("repo_name", input.Repo_name)
+	q.Var("repo_owner", input.RepoOwner)
+	q.Var("repo_name", input.RepoName)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("GetInfo")

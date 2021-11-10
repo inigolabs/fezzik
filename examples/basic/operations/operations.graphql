@@ -21,12 +21,12 @@ query OneWithSubSelections {
 	}
 }
 
-query QueryWithInputs($inputOne : String, $inputTwo : String) {
-	one(input : $inputOne) {
+query QueryWithInputs($input_one : String, $input_two : String) {
+	one(input : $input_one) {
 		oneInt
 	}	
 
-	two(input : $inputTwo) {
+	two(input : $input_two) {
 		twoInt
 	}	
 }

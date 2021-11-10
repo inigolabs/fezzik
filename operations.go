@@ -300,7 +300,7 @@ var {{ $operation.Name }}Operation string = ~~
 {{ if len $operation.Inputs }}
 type {{ $operation.Name }}InputArgs struct {
 {{- range $val := $operation.Inputs }}
-{{ capitalize $val.Name }} {{ $val.Type}} ~~json:"{{ $val.Name }}"~~
+{{ pascal $val.Name }} {{ $val.Type}} ~~json:"{{ $val.Name }}"~~
 {{- end }}
 }
 {{ end }}
@@ -318,7 +318,7 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 
 	q := graphql.NewRequest({{ $operation.Name }}Operation)
 	{{- range $val := $operation.Inputs }}
-	q.Var("{{ $val.Name }}", input.{{ capitalize $val.Name }})
+	q.Var("{{ $val.Name }}", input.{{ pascal $val.Name }})
 	{{- end}}
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)

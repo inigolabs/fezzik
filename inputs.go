@@ -126,9 +126,9 @@ const (
 type {{$obj.Name}} struct {
 {{- range $field := $obj.Fields }}
 	{{- if $field.Type.IsList }}
-		{{ capitalize $field.Name }} []{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
+		{{ pascal $field.Name }} []{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
 	{{- else }}
-		{{ capitalize $field.Name }} {{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
+		{{ pascal $field.Name }} {{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
 	{{- end }}
 {{- end }}
 }
