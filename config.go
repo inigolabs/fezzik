@@ -13,4 +13,5 @@ type Config struct {
 	DirectiveStructSuffix string
 
 	GenerateMocks bool
+	Debug         bool
 }

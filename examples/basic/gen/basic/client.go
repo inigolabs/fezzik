@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/machinebox/graphql"
+	"github.com/rs/zerolog/log"
 )
 
 type Client interface {
@@ -15,14 +16,18 @@ type Client interface {
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
+	var gqlclient *graphql.Client
+
 	if httpclient != nil {
-		return &client{
-			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
-		}
+		gqlclient = graphql.NewClient(url, graphql.WithHTTPClient(httpclient))
 	} else {
-		return &client{
-			gql: graphql.NewClient(url),
-		}
+		gqlclient = graphql.NewClient(url)
+	}
+
+	gqlclient.Log = func(s string) { log.Debug().Msg(s) }
+
+	return &client{
+		gql: gqlclient,
 	}
 }
 

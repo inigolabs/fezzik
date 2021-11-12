@@ -13,6 +13,7 @@ import (
 )
 
 type Info struct {
+	Debug       bool
 	PackageName string
 
 	Operations []*OperationInfo
@@ -59,6 +60,7 @@ func NewVisitor(cfg *Config, schema *ast.Document, inputsInfo *InputRenderInfo) 
 		definition: schema,
 		inputsInfo: inputsInfo,
 		info: &Info{
+			Debug:       cfg.Debug,
 			PackageName: cfg.PackageName,
 		},
 	}
@@ -291,6 +293,8 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
+{{ $root := . }}
+
 {{- range $operation := .Operations }}
 
 var {{ $operation.Name }}Operation string = ~~
@@ -322,14 +326,22 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 	{{- end}}
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
+
+	{{- if $root.Debug }}
 	log.Debug().Interface("resp", resp).Err(err).Msg("{{ $operation.Name }}")
+	{{- end }}
+	
 	if err != nil {
 		return nil, err
 	}
 
 	output := {{ $operation.Name }}Response{}
 	err = mapstructure.Decode(resp, &output)
+	
+	{{- if $root.Debug }}
 	log.Debug().Interface("output", output).Err(err).Msg("{{ $operation.Name }}")
+	{{- end }}
+	
 	if err != nil {
 		return nil, err
 	}
@@ -355,14 +367,20 @@ type Client interface {
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
+	var gqlclient *graphql.Client
+
 	if httpclient != nil {
-		return &client{
-			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
-		}
+		gqlclient = graphql.NewClient(url, graphql.WithHTTPClient(httpclient))
 	} else {
-		return &client{
-			gql: graphql.NewClient(url),
-		}
+		gqlclient = graphql.NewClient(url)
+	}
+
+	{{ if .Debug }}
+	gqlclient.Log = func(s string){ log.Debug().Msg(s) }
+	{{ end }}
+
+	return &client{
+		gql: gqlclient,
 	}
 }
 
