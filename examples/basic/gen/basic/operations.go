@@ -36,6 +36,7 @@ func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) 
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("OneAllTypes")
+
 	if err != nil {
 		return nil, err
 	}
@@ -43,6 +44,7 @@ func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) 
 	output := OneAllTypesResponse{}
 	err = mapstructure.Decode(resp, &output)
 	log.Debug().Interface("output", output).Err(err).Msg("OneAllTypes")
+
 	if err != nil {
 		return nil, err
 	}
@@ -81,6 +83,7 @@ func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelection
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("OneWithSubSelections")
+
 	if err != nil {
 		return nil, err
 	}
@@ -88,6 +91,7 @@ func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelection
 	output := OneWithSubSelectionsResponse{}
 	err = mapstructure.Decode(resp, &output)
 	log.Debug().Interface("output", output).Err(err).Msg("OneWithSubSelections")
+
 	if err != nil {
 		return nil, err
 	}
@@ -128,6 +132,7 @@ func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInpu
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("QueryWithInputs")
+
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +140,7 @@ func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInpu
 	output := QueryWithInputsResponse{}
 	err = mapstructure.Decode(resp, &output)
 	log.Debug().Interface("output", output).Err(err).Msg("QueryWithInputs")
+
 	if err != nil {
 		return nil, err
 	}
@@ -163,6 +169,7 @@ func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
 	log.Debug().Interface("resp", resp).Err(err).Msg("OneAdd")
+
 	if err != nil {
 		return nil, err
 	}
@@ -170,6 +177,7 @@ func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 	output := OneAddResponse{}
 	err = mapstructure.Decode(resp, &output)
 	log.Debug().Interface("output", output).Err(err).Msg("OneAdd")
+
 	if err != nil {
 		return nil, err
 	}

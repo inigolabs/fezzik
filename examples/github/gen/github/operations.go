@@ -5,7 +5,6 @@ import (
 
 	"github.com/machinebox/graphql"
 	"github.com/mitchellh/mapstructure"
-	"github.com/rs/zerolog/log"
 )
 
 var GetInfoOperation string = `
@@ -93,14 +92,14 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	q.Var("repo_name", input.RepoName)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("GetInfo")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := GetInfoResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("GetInfo")
+
 	if err != nil {
 		return nil, err
 	}
@@ -138,14 +137,14 @@ func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequest
 	q.Var("input", input.Input)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("CreatePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := CreatePullRequestResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("CreatePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
@@ -181,14 +180,14 @@ func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequest
 	q.Var("input", input.Input)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("UpdatePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := UpdatePullRequestResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("UpdatePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
@@ -220,14 +219,14 @@ func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullReque
 	q.Var("input", input.Input)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("CommentPullRequest")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := CommentPullRequestResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("CommentPullRequest")
+
 	if err != nil {
 		return nil, err
 	}
@@ -263,14 +262,14 @@ func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestIn
 	q.Var("input", input.Input)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("MergePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := MergePullRequestResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("MergePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
@@ -306,14 +305,14 @@ func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestIn
 	q.Var("input", input.Input)
 	var resp map[string]interface{}
 	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("ClosePullRequest")
+
 	if err != nil {
 		return nil, err
 	}
 
 	output := ClosePullRequestResponse{}
 	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("ClosePullRequest")
+
 	if err != nil {
 		return nil, err
 	}

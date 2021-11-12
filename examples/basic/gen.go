@@ -29,6 +29,7 @@ func main() {
 			"Time": "time.Time",
 		},
 		GenerateMocks: true,
+		Debug:         true,
 	}
 	fezzik.Generate(cfg)
 }

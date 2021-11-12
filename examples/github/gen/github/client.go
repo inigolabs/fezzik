@@ -17,14 +17,16 @@ type Client interface {
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
+	var gqlclient *graphql.Client
+
 	if httpclient != nil {
-		return &client{
-			gql: graphql.NewClient(url, graphql.WithHTTPClient(httpclient)),
-		}
+		gqlclient = graphql.NewClient(url, graphql.WithHTTPClient(httpclient))
 	} else {
-		return &client{
-			gql: graphql.NewClient(url),
-		}
+		gqlclient = graphql.NewClient(url)
+	}
+
+	return &client{
+		gql: gqlclient,
 	}
 }
 
