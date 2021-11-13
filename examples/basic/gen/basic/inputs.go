@@ -13,8 +13,8 @@ const (
 type OneInput struct {
 	OneInt             *int       `json:"oneInt"`
 	OneIntMust         int        `json:"oneIntMust"`
-	OneIntList         []*int     `json:"oneIntList"`
-	OneIntMustList     []int      `json:"oneIntMustList"`
+	OneIntList         *[]*int    `json:"oneIntList"`
+	OneIntMustList     *[]int     `json:"oneIntMustList"`
 	OneIntMustListMust []int      `json:"oneIntMustListMust"`
 	OneStr             *string    `json:"oneStr"`
 	OneBool            *bool      `json:"oneBool"`

@@ -104,8 +104,6 @@ func (v *inputVisitor) EnterEnumTypeDefinition(ref int) {
 	}
 
 	v.info.EnumTypes[enumType.Name] = enumType
-
-	log.Debug().Interface("enum", enumType).Msg("EnterEnumTypeDefinition")
 }
 
 var inputsTemplate string = `
@@ -126,7 +124,7 @@ const (
 type {{$obj.Name}} struct {
 {{- range $field := $obj.Fields }}
 	{{- if $field.Type.IsList }}
-		{{ pascal $field.Name }} []{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
+		{{ pascal $field.Name }} {{if $field.Type.IsListNullable}}*{{end}}[]{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
 	{{- else }}
 		{{ pascal $field.Name }} {{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} ~~json:"{{$field.Name}}"~~
 	{{- end }}

@@ -1416,13 +1416,13 @@ type AddPullRequestReviewCommentInput struct {
 }
 
 type AddPullRequestReviewInput struct {
-	Body             *string                          `json:"body"`
-	ClientMutationId *string                          `json:"clientMutationId"`
-	Comments         []*DraftPullRequestReviewComment `json:"comments"`
-	CommitOID        *string                          `json:"commitOID"`
-	Event            *PullRequestReviewEvent          `json:"event"`
-	PullRequestId    string                           `json:"pullRequestId"`
-	Threads          []*DraftPullRequestReviewThread  `json:"threads"`
+	Body             *string                           `json:"body"`
+	ClientMutationId *string                           `json:"clientMutationId"`
+	Comments         *[]*DraftPullRequestReviewComment `json:"comments"`
+	CommitOID        *string                           `json:"commitOID"`
+	Event            *PullRequestReviewEvent           `json:"event"`
+	PullRequestId    string                            `json:"pullRequestId"`
+	Threads          *[]*DraftPullRequestReviewThread  `json:"threads"`
 }
 
 type AddPullRequestReviewThreadInput struct {
@@ -1525,11 +1525,11 @@ type CheckRunFilter struct {
 }
 
 type CheckRunOutput struct {
-	Annotations []CheckAnnotationData `json:"annotations"`
-	Images      []CheckRunOutputImage `json:"images"`
-	Summary     string                `json:"summary"`
-	Text        *string               `json:"text"`
-	Title       string                `json:"title"`
+	Annotations *[]CheckAnnotationData `json:"annotations"`
+	Images      *[]CheckRunOutputImage `json:"images"`
+	Summary     string                 `json:"summary"`
+	Text        *string                `json:"text"`
+	Title       string                 `json:"title"`
 }
 
 type CheckRunOutputImage struct {
@@ -1584,8 +1584,8 @@ type ClosePullRequestInput struct {
 }
 
 type CommitAuthor struct {
-	Emails []string `json:"emails"`
-	Id     *string  `json:"id"`
+	Emails *[]string `json:"emails"`
+	Id     *string   `json:"id"`
 }
 
 type CommitContributionOrder struct {
@@ -1611,30 +1611,30 @@ type ConvertPullRequestToDraftInput struct {
 }
 
 type CreateBranchProtectionRuleInput struct {
-	AllowsDeletions                *bool    `json:"allowsDeletions"`
-	AllowsForcePushes              *bool    `json:"allowsForcePushes"`
-	ClientMutationId               *string  `json:"clientMutationId"`
-	DismissesStaleReviews          *bool    `json:"dismissesStaleReviews"`
-	IsAdminEnforced                *bool    `json:"isAdminEnforced"`
-	Pattern                        string   `json:"pattern"`
-	PushActorIds                   []string `json:"pushActorIds"`
-	RepositoryId                   string   `json:"repositoryId"`
-	RequiredApprovingReviewCount   *int     `json:"requiredApprovingReviewCount"`
-	RequiredStatusCheckContexts    []string `json:"requiredStatusCheckContexts"`
-	RequiresApprovingReviews       *bool    `json:"requiresApprovingReviews"`
-	RequiresCodeOwnerReviews       *bool    `json:"requiresCodeOwnerReviews"`
-	RequiresCommitSignatures       *bool    `json:"requiresCommitSignatures"`
-	RequiresConversationResolution *bool    `json:"requiresConversationResolution"`
-	RequiresLinearHistory          *bool    `json:"requiresLinearHistory"`
-	RequiresStatusChecks           *bool    `json:"requiresStatusChecks"`
-	RequiresStrictStatusChecks     *bool    `json:"requiresStrictStatusChecks"`
-	RestrictsPushes                *bool    `json:"restrictsPushes"`
-	RestrictsReviewDismissals      *bool    `json:"restrictsReviewDismissals"`
-	ReviewDismissalActorIds        []string `json:"reviewDismissalActorIds"`
+	AllowsDeletions                *bool     `json:"allowsDeletions"`
+	AllowsForcePushes              *bool     `json:"allowsForcePushes"`
+	ClientMutationId               *string   `json:"clientMutationId"`
+	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews"`
+	IsAdminEnforced                *bool     `json:"isAdminEnforced"`
+	Pattern                        string    `json:"pattern"`
+	PushActorIds                   *[]string `json:"pushActorIds"`
+	RepositoryId                   string    `json:"repositoryId"`
+	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount"`
+	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts"`
+	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews"`
+	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews"`
+	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures"`
+	RequiresConversationResolution *bool     `json:"requiresConversationResolution"`
+	RequiresLinearHistory          *bool     `json:"requiresLinearHistory"`
+	RequiresStatusChecks           *bool     `json:"requiresStatusChecks"`
+	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks"`
+	RestrictsPushes                *bool     `json:"restrictsPushes"`
+	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals"`
+	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds"`
 }
 
 type CreateCheckRunInput struct {
-	Actions          []CheckRunAction             `json:"actions"`
+	Actions          *[]CheckRunAction            `json:"actions"`
 	ClientMutationId *string                      `json:"clientMutationId"`
 	CompletedAt      *time.Time                   `json:"completedAt"`
 	Conclusion       *CheckConclusionState        `json:"conclusion"`
@@ -1662,15 +1662,15 @@ type CreateContentAttachmentInput struct {
 }
 
 type CreateDeploymentInput struct {
-	AutoMerge        *bool    `json:"autoMerge"`
-	ClientMutationId *string  `json:"clientMutationId"`
-	Description      *string  `json:"description"`
-	Environment      *string  `json:"environment"`
-	Payload          *string  `json:"payload"`
-	RefId            string   `json:"refId"`
-	RepositoryId     string   `json:"repositoryId"`
-	RequiredContexts []string `json:"requiredContexts"`
-	Task             *string  `json:"task"`
+	AutoMerge        *bool     `json:"autoMerge"`
+	ClientMutationId *string   `json:"clientMutationId"`
+	Description      *string   `json:"description"`
+	Environment      *string   `json:"environment"`
+	Payload          *string   `json:"payload"`
+	RefId            string    `json:"refId"`
+	RepositoryId     string    `json:"repositoryId"`
+	RequiredContexts *[]string `json:"requiredContexts"`
+	Task             *string   `json:"task"`
 }
 
 type CreateDeploymentStatusInput struct {
@@ -1716,15 +1716,15 @@ type CreateIpAllowListEntryInput struct {
 }
 
 type CreateIssueInput struct {
-	AssigneeIds      []string `json:"assigneeIds"`
-	Body             *string  `json:"body"`
-	ClientMutationId *string  `json:"clientMutationId"`
-	IssueTemplate    *string  `json:"issueTemplate"`
-	LabelIds         []string `json:"labelIds"`
-	MilestoneId      *string  `json:"milestoneId"`
-	ProjectIds       []string `json:"projectIds"`
-	RepositoryId     string   `json:"repositoryId"`
-	Title            string   `json:"title"`
+	AssigneeIds      *[]string `json:"assigneeIds"`
+	Body             *string   `json:"body"`
+	ClientMutationId *string   `json:"clientMutationId"`
+	IssueTemplate    *string   `json:"issueTemplate"`
+	LabelIds         *[]string `json:"labelIds"`
+	MilestoneId      *string   `json:"milestoneId"`
+	ProjectIds       *[]string `json:"projectIds"`
+	RepositoryId     string    `json:"repositoryId"`
+	Title            string    `json:"title"`
 }
 
 type CreateLabelInput struct {
@@ -1740,7 +1740,7 @@ type CreateProjectInput struct {
 	ClientMutationId *string          `json:"clientMutationId"`
 	Name             string           `json:"name"`
 	OwnerId          string           `json:"ownerId"`
-	RepositoryIds    []string         `json:"repositoryIds"`
+	RepositoryIds    *[]string        `json:"repositoryIds"`
 	Template         *ProjectTemplate `json:"template"`
 }
 
@@ -2004,14 +2004,14 @@ type IssueCommentOrder struct {
 }
 
 type IssueFilters struct {
-	Assignee         *string      `json:"assignee"`
-	CreatedBy        *string      `json:"createdBy"`
-	Labels           []string     `json:"labels"`
-	Mentioned        *string      `json:"mentioned"`
-	Milestone        *string      `json:"milestone"`
-	Since            *time.Time   `json:"since"`
-	States           []IssueState `json:"states"`
-	ViewerSubscribed *bool        `json:"viewerSubscribed"`
+	Assignee         *string       `json:"assignee"`
+	CreatedBy        *string       `json:"createdBy"`
+	Labels           *[]string     `json:"labels"`
+	Mentioned        *string       `json:"mentioned"`
+	Milestone        *string       `json:"milestone"`
+	Since            *time.Time    `json:"since"`
+	States           *[]IssueState `json:"states"`
+	ViewerSubscribed *bool         `json:"viewerSubscribed"`
 }
 
 type IssueOrder struct {
@@ -2131,9 +2131,9 @@ type ProjectCardImport struct {
 }
 
 type ProjectColumnImport struct {
-	ColumnName string              `json:"columnName"`
-	Issues     []ProjectCardImport `json:"issues"`
-	Position   int                 `json:"position"`
+	ColumnName string               `json:"columnName"`
+	Issues     *[]ProjectCardImport `json:"issues"`
+	Position   int                  `json:"position"`
 }
 
 type ProjectOrder struct {
@@ -2263,11 +2263,11 @@ type RepositoryOrder struct {
 }
 
 type RequestReviewsInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
-	PullRequestId    string   `json:"pullRequestId"`
-	TeamIds          []string `json:"teamIds"`
-	Union            *bool    `json:"union"`
-	UserIds          []string `json:"userIds"`
+	ClientMutationId *string   `json:"clientMutationId"`
+	PullRequestId    string    `json:"pullRequestId"`
+	TeamIds          *[]string `json:"teamIds"`
+	Union            *bool     `json:"union"`
+	UserIds          *[]string `json:"userIds"`
 }
 
 type RerequestCheckSuiteInput struct {
@@ -2450,30 +2450,30 @@ type UnresolveReviewThreadInput struct {
 }
 
 type UpdateBranchProtectionRuleInput struct {
-	AllowsDeletions                *bool    `json:"allowsDeletions"`
-	AllowsForcePushes              *bool    `json:"allowsForcePushes"`
-	BranchProtectionRuleId         string   `json:"branchProtectionRuleId"`
-	ClientMutationId               *string  `json:"clientMutationId"`
-	DismissesStaleReviews          *bool    `json:"dismissesStaleReviews"`
-	IsAdminEnforced                *bool    `json:"isAdminEnforced"`
-	Pattern                        *string  `json:"pattern"`
-	PushActorIds                   []string `json:"pushActorIds"`
-	RequiredApprovingReviewCount   *int     `json:"requiredApprovingReviewCount"`
-	RequiredStatusCheckContexts    []string `json:"requiredStatusCheckContexts"`
-	RequiresApprovingReviews       *bool    `json:"requiresApprovingReviews"`
-	RequiresCodeOwnerReviews       *bool    `json:"requiresCodeOwnerReviews"`
-	RequiresCommitSignatures       *bool    `json:"requiresCommitSignatures"`
-	RequiresConversationResolution *bool    `json:"requiresConversationResolution"`
-	RequiresLinearHistory          *bool    `json:"requiresLinearHistory"`
-	RequiresStatusChecks           *bool    `json:"requiresStatusChecks"`
-	RequiresStrictStatusChecks     *bool    `json:"requiresStrictStatusChecks"`
-	RestrictsPushes                *bool    `json:"restrictsPushes"`
-	RestrictsReviewDismissals      *bool    `json:"restrictsReviewDismissals"`
-	ReviewDismissalActorIds        []string `json:"reviewDismissalActorIds"`
+	AllowsDeletions                *bool     `json:"allowsDeletions"`
+	AllowsForcePushes              *bool     `json:"allowsForcePushes"`
+	BranchProtectionRuleId         string    `json:"branchProtectionRuleId"`
+	ClientMutationId               *string   `json:"clientMutationId"`
+	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews"`
+	IsAdminEnforced                *bool     `json:"isAdminEnforced"`
+	Pattern                        *string   `json:"pattern"`
+	PushActorIds                   *[]string `json:"pushActorIds"`
+	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount"`
+	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts"`
+	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews"`
+	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews"`
+	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures"`
+	RequiresConversationResolution *bool     `json:"requiresConversationResolution"`
+	RequiresLinearHistory          *bool     `json:"requiresLinearHistory"`
+	RequiresStatusChecks           *bool     `json:"requiresStatusChecks"`
+	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks"`
+	RestrictsPushes                *bool     `json:"restrictsPushes"`
+	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals"`
+	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds"`
 }
 
 type UpdateCheckRunInput struct {
-	Actions          []CheckRunAction             `json:"actions"`
+	Actions          *[]CheckRunAction            `json:"actions"`
 	CheckRunId       string                       `json:"checkRunId"`
 	ClientMutationId *string                      `json:"clientMutationId"`
 	CompletedAt      *time.Time                   `json:"completedAt"`
@@ -2612,10 +2612,10 @@ type UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput struct {
 }
 
 type UpdateEnvironmentInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
-	EnvironmentId    string   `json:"environmentId"`
-	Reviewers        []string `json:"reviewers"`
-	WaitTimer        *int     `json:"waitTimer"`
+	ClientMutationId *string   `json:"clientMutationId"`
+	EnvironmentId    string    `json:"environmentId"`
+	Reviewers        *[]string `json:"reviewers"`
+	WaitTimer        *int      `json:"waitTimer"`
 }
 
 type UpdateIpAllowListEnabledSettingInput struct {
@@ -2645,13 +2645,13 @@ type UpdateIssueCommentInput struct {
 }
 
 type UpdateIssueInput struct {
-	AssigneeIds      []string    `json:"assigneeIds"`
+	AssigneeIds      *[]string   `json:"assigneeIds"`
 	Body             *string     `json:"body"`
 	ClientMutationId *string     `json:"clientMutationId"`
 	Id               string      `json:"id"`
-	LabelIds         []string    `json:"labelIds"`
+	LabelIds         *[]string   `json:"labelIds"`
 	MilestoneId      *string     `json:"milestoneId"`
-	ProjectIds       []string    `json:"projectIds"`
+	ProjectIds       *[]string   `json:"projectIds"`
 	State            *IssueState `json:"state"`
 	Title            *string     `json:"title"`
 }
@@ -2693,14 +2693,14 @@ type UpdateProjectInput struct {
 }
 
 type UpdatePullRequestInput struct {
-	AssigneeIds         []string                `json:"assigneeIds"`
+	AssigneeIds         *[]string               `json:"assigneeIds"`
 	BaseRefName         *string                 `json:"baseRefName"`
 	Body                *string                 `json:"body"`
 	ClientMutationId    *string                 `json:"clientMutationId"`
-	LabelIds            []string                `json:"labelIds"`
+	LabelIds            *[]string               `json:"labelIds"`
 	MaintainerCanModify *bool                   `json:"maintainerCanModify"`
 	MilestoneId         *string                 `json:"milestoneId"`
-	ProjectIds          []string                `json:"projectIds"`
+	ProjectIds          *[]string               `json:"projectIds"`
 	PullRequestId       string                  `json:"pullRequestId"`
 	State               *PullRequestUpdateState `json:"state"`
 	Title               *string                 `json:"title"`
@@ -2769,7 +2769,7 @@ type UpdateTeamReviewAssignmentInput struct {
 	Algorithm             *TeamReviewAssignmentAlgorithm `json:"algorithm"`
 	ClientMutationId      *string                        `json:"clientMutationId"`
 	Enabled               bool                           `json:"enabled"`
-	ExcludedTeamMemberIds []string                       `json:"excludedTeamMemberIds"`
+	ExcludedTeamMemberIds *[]string                      `json:"excludedTeamMemberIds"`
 	Id                    string                         `json:"id"`
 	NotifyTeam            *bool                          `json:"notifyTeam"`
 	TeamMemberCount       *int                           `json:"teamMemberCount"`
