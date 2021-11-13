@@ -53,7 +53,7 @@ type GetInfoResponse struct {
 	Viewer struct {
 		Login        string
 		PullRequests struct {
-			Nodes []*struct {
+			Nodes *[]*struct {
 				Id             string
 				Number         int
 				Title          string
@@ -65,7 +65,7 @@ type GetInfoResponse struct {
 					Id string
 				}
 				Commits struct {
-					Nodes []*struct {
+					Nodes *[]*struct {
 						Commit struct {
 							Oid               string
 							MessageHeadline   string

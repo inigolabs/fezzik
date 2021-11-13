@@ -157,6 +157,9 @@ func (v *visitor) EnterField(ref int) {
 
 	v.curr.response.Write(common.UppercaseFirstChar(name), " ")
 	if typeInfo.IsList {
+		if typeInfo.IsListNullable {
+			v.curr.response.Write("*")
+		}
 		v.curr.response.Write("[]")
 	}
 	if typeInfo.IsTypeNullable {
@@ -205,6 +208,9 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	typeInfo := getTypeInfo(varDef.Type, v.operation)
 	typeBuilder := new(strings.Builder)
 	if typeInfo.IsList {
+		if typeInfo.IsListNullable {
+			typeBuilder.WriteString("*")
+		}
 		typeBuilder.WriteString("[]")
 	}
 	if typeInfo.IsTypeNullable {
