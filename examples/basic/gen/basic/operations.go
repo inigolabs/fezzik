@@ -24,8 +24,8 @@ type OneAllTypesResponse struct {
 	One *struct {
 		OneInt             *int
 		OneIntMust         int
-		OneIntList         []*int
-		OneIntMustList     []int
+		OneIntList         *[]*int
+		OneIntMustList     *[]int
 		OneIntMustListMust []int
 	}
 }
