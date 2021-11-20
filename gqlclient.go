@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strings"
 )
 
 type GQLError struct {
@@ -73,4 +74,13 @@ func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}
 		return err
 	}
 	return nil
+}
+
+func (e *GQLErrors) Error() string {
+	var sb strings.Builder
+	for _, err := range *e {
+		sb.WriteString(err.Message)
+		sb.WriteString("\n")
+	}
+	return sb.String()
 }
