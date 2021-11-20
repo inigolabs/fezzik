@@ -3,8 +3,7 @@ package github
 import (
 	"context"
 
-	"github.com/machinebox/graphql"
-	"github.com/mitchellh/mapstructure"
+	"github.com/inigolabs/fezzik"
 )
 
 var GetInfoOperation string = `
@@ -85,25 +84,26 @@ type GetInfoResponse struct {
 }
 
 func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
-	*GetInfoResponse, error) {
+	*GetInfoResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(GetInfoOperation)
-	q.Var("repo_owner", input.RepoOwner)
-	q.Var("repo_name", input.RepoName)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "GetInfo",
+		Query:     GetInfoOperation,
+		Variables: map[string]interface{}{
+			"repo_owner": input.RepoOwner,
+			"repo_name":  input.RepoName,
+		},
 	}
 
-	output := GetInfoResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &GetInfoResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*GetInfoResponse), gqlresp.Errors, nil
 }
 
 var CreatePullRequestOperation string = `
@@ -131,24 +131,25 @@ type CreatePullRequestResponse struct {
 }
 
 func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
-	*CreatePullRequestResponse, error) {
+	*CreatePullRequestResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(CreatePullRequestOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "CreatePullRequest",
+		Query:     CreatePullRequestOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := CreatePullRequestResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &CreatePullRequestResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*CreatePullRequestResponse), gqlresp.Errors, nil
 }
 
 var UpdatePullRequestOperation string = `
@@ -174,24 +175,25 @@ type UpdatePullRequestResponse struct {
 }
 
 func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
-	*UpdatePullRequestResponse, error) {
+	*UpdatePullRequestResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(UpdatePullRequestOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "UpdatePullRequest",
+		Query:     UpdatePullRequestOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := UpdatePullRequestResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &UpdatePullRequestResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*UpdatePullRequestResponse), gqlresp.Errors, nil
 }
 
 var CommentPullRequestOperation string = `
@@ -213,24 +215,25 @@ type CommentPullRequestResponse struct {
 }
 
 func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
-	*CommentPullRequestResponse, error) {
+	*CommentPullRequestResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(CommentPullRequestOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "CommentPullRequest",
+		Query:     CommentPullRequestOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := CommentPullRequestResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &CommentPullRequestResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*CommentPullRequestResponse), gqlresp.Errors, nil
 }
 
 var MergePullRequestOperation string = `
@@ -256,24 +259,25 @@ type MergePullRequestResponse struct {
 }
 
 func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
-	*MergePullRequestResponse, error) {
+	*MergePullRequestResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(MergePullRequestOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "MergePullRequest",
+		Query:     MergePullRequestOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := MergePullRequestResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &MergePullRequestResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*MergePullRequestResponse), gqlresp.Errors, nil
 }
 
 var ClosePullRequestOperation string = `
@@ -299,22 +303,23 @@ type ClosePullRequestResponse struct {
 }
 
 func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
-	*ClosePullRequestResponse, error) {
+	*ClosePullRequestResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(ClosePullRequestOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "ClosePullRequest",
+		Query:     ClosePullRequestOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := ClosePullRequestResponse{}
-	err = mapstructure.Decode(resp, &output)
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &ClosePullRequestResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*ClosePullRequestResponse), gqlresp.Errors, nil
 }
