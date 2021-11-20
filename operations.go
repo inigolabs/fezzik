@@ -295,8 +295,6 @@ import (
 	"context"
 
 	"github.com/rs/zerolog/log"
-	"github.com/machinebox/graphql"
-	"github.com/mitchellh/mapstructure"
 )
 
 {{ $root := . }}
@@ -321,9 +319,9 @@ type {{ $operation.Name }}Response struct {
 
 {{ if len $operation.Inputs }}
 func (c *client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
-	*{{ $operation.Name }}Response, fezzik.GQLErrors, error) {
+	*{{ $operation.Name }}Response, *fezzik.GQLErrors, error) {
 {{ else }}
-func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error) {
+func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error) {
 {{ end }}
 
 	gqlreq := &fezzik.GQLRequest{
@@ -336,15 +334,13 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 		},
 	}
 
-	gqlresp := fezzik.GQLResponse{
-		Data: &{{ $operation.Name }}Response{},
-		Errors: fezzik.GQLErrors{},
-	}
-	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	var gqldata *{{ $operation.Name }}Response
+	var gqlerrs *fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, nil, err
 	}
-	return gqlresp.Data.(*{{ $operation.Name }}Response), gqlresp.Errors, nil
+	return gqldata, gqlerrs, nil
 }
 
 {{- end }}
@@ -358,9 +354,9 @@ import "github.com/machinebox/graphql"
 type Client interface {
 {{- range $operation := .Operations }}
 {{- if len $operation.Inputs }}
-	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error)
+	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error)
 {{- else }}
-	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error)
+	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error)
 {{- end }}	
 {{- end }}
 }
@@ -375,33 +371,4 @@ func NewClient(url string, httpclient *http.Client) Client {
 type client struct {
 	gql *fezzik.GQLClient
 }
-`
-
-var TEMP string = `
-	req := NewRequest({{ $operation.Name }}Operation)
-	{{- range $val := $operation.Inputs }}
-	q.Var("{{ $val.Name }}", input.{{ pascal $val.Name }})
-	{{- end}}
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-
-	{{- if $root.Debug }}
-	log.Debug().Interface("resp", resp).Err(err).Msg("{{ $operation.Name }}")
-	{{- end }}
-	
-	if err != nil {
-		return nil, err
-	}
-
-	output := {{ $operation.Name }}Response{}
-	err = mapstructure.Decode(resp, &output)
-	
-	{{- if $root.Debug }}
-	log.Debug().Interface("output", output).Err(err).Msg("{{ $operation.Name }}")
-	{{- end }}
-	
-	if err != nil {
-		return nil, err
-	}
-	return &output, err
 `

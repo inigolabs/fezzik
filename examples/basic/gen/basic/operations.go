@@ -28,7 +28,7 @@ type OneAllTypesResponse struct {
 	}
 }
 
-func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, fezzik.GQLErrors, error) {
+func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, *fezzik.GQLErrors, error) {
 
 	gqlreq := &fezzik.GQLRequest{
 		Operation: "OneAllTypes",
@@ -36,15 +36,13 @@ func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, fezzik.
 		Variables: map[string]interface{}{},
 	}
 
-	gqlresp := fezzik.GQLResponse{
-		Data:   &OneAllTypesResponse{},
-		Errors: fezzik.GQLErrors{},
-	}
-	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	var gqldata *OneAllTypesResponse
+	var gqlerrs *fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, nil, err
 	}
-	return gqlresp.Data.(*OneAllTypesResponse), gqlresp.Errors, nil
+	return gqldata, gqlerrs, nil
 }
 
 var OneWithSubSelectionsOperation string = `
@@ -73,7 +71,7 @@ type OneWithSubSelectionsResponse struct {
 	}
 }
 
-func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, fezzik.GQLErrors, error) {
+func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, *fezzik.GQLErrors, error) {
 
 	gqlreq := &fezzik.GQLRequest{
 		Operation: "OneWithSubSelections",
@@ -81,15 +79,13 @@ func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelection
 		Variables: map[string]interface{}{},
 	}
 
-	gqlresp := fezzik.GQLResponse{
-		Data:   &OneWithSubSelectionsResponse{},
-		Errors: fezzik.GQLErrors{},
-	}
-	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	var gqldata *OneWithSubSelectionsResponse
+	var gqlerrs *fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, nil, err
 	}
-	return gqlresp.Data.(*OneWithSubSelectionsResponse), gqlresp.Errors, nil
+	return gqldata, gqlerrs, nil
 }
 
 var QueryWithInputsOperation string = `
@@ -118,7 +114,7 @@ type QueryWithInputsResponse struct {
 }
 
 func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (
-	*QueryWithInputsResponse, fezzik.GQLErrors, error) {
+	*QueryWithInputsResponse, *fezzik.GQLErrors, error) {
 
 	gqlreq := &fezzik.GQLRequest{
 		Operation: "QueryWithInputs",
@@ -129,15 +125,13 @@ func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInpu
 		},
 	}
 
-	gqlresp := fezzik.GQLResponse{
-		Data:   &QueryWithInputsResponse{},
-		Errors: fezzik.GQLErrors{},
-	}
-	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	var gqldata *QueryWithInputsResponse
+	var gqlerrs *fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, nil, err
 	}
-	return gqlresp.Data.(*QueryWithInputsResponse), gqlresp.Errors, nil
+	return gqldata, gqlerrs, nil
 }
 
 var OneAddOperation string = `
@@ -155,7 +149,7 @@ type OneAddResponse struct {
 }
 
 func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
-	*OneAddResponse, fezzik.GQLErrors, error) {
+	*OneAddResponse, *fezzik.GQLErrors, error) {
 
 	gqlreq := &fezzik.GQLRequest{
 		Operation: "OneAdd",
@@ -165,13 +159,11 @@ func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 		},
 	}
 
-	gqlresp := fezzik.GQLResponse{
-		Data:   &OneAddResponse{},
-		Errors: fezzik.GQLErrors{},
-	}
-	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	var gqldata *OneAddResponse
+	var gqlerrs *fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, nil, err
 	}
-	return gqlresp.Data.(*OneAddResponse), gqlresp.Errors, nil
+	return gqldata, gqlerrs, nil
 }

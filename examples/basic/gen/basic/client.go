@@ -8,10 +8,10 @@ import (
 )
 
 type Client interface {
-	OneAllTypes(ctx context.Context) (*OneAllTypesResponse, fezzik.GQLErrors, error)
-	OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, fezzik.GQLErrors, error)
-	QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (*QueryWithInputsResponse, fezzik.GQLErrors, error)
-	OneAdd(ctx context.Context, input *OneAddInputArgs) (*OneAddResponse, fezzik.GQLErrors, error)
+	OneAllTypes(ctx context.Context) (*OneAllTypesResponse, *fezzik.GQLErrors, error)
+	OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, *fezzik.GQLErrors, error)
+	QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (*QueryWithInputsResponse, *fezzik.GQLErrors, error)
+	OneAdd(ctx context.Context, input *OneAddInputArgs) (*OneAddResponse, *fezzik.GQLErrors, error)
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
