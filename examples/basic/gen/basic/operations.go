@@ -3,9 +3,7 @@ package basic
 import (
 	"context"
 
-	"github.com/machinebox/graphql"
-	"github.com/mitchellh/mapstructure"
-	"github.com/rs/zerolog/log"
+	"github.com/inigolabs/fezzik"
 )
 
 var OneAllTypesOperation string = `
@@ -30,25 +28,23 @@ type OneAllTypesResponse struct {
 	}
 }
 
-func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) {
+func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(OneAllTypesOperation)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("OneAllTypes")
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "OneAllTypes",
+		Query:     OneAllTypesOperation,
+		Variables: map[string]interface{}{},
 	}
 
-	output := OneAllTypesResponse{}
-	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("OneAllTypes")
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &OneAllTypesResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*OneAllTypesResponse), gqlresp.Errors, nil
 }
 
 var OneWithSubSelectionsOperation string = `
@@ -77,25 +73,23 @@ type OneWithSubSelectionsResponse struct {
 	}
 }
 
-func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error) {
+func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(OneWithSubSelectionsOperation)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("OneWithSubSelections")
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "OneWithSubSelections",
+		Query:     OneWithSubSelectionsOperation,
+		Variables: map[string]interface{}{},
 	}
 
-	output := OneWithSubSelectionsResponse{}
-	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("OneWithSubSelections")
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &OneWithSubSelectionsResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*OneWithSubSelectionsResponse), gqlresp.Errors, nil
 }
 
 var QueryWithInputsOperation string = `
@@ -124,27 +118,26 @@ type QueryWithInputsResponse struct {
 }
 
 func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (
-	*QueryWithInputsResponse, error) {
+	*QueryWithInputsResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(QueryWithInputsOperation)
-	q.Var("input_one", input.InputOne)
-	q.Var("input_two", input.InputTwo)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("QueryWithInputs")
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "QueryWithInputs",
+		Query:     QueryWithInputsOperation,
+		Variables: map[string]interface{}{
+			"input_one": input.InputOne,
+			"input_two": input.InputTwo,
+		},
 	}
 
-	output := QueryWithInputsResponse{}
-	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("QueryWithInputs")
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &QueryWithInputsResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*QueryWithInputsResponse), gqlresp.Errors, nil
 }
 
 var OneAddOperation string = `
@@ -162,24 +155,23 @@ type OneAddResponse struct {
 }
 
 func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
-	*OneAddResponse, error) {
+	*OneAddResponse, fezzik.GQLErrors, error) {
 
-	q := graphql.NewRequest(OneAddOperation)
-	q.Var("input", input.Input)
-	var resp map[string]interface{}
-	err := c.gql.Run(ctx, q, &resp)
-	log.Debug().Interface("resp", resp).Err(err).Msg("OneAdd")
-
-	if err != nil {
-		return nil, err
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "OneAdd",
+		Query:     OneAddOperation,
+		Variables: map[string]interface{}{
+			"input": input.Input,
+		},
 	}
 
-	output := OneAddResponse{}
-	err = mapstructure.Decode(resp, &output)
-	log.Debug().Interface("output", output).Err(err).Msg("OneAdd")
-
-	if err != nil {
-		return nil, err
+	gqlresp := fezzik.GQLResponse{
+		Data:   &OneAddResponse{},
+		Errors: fezzik.GQLErrors{},
 	}
-	return &output, err
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*OneAddResponse), gqlresp.Errors, nil
 }

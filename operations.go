@@ -321,12 +321,64 @@ type {{ $operation.Name }}Response struct {
 
 {{ if len $operation.Inputs }}
 func (c *client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
-	*{{ $operation.Name }}Response, error) {
+	*{{ $operation.Name }}Response, fezzik.GQLErrors, error) {
 {{ else }}
-func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
+func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error) {
 {{ end }}
 
-	q := graphql.NewRequest({{ $operation.Name }}Operation)
+	gqlreq := &fezzik.GQLRequest{
+		Operation: "{{ $operation.Name}}",
+		Query: {{ $operation.Name }}Operation,
+		Variables: map[string]interface{}{
+			{{- range $val := $operation.Inputs }}	
+			"{{ $val.Name }}" : input.{{ pascal $val.Name }},
+			{{- end }}
+		},
+	}
+
+	gqlresp := fezzik.GQLResponse{
+		Data: &{{ $operation.Name }}Response{},
+		Errors: fezzik.GQLErrors{},
+	}
+	err := c.gql.Query(ctx, gqlreq, gqlresp.Data, &gqlresp.Errors)
+	if err != nil {
+		return nil, nil, err
+	}
+	return gqlresp.Data.(*{{ $operation.Name }}Response), gqlresp.Errors, nil
+}
+
+{{- end }}
+`
+
+var clientTemplate string = `
+package {{ .PackageName }}
+
+import "github.com/machinebox/graphql"
+
+type Client interface {
+{{- range $operation := .Operations }}
+{{- if len $operation.Inputs }}
+	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error)
+{{- else }}
+	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, fezzik.GQLErrors, error)
+{{- end }}	
+{{- end }}
+}
+
+func NewClient(url string, httpclient *http.Client) Client {
+	gqlclient := fezzik.NewGQLClient(url, httpclient)
+	return &client{
+		gql: gqlclient,
+	}
+}
+
+type client struct {
+	gql *fezzik.GQLClient
+}
+`
+
+var TEMP string = `
+	req := NewRequest({{ $operation.Name }}Operation)
 	{{- range $val := $operation.Inputs }}
 	q.Var("{{ $val.Name }}", input.{{ pascal $val.Name }})
 	{{- end}}
@@ -352,45 +404,4 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 		return nil, err
 	}
 	return &output, err
-}
-
-{{- end }}
-`
-
-var clientTemplate string = `
-package {{ .PackageName }}
-
-import "github.com/machinebox/graphql"
-
-type Client interface {
-{{- range $operation := .Operations }}
-{{- if len $operation.Inputs }}
-	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, error)
-{{- else }}
-	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error)
-{{- end }}	
-{{- end }}
-}
-
-func NewClient(url string, httpclient *http.Client) Client {
-	var gqlclient *graphql.Client
-
-	if httpclient != nil {
-		gqlclient = graphql.NewClient(url, graphql.WithHTTPClient(httpclient))
-	} else {
-		gqlclient = graphql.NewClient(url)
-	}
-
-	{{ if .Debug }}
-	gqlclient.Log = func(s string){ log.Debug().Msg(s) }
-	{{ end }}
-
-	return &client{
-		gql: gqlclient,
-	}
-}
-
-type client struct {
-	gql *graphql.Client
-}
 `

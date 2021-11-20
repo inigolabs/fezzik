@@ -4,33 +4,23 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/machinebox/graphql"
-	"github.com/rs/zerolog/log"
+	"github.com/inigolabs/fezzik"
 )
 
 type Client interface {
-	OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error)
-	OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error)
-	QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (*QueryWithInputsResponse, error)
-	OneAdd(ctx context.Context, input *OneAddInputArgs) (*OneAddResponse, error)
+	OneAllTypes(ctx context.Context) (*OneAllTypesResponse, fezzik.GQLErrors, error)
+	OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, fezzik.GQLErrors, error)
+	QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (*QueryWithInputsResponse, fezzik.GQLErrors, error)
+	OneAdd(ctx context.Context, input *OneAddInputArgs) (*OneAddResponse, fezzik.GQLErrors, error)
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
-	var gqlclient *graphql.Client
-
-	if httpclient != nil {
-		gqlclient = graphql.NewClient(url, graphql.WithHTTPClient(httpclient))
-	} else {
-		gqlclient = graphql.NewClient(url)
-	}
-
-	gqlclient.Log = func(s string) { log.Debug().Msg(s) }
-
+	gqlclient := fezzik.NewGQLClient(url, httpclient)
 	return &client{
 		gql: gqlclient,
 	}
 }
 
 type client struct {
-	gql *graphql.Client
+	gql *fezzik.GQLClient
 }
