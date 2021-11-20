@@ -95,16 +95,16 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 		},
 	}
 
-	var gqldata *GetInfoResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata GetInfoResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var CreatePullRequestOperation string = `
@@ -142,16 +142,16 @@ func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequest
 		},
 	}
 
-	var gqldata *CreatePullRequestResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata CreatePullRequestResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var UpdatePullRequestOperation string = `
@@ -187,16 +187,16 @@ func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequest
 		},
 	}
 
-	var gqldata *UpdatePullRequestResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata UpdatePullRequestResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var CommentPullRequestOperation string = `
@@ -228,16 +228,16 @@ func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullReque
 		},
 	}
 
-	var gqldata *CommentPullRequestResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata CommentPullRequestResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var MergePullRequestOperation string = `
@@ -273,16 +273,16 @@ func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestIn
 		},
 	}
 
-	var gqldata *MergePullRequestResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata MergePullRequestResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var ClosePullRequestOperation string = `
@@ -318,14 +318,14 @@ func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestIn
 		},
 	}
 
-	var gqldata *ClosePullRequestResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata ClosePullRequestResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }

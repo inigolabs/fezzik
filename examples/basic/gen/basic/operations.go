@@ -36,16 +36,16 @@ func (c *client) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) 
 		Variables: map[string]interface{}{},
 	}
 
-	var gqldata *OneAllTypesResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata OneAllTypesResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var OneWithSubSelectionsOperation string = `
@@ -82,16 +82,16 @@ func (c *client) OneWithSubSelections(ctx context.Context) (*OneWithSubSelection
 		Variables: map[string]interface{}{},
 	}
 
-	var gqldata *OneWithSubSelectionsResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata OneWithSubSelectionsResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var QueryWithInputsOperation string = `
@@ -131,16 +131,16 @@ func (c *client) QueryWithInputs(ctx context.Context, input *QueryWithInputsInpu
 		},
 	}
 
-	var gqldata *QueryWithInputsResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata QueryWithInputsResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 var OneAddOperation string = `
@@ -168,14 +168,14 @@ func (c *client) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 		},
 	}
 
-	var gqldata *OneAddResponse
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata OneAddResponse
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }

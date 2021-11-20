@@ -334,16 +334,16 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 		},
 	}
 
-	var gqldata *{{ $operation.Name }}Response
-	var gqlerrs *fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
+	var gqldata {{ $operation.Name }}Response
+	var gqlerrs fezzik.GQLErrors
+	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
 	}
-	if gqlerrs != nil && len(*gqlerrs) == 0 {
-		gqlerrs = nil
+	if len(gqlerrs) == 0 {
+		return &gqldata, nil
 	}
-	return gqldata, gqlerrs
+	return &gqldata, &gqlerrs
 }
 
 {{- end }}
