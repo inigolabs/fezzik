@@ -18,7 +18,7 @@ type Client struct {
 }
 
 // OneAdd provides a mock function with given fields: ctx, input
-func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*basic.OneAddResponse, fezzik.GQLErrors, error) {
+func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*basic.OneAddResponse, *fezzik.GQLErrors, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *basic.OneAddResponse
@@ -30,12 +30,12 @@ func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*ba
 		}
 	}
 
-	var r1 fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneAddInputArgs) fezzik.GQLErrors); ok {
+	var r1 *fezzik.GQLErrors
+	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneAddInputArgs) *fezzik.GQLErrors); ok {
 		r1 = rf(ctx, input)
 	} else {
 		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(fezzik.GQLErrors)
+			r1 = ret.Get(1).(*fezzik.GQLErrors)
 		}
 	}
 
@@ -50,7 +50,7 @@ func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*ba
 }
 
 // OneAllTypes provides a mock function with given fields: ctx
-func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, fezzik.GQLErrors, error) {
+func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, *fezzik.GQLErrors, error) {
 	ret := _m.Called(ctx)
 
 	var r0 *basic.OneAllTypesResponse
@@ -62,12 +62,12 @@ func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, 
 		}
 	}
 
-	var r1 fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context) fezzik.GQLErrors); ok {
+	var r1 *fezzik.GQLErrors
+	if rf, ok := ret.Get(1).(func(context.Context) *fezzik.GQLErrors); ok {
 		r1 = rf(ctx)
 	} else {
 		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(fezzik.GQLErrors)
+			r1 = ret.Get(1).(*fezzik.GQLErrors)
 		}
 	}
 
@@ -82,7 +82,7 @@ func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, 
 }
 
 // OneWithSubSelections provides a mock function with given fields: ctx
-func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSelectionsResponse, fezzik.GQLErrors, error) {
+func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSelectionsResponse, *fezzik.GQLErrors, error) {
 	ret := _m.Called(ctx)
 
 	var r0 *basic.OneWithSubSelectionsResponse
@@ -94,12 +94,12 @@ func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSe
 		}
 	}
 
-	var r1 fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context) fezzik.GQLErrors); ok {
+	var r1 *fezzik.GQLErrors
+	if rf, ok := ret.Get(1).(func(context.Context) *fezzik.GQLErrors); ok {
 		r1 = rf(ctx)
 	} else {
 		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(fezzik.GQLErrors)
+			r1 = ret.Get(1).(*fezzik.GQLErrors)
 		}
 	}
 
@@ -114,7 +114,7 @@ func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSe
 }
 
 // QueryWithInputs provides a mock function with given fields: ctx, input
-func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInputsInputArgs) (*basic.QueryWithInputsResponse, fezzik.GQLErrors, error) {
+func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInputsInputArgs) (*basic.QueryWithInputsResponse, *fezzik.GQLErrors, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *basic.QueryWithInputsResponse
@@ -126,12 +126,12 @@ func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInp
 		}
 	}
 
-	var r1 fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.QueryWithInputsInputArgs) fezzik.GQLErrors); ok {
+	var r1 *fezzik.GQLErrors
+	if rf, ok := ret.Get(1).(func(context.Context, *basic.QueryWithInputsInputArgs) *fezzik.GQLErrors); ok {
 		r1 = rf(ctx, input)
 	} else {
 		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(fezzik.GQLErrors)
+			r1 = ret.Get(1).(*fezzik.GQLErrors)
 		}
 	}
 

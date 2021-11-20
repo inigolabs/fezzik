@@ -26,7 +26,7 @@ type GQLRequest struct {
 
 type GQLResponse struct {
 	Data   interface{}
-	Errors GQLErrors
+	Errors *GQLErrors
 }
 
 type GQLClient struct {
@@ -66,7 +66,7 @@ func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}
 
 	gqlresponse := &GQLResponse{
 		Data:   resp,
-		Errors: GQLErrors{},
+		Errors: errors,
 	}
 	decoder := json.NewDecoder(response.Body)
 	err = decoder.Decode(gqlresponse)
