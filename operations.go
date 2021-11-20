@@ -340,6 +340,9 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 	if err != nil {
 		return nil, err
 	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
+	}
 	return gqldata, gqlerrs
 }
 
