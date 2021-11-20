@@ -3,10 +3,13 @@ package fezzik
 import (
 	"bytes"
 	"context"
-	"encoding/json"
 	"net/http"
 	"strings"
+
+	jsoniter "github.com/json-iterator/go"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type GQLError struct {
 	Message   string
