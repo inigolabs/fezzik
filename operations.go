@@ -319,9 +319,9 @@ type {{ $operation.Name }}Response struct {
 
 {{ if len $operation.Inputs }}
 func (c *client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
-	*{{ $operation.Name }}Response, *fezzik.GQLErrors, error) {
+	*{{ $operation.Name }}Response, error) {
 {{ else }}
-func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error) {
+func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
 {{ end }}
 
 	gqlreq := &fezzik.GQLRequest{
@@ -338,9 +338,9 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 	var gqlerrs *fezzik.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
-	return gqldata, gqlerrs, nil
+	return gqldata, gqlerrs
 }
 
 {{- end }}
@@ -354,9 +354,9 @@ import "github.com/machinebox/graphql"
 type Client interface {
 {{- range $operation := .Operations }}
 {{- if len $operation.Inputs }}
-	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error)
+	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, error)
 {{- else }}
-	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, *fezzik.GQLErrors, error)
+	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error)
 {{- end }}	
 {{- end }}
 }

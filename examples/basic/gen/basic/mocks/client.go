@@ -7,8 +7,6 @@ import (
 
 	basic "github.com/inigolabs/fezzik/examples/basic/gen/basic"
 
-	fezzik "github.com/inigolabs/fezzik"
-
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -18,7 +16,7 @@ type Client struct {
 }
 
 // OneAdd provides a mock function with given fields: ctx, input
-func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*basic.OneAddResponse, *fezzik.GQLErrors, error) {
+func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*basic.OneAddResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *basic.OneAddResponse
@@ -30,27 +28,18 @@ func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*ba
 		}
 	}
 
-	var r1 *fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneAddInputArgs) *fezzik.GQLErrors); ok {
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneAddInputArgs) error); ok {
 		r1 = rf(ctx, input)
 	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*fezzik.GQLErrors)
-		}
+		r1 = ret.Error(1)
 	}
 
-	var r2 error
-	if rf, ok := ret.Get(2).(func(context.Context, *basic.OneAddInputArgs) error); ok {
-		r2 = rf(ctx, input)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0, r1
 }
 
 // OneAllTypes provides a mock function with given fields: ctx
-func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, *fezzik.GQLErrors, error) {
+func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, error) {
 	ret := _m.Called(ctx)
 
 	var r0 *basic.OneAllTypesResponse
@@ -62,27 +51,18 @@ func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, 
 		}
 	}
 
-	var r1 *fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context) *fezzik.GQLErrors); ok {
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
 		r1 = rf(ctx)
 	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*fezzik.GQLErrors)
-		}
+		r1 = ret.Error(1)
 	}
 
-	var r2 error
-	if rf, ok := ret.Get(2).(func(context.Context) error); ok {
-		r2 = rf(ctx)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0, r1
 }
 
 // OneWithSubSelections provides a mock function with given fields: ctx
-func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSelectionsResponse, *fezzik.GQLErrors, error) {
+func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSelectionsResponse, error) {
 	ret := _m.Called(ctx)
 
 	var r0 *basic.OneWithSubSelectionsResponse
@@ -94,27 +74,18 @@ func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSe
 		}
 	}
 
-	var r1 *fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context) *fezzik.GQLErrors); ok {
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
 		r1 = rf(ctx)
 	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*fezzik.GQLErrors)
-		}
+		r1 = ret.Error(1)
 	}
 
-	var r2 error
-	if rf, ok := ret.Get(2).(func(context.Context) error); ok {
-		r2 = rf(ctx)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0, r1
 }
 
 // QueryWithInputs provides a mock function with given fields: ctx, input
-func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInputsInputArgs) (*basic.QueryWithInputsResponse, *fezzik.GQLErrors, error) {
+func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInputsInputArgs) (*basic.QueryWithInputsResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *basic.QueryWithInputsResponse
@@ -126,21 +97,12 @@ func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInp
 		}
 	}
 
-	var r1 *fezzik.GQLErrors
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.QueryWithInputsInputArgs) *fezzik.GQLErrors); ok {
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *basic.QueryWithInputsInputArgs) error); ok {
 		r1 = rf(ctx, input)
 	} else {
-		if ret.Get(1) != nil {
-			r1 = ret.Get(1).(*fezzik.GQLErrors)
-		}
+		r1 = ret.Error(1)
 	}
 
-	var r2 error
-	if rf, ok := ret.Get(2).(func(context.Context, *basic.QueryWithInputsInputArgs) error); ok {
-		r2 = rf(ctx, input)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
+	return r0, r1
 }
