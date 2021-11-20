@@ -101,6 +101,9 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	if err != nil {
 		return nil, err
 	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
+	}
 	return gqldata, gqlerrs
 }
 
@@ -145,6 +148,9 @@ func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequest
 	if err != nil {
 		return nil, err
 	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
+	}
 	return gqldata, gqlerrs
 }
 
@@ -187,6 +193,9 @@ func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequest
 	if err != nil {
 		return nil, err
 	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
+	}
 	return gqldata, gqlerrs
 }
 
@@ -224,6 +233,9 @@ func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullReque
 	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, err
+	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
 	}
 	return gqldata, gqlerrs
 }
@@ -267,6 +279,9 @@ func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestIn
 	if err != nil {
 		return nil, err
 	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
+	}
 	return gqldata, gqlerrs
 }
 
@@ -308,6 +323,9 @@ func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestIn
 	err := c.gql.Query(ctx, gqlreq, gqldata, gqlerrs)
 	if err != nil {
 		return nil, err
+	}
+	if gqlerrs != nil && len(*gqlerrs) == 0 {
+		gqlerrs = nil
 	}
 	return gqldata, gqlerrs
 }
