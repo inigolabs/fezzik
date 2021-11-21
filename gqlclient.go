@@ -12,19 +12,19 @@ import (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type GQLError struct {
-	Message   string
+	Message   string `json:"message"`
 	Locations []struct {
-		Line   int
-		Column int
-	}
-	Path []string
+		Line   int `json:"line"`
+		Column int `json:"column"`
+	} `json:"locations"`
+	Path []string `json:"path"`
 }
 type GQLErrors []GQLError
 
 type GQLRequest struct {
-	Operation string
-	Query     string
-	Variables map[string]interface{}
+	OperationName string                 `json:"operationName"`
+	Query         string                 `json:"query"`
+	Variables     map[string]interface{} `json:"variables"`
 }
 
 type GQLResponse struct {
@@ -61,6 +61,7 @@ func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}
 	request.Header.Set("Content-Type", "application/json; charset=utf-8")
 	request.Header.Set("Accept", "application/json; charset=utf-8")
 	request = request.WithContext(ctx)
+	request.Close = true
 	response, err := c.httpClient.Do(request)
 	if err != nil {
 		return err

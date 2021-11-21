@@ -87,8 +87,8 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	*GetInfoResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "GetInfo",
-		Query:     GetInfoOperation,
+		OperationName: "GetInfo",
+		Query:         GetInfoOperation,
 		Variables: map[string]interface{}{
 			"repo_owner": input.RepoOwner,
 			"repo_name":  input.RepoName,
@@ -135,8 +135,8 @@ func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequest
 	*CreatePullRequestResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "CreatePullRequest",
-		Query:     CreatePullRequestOperation,
+		OperationName: "CreatePullRequest",
+		Query:         CreatePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input.Input,
 		},
@@ -180,8 +180,8 @@ func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequest
 	*UpdatePullRequestResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "UpdatePullRequest",
-		Query:     UpdatePullRequestOperation,
+		OperationName: "UpdatePullRequest",
+		Query:         UpdatePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input.Input,
 		},
@@ -221,8 +221,8 @@ func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullReque
 	*CommentPullRequestResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "CommentPullRequest",
-		Query:     CommentPullRequestOperation,
+		OperationName: "CommentPullRequest",
+		Query:         CommentPullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input.Input,
 		},
@@ -266,8 +266,8 @@ func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestIn
 	*MergePullRequestResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "MergePullRequest",
-		Query:     MergePullRequestOperation,
+		OperationName: "MergePullRequest",
+		Query:         MergePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input.Input,
 		},
@@ -311,8 +311,8 @@ func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestIn
 	*ClosePullRequestResponse, error) {
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "ClosePullRequest",
-		Query:     ClosePullRequestOperation,
+		OperationName: "ClosePullRequest",
+		Query:         ClosePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input.Input,
 		},

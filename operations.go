@@ -325,7 +325,7 @@ func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name
 {{ end }}
 
 	gqlreq := &fezzik.GQLRequest{
-		Operation: "{{ $operation.Name}}",
+		OperationName: "{{ $operation.Name}}",
 		Query: {{ $operation.Name }}Operation,
 		Variables: map[string]interface{}{
 			{{- range $val := $operation.Inputs }}	
