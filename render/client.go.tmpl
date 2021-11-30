@@ -1,6 +1,3 @@
-package render
-
-var ClientTemplate string = `
 package {{ .PackageName }}
 
 import (
@@ -29,4 +26,3 @@ func NewClient(url string, httpclient *http.Client) Client {
 type gqlclient struct {
 	gql *client.GQLClient
 }
-`

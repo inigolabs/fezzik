@@ -2,6 +2,7 @@ package parse
 
 import (
 	"errors"
+	"path/filepath"
 	"strings"
 
 	"github.com/inigolabs/fezzik/common"
@@ -16,7 +17,15 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func NewOperationParser(cfg *config.Config, schema *ast.Document, doc *fezzik_ast.Document) *operationParser {
+func ParseOperations(cfg *config.Config, schema *ast.Document, doc *fezzik_ast.Document) error {
+	var operationFiles []string
+	for _, operationGlob := range cfg.Operations {
+		files, err := filepath.Glob(operationGlob)
+		if err != nil {
+			return err
+		}
+		operationFiles = append(operationFiles, files...)
+	}
 
 	walker := astvisitor.NewWalker(48)
 	visitor := &operationVisitor{
@@ -33,20 +42,29 @@ func NewOperationParser(cfg *config.Config, schema *ast.Document, doc *fezzik_as
 	walker.RegisterArgumentVisitor(visitor)
 	walker.RegisterVariableDefinitionVisitor(visitor)
 
-	return &operationParser{
+	parser := &operationParser{
 		cfg:     cfg,
 		schema:  schema,
 		visitor: visitor,
 		doc:     doc,
+		parser:  astparser.NewParser(),
 	}
+
+	for _, operationFile := range operationFiles {
+		operationStr := common.FileRead(operationFile)
+		err := parser.parseOperation(operationStr)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
-func (p *operationParser) ParseOperation(operationStr string) error {
-	parser := astparser.NewParser()
+func (p *operationParser) parseOperation(operationStr string) error {
 	operation := ast.NewDocument()
 	operation.Input.ResetInputBytes([]byte(operationStr))
 	report := operationreport.Report{}
-	parser.Parse(operation, &report)
+	p.parser.Parse(operation, &report)
 	if report.HasErrors() {
 		return errors.New(report.Error())
 	}
@@ -74,7 +92,8 @@ type operationParser struct {
 
 	visitor *operationVisitor
 
-	doc *fezzik_ast.Document
+	doc    *fezzik_ast.Document
+	parser *astparser.Parser
 }
 
 type currOperation struct {
