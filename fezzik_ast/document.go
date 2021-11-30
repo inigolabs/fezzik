@@ -2,21 +2,24 @@ package fezzik_ast
 
 func NewDocument() *Document {
 	return &Document{
-		EnumTypes: make(map[string]EnumType),
+		InputTypes: make(map[InputTypeName]InputType),
+		EnumTypes:  make(map[EnumTypeName]EnumType),
 	}
 }
 
 type Document struct {
 	PackageName string
 
-	InputTypes []InputType
-	EnumTypes  map[string]EnumType
+	InputTypes map[InputTypeName]InputType
+	EnumTypes  map[EnumTypeName]EnumType
 
 	Operations []*OperationInfo
 }
 
+type InputTypeName = string
+
 type InputType struct {
-	Name   string
+	Name   InputTypeName
 	Fields []InputField
 }
 
@@ -33,8 +36,10 @@ type TypeInfo struct {
 	IsTypeNullable bool
 }
 
+type EnumTypeName = string
+
 type EnumType struct {
-	Name   string
+	Name   EnumTypeName
 	Values []string
 }
 
