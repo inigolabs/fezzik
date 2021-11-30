@@ -1,6 +1,3 @@
-package render
-
-var OperationsTemplate string = `
 package {{ .PackageName }}
 
 import (
@@ -13,14 +10,14 @@ import (
 
 {{- range $operation := .Operations }}
 
-var {{ $operation.Name }}Operation string = ~~
+var {{ $operation.Name }}Operation string = `
 {{ $operation.Operation }}
-~~
+`
 
 {{ if len $operation.Inputs }}
 type {{ $operation.Name }}InputArgs struct {
 {{- range $val := $operation.Inputs }}
-{{ pascal $val.Name }} {{ $val.Type}} ~~json:"{{ $val.Name }}"~~
+{{ pascal $val.Name }} {{ $val.Type}} `json:"{{ $val.Name }}"`
 {{- end }}
 }
 {{ end }}
@@ -59,4 +56,3 @@ func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.N
 }
 
 {{- end }}
-`
