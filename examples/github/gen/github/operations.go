@@ -3,7 +3,7 @@ package github
 import (
 	"context"
 
-	"github.com/inigolabs/fezzik"
+	"github.com/inigolabs/fezzik/client"
 )
 
 var GetInfoOperation string = `
@@ -83,10 +83,10 @@ type GetInfoResponse struct {
 	}
 }
 
-func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
+func (c *gqlclient) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	*GetInfoResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "GetInfo",
 		Query:         GetInfoOperation,
 		Variables: map[string]interface{}{
@@ -96,7 +96,7 @@ func (c *client) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
 	}
 
 	var gqldata GetInfoResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
@@ -131,10 +131,10 @@ type CreatePullRequestResponse struct {
 	}
 }
 
-func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
+func (c *gqlclient) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
 	*CreatePullRequestResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "CreatePullRequest",
 		Query:         CreatePullRequestOperation,
 		Variables: map[string]interface{}{
@@ -143,7 +143,7 @@ func (c *client) CreatePullRequest(ctx context.Context, input *CreatePullRequest
 	}
 
 	var gqldata CreatePullRequestResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
@@ -176,10 +176,10 @@ type UpdatePullRequestResponse struct {
 	}
 }
 
-func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
+func (c *gqlclient) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
 	*UpdatePullRequestResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "UpdatePullRequest",
 		Query:         UpdatePullRequestOperation,
 		Variables: map[string]interface{}{
@@ -188,7 +188,7 @@ func (c *client) UpdatePullRequest(ctx context.Context, input *UpdatePullRequest
 	}
 
 	var gqldata UpdatePullRequestResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
@@ -217,10 +217,10 @@ type CommentPullRequestResponse struct {
 	}
 }
 
-func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
+func (c *gqlclient) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
 	*CommentPullRequestResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "CommentPullRequest",
 		Query:         CommentPullRequestOperation,
 		Variables: map[string]interface{}{
@@ -229,7 +229,7 @@ func (c *client) CommentPullRequest(ctx context.Context, input *CommentPullReque
 	}
 
 	var gqldata CommentPullRequestResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
@@ -262,10 +262,10 @@ type MergePullRequestResponse struct {
 	}
 }
 
-func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
+func (c *gqlclient) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
 	*MergePullRequestResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "MergePullRequest",
 		Query:         MergePullRequestOperation,
 		Variables: map[string]interface{}{
@@ -274,7 +274,7 @@ func (c *client) MergePullRequest(ctx context.Context, input *MergePullRequestIn
 	}
 
 	var gqldata MergePullRequestResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
@@ -307,10 +307,10 @@ type ClosePullRequestResponse struct {
 	}
 }
 
-func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
+func (c *gqlclient) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
 	*ClosePullRequestResponse, error) {
 
-	gqlreq := &fezzik.GQLRequest{
+	gqlreq := &client.GQLRequest{
 		OperationName: "ClosePullRequest",
 		Query:         ClosePullRequestOperation,
 		Variables: map[string]interface{}{
@@ -319,7 +319,7 @@ func (c *client) ClosePullRequest(ctx context.Context, input *ClosePullRequestIn
 	}
 
 	var gqldata ClosePullRequestResponse
-	var gqlerrs fezzik.GQLErrors
+	var gqlerrs client.GQLErrors
 	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
 	if err != nil {
 		return nil, err
