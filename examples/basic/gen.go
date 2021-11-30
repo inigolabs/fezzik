@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/inigolabs/fezzik"
+	"github.com/inigolabs/fezzik/config"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 )
@@ -16,7 +17,7 @@ func init() {
 }
 
 func main() {
-	cfg := &fezzik.Config{
+	cfg := &config.Config{
 		Schemas:    []string{"schemas/*.graphql"},
 		Operations: []string{"operations/*.graphql"},
 

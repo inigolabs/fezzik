@@ -1,4 +1,4 @@
-package fezzik
+package client
 
 import (
 	"bytes"

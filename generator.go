@@ -12,6 +12,10 @@ import (
 	"strings"
 
 	"github.com/inigolabs/fezzik/common"
+	"github.com/inigolabs/fezzik/config"
+	"github.com/inigolabs/fezzik/fezzik_ast"
+	"github.com/inigolabs/fezzik/parse"
+	"github.com/inigolabs/fezzik/render"
 	"github.com/jensneuse/graphql-go-tools/pkg/ast"
 	"github.com/jensneuse/graphql-go-tools/pkg/astnormalization"
 	"github.com/jensneuse/graphql-go-tools/pkg/astparser"
@@ -25,13 +29,14 @@ import (
 	mockery_config "github.com/vektra/mockery/v2/pkg/config"
 )
 
-func Generate(cfg *Config) {
-	var schemaFiles []string
-	for _, schemaGlob := range cfg.Schemas {
-		files, err := filepath.Glob(schemaGlob)
-		check(err)
-		schemaFiles = append(schemaFiles, files...)
-	}
+func Generate(cfg *config.Config) {
+
+	schema := schemaDoc(cfg)
+	doc := fezzik_ast.NewDocument()
+
+	// parse
+	check(parse.ParseEnums(cfg, schema, doc))
+	check(parse.ParseInputs(cfg, schema, doc))
 
 	var operationFiles []string
 	for _, operationGlob := range cfg.Operations {
@@ -39,7 +44,43 @@ func Generate(cfg *Config) {
 		check(err)
 		operationFiles = append(operationFiles, files...)
 	}
+	operationParser := parse.NewOperationParser(cfg, schema, doc)
+	for _, operationFile := range operationFiles {
+		operationStr := common.FileRead(operationFile)
+		check(operationParser.ParseOperation(operationStr))
+	}
 
+	// render
+	genPath := filepath.Join(cfg.PackageDir, cfg.PackageName)
+	check(os.MkdirAll(genPath, os.ModePerm))
+	doc.PackageName = cfg.PackageName
+	writer, err := os.Create(filepath.Join(genPath, "inputs.go"))
+	check(err)
+	templateStr := strings.ReplaceAll(render.InputsTemplate, "~~", "`")
+	generate(cfg, templateStr, doc, writer)
+
+	writer, err = os.Create(filepath.Join(genPath, "operations.go"))
+	check(err)
+	templateStr = strings.ReplaceAll(render.OperationsTemplate, "~~", "`")
+	generate(cfg, templateStr, doc, writer)
+
+	writer, err = os.Create(filepath.Join(genPath, "client.go"))
+	check(err)
+	templateStr = strings.ReplaceAll(render.ClientTemplate, "~~", "`")
+	generate(cfg, templateStr, doc, writer)
+
+	if cfg.GenerateMocks {
+		generateMocks(cfg)
+	}
+}
+
+func schemaDoc(cfg *config.Config) *ast.Document {
+	var schemaFiles []string
+	for _, schemaGlob := range cfg.Schemas {
+		files, err := filepath.Glob(schemaGlob)
+		check(err)
+		schemaFiles = append(schemaFiles, files...)
+	}
 	// parse schema
 	schemaBuilder := new(strings.Builder)
 	for _, scalar := range cfg.ScalarBuiltIn {
@@ -50,90 +91,31 @@ func Generate(cfg *Config) {
 		_, err := io.Copy(schemaBuilder, common.FileReader(schemaFileName))
 		check(err)
 	}
-	schema, err := parseSchema(schemaBuilder.String())
-	check(err)
 
-	genPath := filepath.Join(cfg.PackageDir, cfg.PackageName)
-	err = os.MkdirAll(genPath, os.ModePerm)
-	check(err)
-
-	// walk definition
-	inputVisitor := NewInputVisitor(schema, cfg)
-	inputVisitor.Walk()
-	writer, err := os.Create(filepath.Join(genPath, "inputs.go"))
-	check(err)
-	templateStr := strings.ReplaceAll(inputsTemplate, "~~", "`")
-	generate(templateStr, inputVisitor.info, writer)
-
-	// walk operations
-	visitor := NewVisitor(cfg, schema, inputVisitor.info)
-	for _, operationFile := range operationFiles {
-		operationStr := common.FileRead(operationFile)
-		operation, err := parseOperation(operationStr, schema)
-		check(err)
-		err = visitor.AddInfo(operationStr, operation)
-		check(err)
-	}
-
-	writer, err = os.Create(filepath.Join(genPath, "operations.go"))
-	check(err)
-	templateStr = strings.ReplaceAll(operationsTemplate, "~~", "`")
-	generate(templateStr, visitor.info, writer)
-
-	writer, err = os.Create(filepath.Join(genPath, "client.go"))
-	check(err)
-	templateStr = strings.ReplaceAll(clientTemplate, "~~", "`")
-	generate(templateStr, visitor.info, writer)
-
-	if cfg.GenerateMocks {
-		generateMocks(cfg)
-	}
-}
-
-func parseSchema(schemaString string) (*ast.Document, error) {
 	parser := astparser.NewParser()
 	doc := ast.NewDocument()
-	doc.Input.ResetInputBytes([]byte(schemaString))
+	doc.Input.ResetInputBytes([]byte(schemaBuilder.String()))
 	report := operationreport.Report{}
 	parser.Parse(doc, &report)
 	if report.HasErrors() {
-		return nil, errors.New(report.Error())
+		panic(errors.New(report.Error()))
 	}
 
 	astnormalization.NormalizeDefinition(doc, &report)
 	if report.HasErrors() {
-		return nil, errors.New(report.Error())
+		panic(errors.New(report.Error()))
 	}
 
 	validator := astvalidation.DefaultDefinitionValidator()
 	report = operationreport.Report{}
 	result := validator.Validate(doc, &report)
 	if result != astvalidation.Valid {
-		return nil, errors.New(report.Error())
+		panic(errors.New(report.Error()))
 	}
-	return doc, nil
+	return doc
 }
 
-func parseOperation(operationString string, schema *ast.Document) (*ast.Document, error) {
-	parser := astparser.NewParser()
-	doc := ast.NewDocument()
-	doc.Input.ResetInputBytes([]byte(operationString))
-	report := operationreport.Report{}
-	parser.Parse(doc, &report)
-	if report.HasErrors() {
-		return nil, errors.New(report.Error())
-	}
-
-	validator := astvalidation.DefaultOperationValidator()
-	report = operationreport.Report{}
-	result := validator.Validate(doc, schema, &report)
-	if result != astvalidation.Valid {
-		return nil, errors.New(report.Error())
-	}
-	return doc, nil
-}
-
-func generate(templateStr string, info interface{}, writer io.Writer) {
+func generate(cfg *config.Config, templateStr string, info interface{}, writer io.Writer) {
 	templateFuncs := template.FuncMap{
 		"pascal": strcase.ToCamel,
 	}
@@ -142,14 +124,18 @@ func generate(templateStr string, info interface{}, writer io.Writer) {
 	template.Execute(&out, info)
 	formatted, err := imports.Process("", out.Bytes(), nil)
 	if err != nil {
-		formatted = out.Bytes()
-		log.Error().Err(err).Msg("formatting error")
+		if cfg.Debug {
+			log.Error().Err(err).Msg("error formatting generated code")
+			formatted = out.Bytes()
+		} else {
+			panic("error formatting generated code")
+		}
 	}
 	_, err = writer.Write(formatted)
 	check(err)
 }
 
-func generateMocks(cfg *Config) {
+func generateMocks(cfg *config.Config) {
 	mcfg := mockery_config.Config{
 		Name:           "Client",
 		Case:           "underscore",

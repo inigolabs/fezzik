@@ -1,68 +1,30 @@
-package fezzik
+package parse
 
 import (
 	"errors"
 	"strings"
 
 	"github.com/inigolabs/fezzik/common"
+	"github.com/inigolabs/fezzik/config"
+	"github.com/inigolabs/fezzik/fezzik_ast"
 	"github.com/jensneuse/graphql-go-tools/pkg/ast"
+	"github.com/jensneuse/graphql-go-tools/pkg/astparser"
+	"github.com/jensneuse/graphql-go-tools/pkg/astvalidation"
 	"github.com/jensneuse/graphql-go-tools/pkg/astvisitor"
 	"github.com/jensneuse/graphql-go-tools/pkg/operationreport"
 
 	"github.com/rs/zerolog/log"
 )
 
-type Info struct {
-	Debug       bool
-	PackageName string
+func NewOperationParser(cfg *config.Config, schema *ast.Document, doc *fezzik_ast.Document) *operationParser {
 
-	Operations []*OperationInfo
-}
-
-type OperationInfo struct {
-	Name         string
-	Operation    string
-	ResponseType string
-	Inputs       []OperationInput
-}
-
-type OperationInput struct {
-	Name string
-	Type string
-}
-
-type currOperation struct {
-	name      string
-	operation *builder
-	response  *builder
-	inputs    []OperationInput
-}
-
-type visitor struct {
-	*astvisitor.Walker
-
-	cfg        *Config
-	operation  *ast.Document
-	definition *ast.Document
-
-	inputsInfo *InputRenderInfo
-
-	info *Info
-
-	curr *currOperation
-}
-
-func NewVisitor(cfg *Config, schema *ast.Document, inputsInfo *InputRenderInfo) *visitor {
 	walker := astvisitor.NewWalker(48)
-	visitor := &visitor{
+	visitor := &operationVisitor{
 		Walker:     &walker,
 		cfg:        cfg,
 		definition: schema,
-		inputsInfo: inputsInfo,
-		info: &Info{
-			Debug:       cfg.Debug,
-			PackageName: cfg.PackageName,
-		},
+
+		doc: doc,
 	}
 	walker.RegisterEnterOperationVisitor(visitor)
 	walker.RegisterLeaveOperationVisitor(visitor)
@@ -70,22 +32,71 @@ func NewVisitor(cfg *Config, schema *ast.Document, inputsInfo *InputRenderInfo) 
 	walker.RegisterFieldVisitor(visitor)
 	walker.RegisterArgumentVisitor(visitor)
 	walker.RegisterVariableDefinitionVisitor(visitor)
-	return visitor
+
+	return &operationParser{
+		cfg:     cfg,
+		schema:  schema,
+		visitor: visitor,
+		doc:     doc,
+	}
 }
 
-func (v *visitor) AddInfo(queryStr string, query *ast.Document) error {
-	v.operation = query
+func (p *operationParser) ParseOperation(operationStr string) error {
+	parser := astparser.NewParser()
+	operation := ast.NewDocument()
+	operation.Input.ResetInputBytes([]byte(operationStr))
 	report := operationreport.Report{}
-	v.Walker.Walk(query, v.definition, &report)
+	parser.Parse(operation, &report)
 	if report.HasErrors() {
-		log.Error().Str("errors", report.Error()).Msg("")
+		return errors.New(report.Error())
+	}
+
+	validator := astvalidation.DefaultOperationValidator()
+	report = operationreport.Report{}
+	result := validator.Validate(operation, p.schema, &report)
+	if result != astvalidation.Valid {
+		return errors.New(report.Error())
+	}
+
+	p.visitor.operation = operation
+	report = operationreport.Report{}
+	p.visitor.Walker.Walk(operation, p.schema, &report)
+	if report.HasErrors() {
 		return errors.New(report.Error())
 	}
 
 	return nil
 }
 
-func (v *visitor) EnterOperationDefinition(ref int) {
+type operationParser struct {
+	cfg    *config.Config
+	schema *ast.Document
+
+	visitor *operationVisitor
+
+	doc *fezzik_ast.Document
+}
+
+type currOperation struct {
+	name      string
+	operation *builder
+	response  *builder
+	inputs    []fezzik_ast.OperationInput
+}
+
+type operationVisitor struct {
+	*astvisitor.Walker
+
+	cfg        *config.Config
+	operation  *ast.Document
+	definition *ast.Document
+
+	doc *fezzik_ast.Document
+
+	curr *currOperation
+}
+
+func (v *operationVisitor) EnterOperationDefinition(ref int) {
 	v.curr = &currOperation{
 		operation: NewBuilder(),
 		response:  NewBuilder(),
@@ -114,8 +125,8 @@ func (v *visitor) EnterOperationDefinition(ref int) {
 	log.Debug().Str("name", v.curr.name).Msg("EnterOperationDefinition")
 }
 
-func (v *visitor) LeaveOperationDefinition(ref int) {
-	v.info.Operations = append(v.info.Operations, &OperationInfo{
+func (v *operationVisitor) LeaveOperationDefinition(ref int) {
+	v.doc.Operations = append(v.doc.Operations, &fezzik_ast.OperationInfo{
 		Name:         v.curr.name,
 		Operation:    v.curr.operation.String(),
 		ResponseType: v.curr.response.String(),
@@ -123,7 +134,7 @@ func (v *visitor) LeaveOperationDefinition(ref int) {
 	})
 }
 
-func (v *visitor) EnterSelectionSet(ref int) {
+func (v *operationVisitor) EnterSelectionSet(ref int) {
 	v.curr.operation.Writeln(" {")
 
 	parentTypeName := v.definition.NodeNameUnsafeString(v.EnclosingTypeDefinition)
@@ -132,7 +143,7 @@ func (v *visitor) EnterSelectionSet(ref int) {
 	}
 }
 
-func (v *visitor) LeaveSelectionSet(ref int) {
+func (v *operationVisitor) LeaveSelectionSet(ref int) {
 	v.curr.operation.Write(v.indent(), "}")
 
 	parentTypeName := v.definition.NodeNameUnsafeString(v.EnclosingTypeDefinition)
@@ -141,7 +152,7 @@ func (v *visitor) LeaveSelectionSet(ref int) {
 	}
 }
 
-func (v *visitor) EnterField(ref int) {
+func (v *operationVisitor) EnterField(ref int) {
 	// render operation
 	field := v.operation.Fields[ref]
 	name := v.operation.Input.ByteSliceString(field.Name)
@@ -153,7 +164,7 @@ func (v *visitor) EnterField(ref int) {
 		panic("field not found") // TODO - better error message, don't panic
 	}
 	fieldDefTypeRef := v.definition.FieldDefinitionType(fieldDefRef)
-	typeInfo := getTypeInfo(fieldDefTypeRef, v.definition)
+	typeInfo := fezzik_ast.GetTypeInfo(fieldDefTypeRef, v.definition)
 
 	v.curr.response.Write(common.UppercaseFirstChar(name), " ")
 	if typeInfo.IsList {
@@ -165,9 +176,9 @@ func (v *visitor) EnterField(ref int) {
 	if typeInfo.IsTypeNullable {
 		v.curr.response.Write("*")
 	}
-	if goType, ok := getGoType(v.cfg, typeInfo.Name); ok {
+	if goType, ok := fezzik_ast.GetGoType(v.cfg, typeInfo.Name); ok {
 		v.curr.response.Writeln(goType)
-	} else if _, found := v.inputsInfo.EnumTypes[typeInfo.Name]; found {
+	} else if _, found := v.doc.EnumTypes[typeInfo.Name]; found {
 		v.curr.response.Writeln(typeInfo.Name)
 	} else {
 		v.curr.response.Write("struct")
@@ -176,11 +187,11 @@ func (v *visitor) EnterField(ref int) {
 	log.Debug().Str("name", string(name)).Str("type", typeInfo.Name).Msg("EnterField")
 }
 
-func (v *visitor) LeaveField(ref int) {
+func (v *operationVisitor) LeaveField(ref int) {
 	v.curr.operation.Writeln()
 }
 
-func (v *visitor) EnterVariableDefinition(ref int) {
+func (v *operationVisitor) EnterVariableDefinition(ref int) {
 	// render operation
 	if !v.operation.VariableDefinitionsBefore(ref) {
 		v.curr.operation.Write(v.indent(), "(")
@@ -205,7 +216,7 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	}
 
 	// render inputs
-	typeInfo := getTypeInfo(varDef.Type, v.operation)
+	typeInfo := fezzik_ast.GetTypeInfo(varDef.Type, v.operation)
 	typeBuilder := new(strings.Builder)
 	if typeInfo.IsList {
 		if typeInfo.IsListNullable {
@@ -216,13 +227,13 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	if typeInfo.IsTypeNullable {
 		typeBuilder.WriteString("*")
 	}
-	if goType, ok := getGoType(v.cfg, typeInfo.Name); ok {
+	if goType, ok := fezzik_ast.GetGoType(v.cfg, typeInfo.Name); ok {
 		typeBuilder.WriteString(goType)
 	} else {
 		typeBuilder.WriteString(typeInfo.Name)
 	}
 
-	v.curr.inputs = append(v.curr.inputs, OperationInput{
+	v.curr.inputs = append(v.curr.inputs, fezzik_ast.OperationInput{
 		Name: varNameStr,
 		Type: typeBuilder.String(),
 	})
@@ -230,7 +241,7 @@ func (v *visitor) EnterVariableDefinition(ref int) {
 	log.Debug().Str("name", varNameStr).Bytes("type", varType).Msg("EnterVariableDefinition")
 }
 
-func (v *visitor) LeaveVariableDefinition(ref int) {
+func (v *operationVisitor) LeaveVariableDefinition(ref int) {
 	if !v.operation.VariableDefinitionsAfter(ref) {
 		v.curr.operation.Write(")")
 	} else {
@@ -245,7 +256,7 @@ func (v *visitor) LeaveVariableDefinition(ref int) {
 	log.Debug().Bytes("name", varName).Bytes("type", varType).Msg("LeaveVariableDefinition")
 }
 
-func (v *visitor) EnterArgument(ref int) {
+func (v *operationVisitor) EnterArgument(ref int) {
 	lastAncestor := v.Ancestors[len(v.Ancestors)-1]
 	if len(v.operation.ArgumentsBefore(lastAncestor, ref)) == 0 {
 		v.curr.operation.Write("(")
@@ -259,14 +270,14 @@ func (v *visitor) EnterArgument(ref int) {
 	v.curr.operation.Write(argName, ": ", argVal)
 }
 
-func (v *visitor) LeaveArgument(ref int) {
+func (v *operationVisitor) LeaveArgument(ref int) {
 	lastAncestor := v.Ancestors[len(v.Ancestors)-1]
 	if len(v.operation.ArgumentsAfter(lastAncestor, ref)) == 0 {
 		v.curr.operation.Write(")")
 	}
 }
 
-func (v *visitor) indent() []byte {
+func (v *operationVisitor) indent() []byte {
 
 	if len(v.Ancestors) == 0 {
 		return []byte("")
@@ -288,90 +299,8 @@ func (v *visitor) indent() []byte {
 	return buf
 }
 
-var operationsTemplate string = `
-package {{ .PackageName }}
-
-import (
-	"context"
-
-	"github.com/rs/zerolog/log"
-)
-
-{{ $root := . }}
-
-{{- range $operation := .Operations }}
-
-var {{ $operation.Name }}Operation string = ~~
-{{ $operation.Operation }}
-~~
-
-{{ if len $operation.Inputs }}
-type {{ $operation.Name }}InputArgs struct {
-{{- range $val := $operation.Inputs }}
-{{ pascal $val.Name }} {{ $val.Type}} ~~json:"{{ $val.Name }}"~~
-{{- end }}
-}
-{{ end }}
-
-type {{ $operation.Name }}Response struct {
-{{ $operation.ResponseType }}
-}
-
-{{ if len $operation.Inputs }}
-func (c *client) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
-	*{{ $operation.Name }}Response, error) {
-{{ else }}
-func (c *client) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
-{{ end }}
-
-	gqlreq := &fezzik.GQLRequest{
-		OperationName: "{{ $operation.Name}}",
-		Query: {{ $operation.Name }}Operation,
-		Variables: map[string]interface{}{
-			{{- range $val := $operation.Inputs }}	
-			"{{ $val.Name }}" : input.{{ pascal $val.Name }},
-			{{- end }}
-		},
-	}
-
-	var gqldata {{ $operation.Name }}Response
-	var gqlerrs fezzik.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+func check(err error) {
 	if err != nil {
-		return nil, err
-	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
-	}
-	return &gqldata, &gqlerrs
-}
-
-{{- end }}
-`
-
-var clientTemplate string = `
-package {{ .PackageName }}
-
-import "github.com/machinebox/graphql"
-
-type Client interface {
-{{- range $operation := .Operations }}
-{{- if len $operation.Inputs }}
-	{{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (*{{ $operation.Name }}Response, error)
-{{- else }}
-	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error)
-{{- end }}	
-{{- end }}
-}
-
-func NewClient(url string, httpclient *http.Client) Client {
-	gqlclient := fezzik.NewGQLClient(url, httpclient)
-	return &client{
-		gql: gqlclient,
+		panic(err)
 	}
 }
-
-type client struct {
-	gql *fezzik.GQLClient
-}
-`

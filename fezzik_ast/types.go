@@ -1,15 +1,11 @@
-package fezzik
+package fezzik_ast
 
-import "github.com/jensneuse/graphql-go-tools/pkg/ast"
+import (
+	"github.com/inigolabs/fezzik/config"
+	"github.com/jensneuse/graphql-go-tools/pkg/ast"
+)
 
-type TypeInfo struct {
-	Name           string
-	IsList         bool
-	IsListNullable bool
-	IsTypeNullable bool
-}
-
-func getTypeInfo(ref int, doc *ast.Document) *TypeInfo {
+func GetTypeInfo(ref int, doc *ast.Document) *TypeInfo {
 	return getTypeInfoHelper(ref, doc, &TypeInfo{}, true)
 }
 
@@ -28,7 +24,7 @@ func getTypeInfoHelper(ref int, doc *ast.Document, info *TypeInfo, nullable bool
 	return info
 }
 
-func getGoType(cfg *Config, typeName string) (string, bool) {
+func GetGoType(cfg *config.Config, typeName string) (string, bool) {
 	var builtinTypeMap = map[string]string{
 		"Boolean": "bool",
 		"Float":   "float32",

@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/inigolabs/fezzik"
+	"github.com/inigolabs/fezzik/client"
 )
 
 type Client interface {
@@ -15,12 +15,11 @@ type Client interface {
 }
 
 func NewClient(url string, httpclient *http.Client) Client {
-	gqlclient := fezzik.NewGQLClient(url, httpclient)
-	return &client{
-		gql: gqlclient,
+	return &gqlclient{
+		gql: client.NewGQLClient(url, httpclient),
 	}
 }
 
-type client struct {
-	gql *fezzik.GQLClient
+type gqlclient struct {
+	gql *client.GQLClient
 }

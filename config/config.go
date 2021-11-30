@@ -1,4 +1,4 @@
-package fezzik
+package config
 
 type Config struct {
 	Schemas    []string `yaml:"schemas"`

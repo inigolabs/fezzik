@@ -1,4 +1,4 @@
-package fezzik
+package parse
 
 import (
 	"strings"
