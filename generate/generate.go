@@ -1,4 +1,4 @@
-package fezzik
+package generate
 
 import (
 	"os"

@@ -4,14 +4,12 @@ type Config struct {
 	Schemas    []string `yaml:"schemas"`
 	Operations []string `yaml:"operations"`
 
-	PackageName string `yaml:"package_name"`
-	PackageDir  string `yaml:"package_dir"`
+	PackageName string `default:"fezzikclient" yaml:"package_name"`
+	PackageDir  string `default:"fezzikclient" yaml:"package_dir"`
 
 	ScalarBuiltIn []string          `yaml:"scalar_built_in"`
 	ScalarTypeMap map[string]string `yaml:"scalar_type_map"`
 
-	DirectiveStructSuffix string
-
-	GenerateMocks bool
-	Debug         bool
+	GenerateMocks bool `default:"false" yaml:"generate_mocks"`
+	Debug         bool `default:"false" yaml:"debug"`
 }

@@ -1,0 +1,16 @@
+schemas: 
+  - schemas/*.graphql
+operations:
+  - operations/*.graphql
+package_name: basic
+package_dir: gen
+scalar_built_in:
+  - Int
+  - ID
+  - String
+  - Boolean
+  - Float
+scalar_type_map:
+  Time: time.Time
+generate_mocks: true
+debug: false
