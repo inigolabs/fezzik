@@ -3,6 +3,8 @@ module github.com/inigolabs/fezzik
 go 1.16
 
 require (
+	github.com/alexflint/go-arg v1.4.2
+	github.com/ejoffe/rake v0.2.7
 	github.com/iancoleman/strcase v0.0.0-20191112232945-16388991a334
 	github.com/jensneuse/graphql-go-tools v1.26.1
 	github.com/json-iterator/go v1.1.9

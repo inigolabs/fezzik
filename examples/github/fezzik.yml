@@ -1,0 +1,19 @@
+schemas: 
+  - "schemas/*.graphql"
+operations:
+  - "operations/*.graphql"
+package_name: "github"
+package_dir: "gen"
+scalar_built_in:
+  - Int
+  - ID
+  - String
+  - Boolean
+  - Float
+scalar_type_map:
+  DateTime: time.Time
+  URI: string
+  GitObjectID: string
+  GitRefname: string
+generate_mocks: true
+debug: false
