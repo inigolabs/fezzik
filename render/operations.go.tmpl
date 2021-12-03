@@ -49,7 +49,7 @@ func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.N
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
+	if len(gqlerrs.Errors) == 0 {
 		return &gqldata, nil
 	}
 	return &gqldata, &gqlerrs

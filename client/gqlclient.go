@@ -4,33 +4,11 @@ import (
 	"bytes"
 	"context"
 	"net/http"
-	"strings"
 
 	jsoniter "github.com/json-iterator/go"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
-
-type GQLError struct {
-	Message   string `json:"message"`
-	Locations []struct {
-		Line   int `json:"line"`
-		Column int `json:"column"`
-	} `json:"locations"`
-	Path []string `json:"path"`
-}
-type GQLErrors []GQLError
-
-type GQLRequest struct {
-	OperationName string                 `json:"operationName"`
-	Query         string                 `json:"query"`
-	Variables     map[string]interface{} `json:"variables"`
-}
-
-type GQLResponse struct {
-	Data   interface{}
-	Errors *GQLErrors
-}
 
 type GQLClient struct {
 	endpoint   string
@@ -78,13 +56,4 @@ func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}
 		return err
 	}
 	return nil
-}
-
-func (e *GQLErrors) Error() string {
-	var sb strings.Builder
-	for _, err := range *e {
-		sb.WriteString(err.Message)
-		sb.WriteString("\n")
-	}
-	return sb.String()
 }

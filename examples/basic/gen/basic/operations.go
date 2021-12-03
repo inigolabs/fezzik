@@ -42,7 +42,7 @@ func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, erro
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
+	if len(gqlerrs.Errors) == 0 {
 		return &gqldata, nil
 	}
 	return &gqldata, &gqlerrs
@@ -88,7 +88,7 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
+	if len(gqlerrs.Errors) == 0 {
 		return &gqldata, nil
 	}
 	return &gqldata, &gqlerrs
@@ -137,7 +137,7 @@ func (c *gqlclient) QueryWithInputs(ctx context.Context, input *QueryWithInputsI
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
+	if len(gqlerrs.Errors) == 0 {
 		return &gqldata, nil
 	}
 	return &gqldata, &gqlerrs
@@ -174,7 +174,7 @@ func (c *gqlclient) OneAdd(ctx context.Context, input *OneAddInputArgs) (
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
+	if len(gqlerrs.Errors) == 0 {
 		return &gqldata, nil
 	}
 	return &gqldata, &gqlerrs
