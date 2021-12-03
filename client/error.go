@@ -7,9 +7,7 @@ import (
 	"strings"
 )
 
-type GQLErrors struct {
-	Errors []*GQLError `json:"errors"`
-}
+type GQLErrors []*GQLError
 
 type GQLError struct {
 	Message    string                 `json:"message"`
@@ -25,7 +23,7 @@ type Location struct {
 
 func (e *GQLErrors) Error() string {
 	var out strings.Builder
-	for _, err := range e.Errors {
+	for _, err := range *e {
 		out.WriteString(err.Error())
 		out.WriteString("\n")
 	}

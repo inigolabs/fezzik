@@ -1,6 +1,6 @@
 package client
 
 type GQLResponse struct {
-	Data   interface{}
-	Errors *GQLErrors
+	Data   interface{} `json:"data"`
+	Errors *GQLErrors  `json:"errors,omitempty"`
 }
