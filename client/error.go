@@ -3,7 +3,6 @@ package client
 import (
 	"bytes"
 	"fmt"
-	"strconv"
 	"strings"
 )
 
@@ -35,21 +34,18 @@ func (e *GQLError) Error() string {
 	if e == nil {
 		return ""
 	}
-	filename, _ := e.Extensions["file"].(string)
-	if filename == "" {
-		filename = "input"
-	}
-	out.WriteString(filename)
-
-	if len(e.Locations) > 0 {
-		out.WriteByte(':')
-		out.WriteString(strconv.Itoa(e.Locations[0].Line))
+	if operationName, found := e.Extensions["operationName"].(string); found {
+		out.WriteString(operationName)
+		out.WriteString(": ")
 	}
 
-	out.WriteString(": ")
-	if ps := e.pathString(); ps != "" {
-		out.WriteString(ps)
-		out.WriteByte(' ')
+	if path := e.pathString(); path != "" {
+		if operationType, found := e.Extensions["operationType"].(string); found {
+			out.WriteString(operationType)
+			out.WriteString(".")
+		}
+		out.WriteString(path)
+		out.WriteString(": ")
 	}
 
 	out.WriteString(e.Message)
