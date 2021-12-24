@@ -7,7 +7,6 @@ type Config struct {
 	PackageName string `default:"fezzikclient" yaml:"package_name"`
 	PackageDir  string `default:"fezzikclient" yaml:"package_dir"`
 
-	ScalarBuiltIn []string          `yaml:"scalar_built_in"`
 	ScalarTypeMap map[string]string `yaml:"scalar_type_map"`
 
 	GenerateMocks bool `default:"false" yaml:"generate_mocks"`

@@ -16,6 +16,7 @@ type Mutation {
 	oneAdd(input : OneInput) : ID
 }
 
+# One
 type One {
 	oneInt : Int
 	oneIntMust : Int!

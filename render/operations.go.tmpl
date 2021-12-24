@@ -22,9 +22,8 @@ type {{ $operation.Name }}InputArgs struct {
 }
 {{ end }}
 
-type {{ $operation.Name }}Response struct {
+type {{ $operation.Name }}Response struct 
 {{ $operation.ResponseType }}
-}
 
 {{ if len $operation.Inputs }}
 func (c *gqlclient) {{ $operation.Name }}(ctx context.Context, input *{{ $operation.Name }}InputArgs) (
