@@ -5,23 +5,19 @@ import (
 	"path/filepath"
 
 	"github.com/inigolabs/fezzik/config"
-	"github.com/inigolabs/fezzik/fezzik_ast"
-	"github.com/inigolabs/fezzik/parse"
 	"github.com/inigolabs/fezzik/render"
 )
 
 func Generate(cfg *config.Config) {
-
-	doc := fezzik_ast.NewDocument()
-
 	// parse
-	schema := parse.SchemaDoc(cfg)
-	check(parse.ParseEnums(cfg, schema, doc))
-	check(parse.ParseInputs(cfg, schema, doc))
-	check(parse.ParseOperations(cfg, schema, doc))
+	schema := ParseSchema(cfg)
+	operations := ParseOperations(cfg, schema)
+
+	// process
+	doc := Process(cfg, schema, operations)
+	doc.PackageName = cfg.PackageName
 
 	// render
-	doc.PackageName = cfg.PackageName
 	genPath := filepath.Join(cfg.PackageDir, cfg.PackageName)
 	check(os.MkdirAll(genPath, os.ModePerm))
 

@@ -1,27 +1,28 @@
-package parse
+package common
 
 import (
+	"fmt"
 	"strings"
-
-	"github.com/jensneuse/graphql-go-tools/pkg/ast"
 )
 
 type builder struct {
 	b *strings.Builder
 }
 
-func NewBuilder() *builder {
+func NewStringBuilder() *builder {
 	return &builder{
 		b: new(strings.Builder),
 	}
+}
+
+func (b *builder) Sprint(formatStr string, in ...interface{}) {
+	b.b.WriteString(fmt.Sprintf(formatStr, in...))
 }
 
 func (b *builder) Write(in ...interface{}) {
 	for _, i := range in {
 		switch i := i.(type) {
 		case []byte:
-			b.b.Write(i)
-		case ast.ByteSlice:
 			b.b.Write(i)
 		case string:
 			b.b.WriteString(i)

@@ -1,6 +1,7 @@
+# OneAllTypes query
 query OneAllTypes {
 	one {
-		oneInt
+		oneInt # oneInt
 		oneIntMust
 		oneIntList
 		oneIntMustList
@@ -8,6 +9,7 @@ query OneAllTypes {
 	}
 }
 
+# OneWithSubSelections query
 query OneWithSubSelections {
 	one {
 		two {
@@ -21,6 +23,7 @@ query OneWithSubSelections {
 	}
 }
 
+# OneWithInputs query
 query QueryWithInputs($input_one : String, $input_two : String) {
 	one(input : $input_one) {
 		oneInt
@@ -31,6 +34,7 @@ query QueryWithInputs($input_one : String, $input_two : String) {
 	}	
 }
 
+# OneAdd query
 mutation OneAdd($input : OneInput) {
 	oneAdd(input : $input)
 }
