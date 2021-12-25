@@ -114,7 +114,7 @@ func getOperation(operation *ast.OperationDefinition) string {
 			for i := 0; i < len(ss); i++ {
 				switch fs := ss[i].(type) {
 				case *ast.Field:
-					b.Write("\n", indent, "   ", fs.Name)
+					b.Write("\n", indent, "\t", fs.Name)
 					if len(fs.Arguments) > 0 {
 						b.Write("(")
 						for ia := 0; ia < len(fs.Arguments); ia++ {
@@ -126,7 +126,7 @@ func getOperation(operation *ast.OperationDefinition) string {
 						}
 						b.Write(")")
 					}
-					visitSelectionSet(fs.SelectionSet, indent+"   ")
+					visitSelectionSet(fs.SelectionSet, indent+"\t")
 				default:
 					common.Check(fmt.Errorf("unimplamented type %T", ss[i]))
 				}
@@ -151,7 +151,7 @@ func getOperation(operation *ast.OperationDefinition) string {
 		}
 		b.Write(")")
 	}
-	visitSelectionSet(operation.SelectionSet, "")
+	visitSelectionSet(operation.SelectionSet, "\t")
 
 	return b.String()
 }

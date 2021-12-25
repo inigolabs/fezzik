@@ -10,10 +10,8 @@ import (
 
 {{- range $operation := .Operations }}
 
-var {{ $operation.Name }}Operation string = `
-{{ $operation.Operation }}
-`
 
+// {{$operation.Name}}Response response type for {{$operation.Name}}
 type {{ $operation.Name }}Response struct 
 {{ $operation.ResponseType }}
 
@@ -28,9 +26,12 @@ func (c *gqlclient) {{ $operation.Name }}(ctx context.Context,
 func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
 {{ end }}
 
+	var {{ camel $operation.Name }}Operation string = `
+	{{ $operation.Operation }}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "{{ $operation.Name}}",
-		Query: {{ $operation.Name }}Operation,
+		Query: {{ camel $operation.Name }}Operation,
 		Variables: map[string]interface{}{
 			{{- range $val := $operation.Inputs }}	
 			"{{ $val.Name }}" : {{ camel $val.Name }},
