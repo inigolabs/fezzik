@@ -28,6 +28,7 @@ type OneAllTypesResponse struct {
 	}
 }
 
+// OneAllTypes from examples/basic/operations/operations.graphql:2
 func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) {
 
 	gqlreq := &client.GQLRequest{
@@ -74,6 +75,7 @@ type OneWithSubSelectionsResponse struct {
 	}
 }
 
+// OneWithSubSelections from examples/basic/operations/operations.graphql:13
 func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error) {
 
 	gqlreq := &client.GQLRequest{
@@ -114,6 +116,7 @@ type QueryWithInputsResponse struct {
 	}
 }
 
+// QueryWithInputs from examples/basic/operations/operations.graphql:27
 func (c *gqlclient) QueryWithInputs(ctx context.Context,
 	inputOne *string,
 	inputTwo *string,
@@ -150,6 +153,7 @@ type OneAddResponse struct {
 	OneAdd *string
 }
 
+// OneAdd from examples/basic/operations/operations.graphql:38
 func (c *gqlclient) OneAdd(ctx context.Context,
 	input *OneInput,
 ) (*OneAddResponse, error) {

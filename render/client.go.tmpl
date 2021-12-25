@@ -9,6 +9,7 @@ import (
 
 type Client interface {
 {{- range $operation := .Operations }}
+// {{$operation.Name}} from {{ $operation.Source }}
 {{- if len $operation.Inputs }}
 	{{ $operation.Name }}(ctx context.Context, 
 	{{- range $val := $operation.Inputs }}

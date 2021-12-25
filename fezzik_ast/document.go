@@ -49,9 +49,15 @@ type OperationInfo struct {
 	Operation    string
 	ResponseType string
 	Inputs       []OperationInput
+	Source       Source
 }
 
 type OperationInput struct {
 	Name string
 	Type string
+}
+
+type Source struct {
+	FileName string
+	Line     int
 }

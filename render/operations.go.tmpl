@@ -17,13 +17,14 @@ var {{ $operation.Name }}Operation string = `
 type {{ $operation.Name }}Response struct 
 {{ $operation.ResponseType }}
 
-{{ if len $operation.Inputs }}
+// {{$operation.Name}} from {{ $operation.Source }}
+{{- if len $operation.Inputs }}
 func (c *gqlclient) {{ $operation.Name }}(ctx context.Context, 
 	{{- range $val := $operation.Inputs }}
 		{{ camel $val.Name }} {{ $val.Type}}, 
 	{{- end }}	
 	) (*{{ $operation.Name }}Response, error) {
-{{ else }}
+{{- else }}
 func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error) {
 {{ end }}
 

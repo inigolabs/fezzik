@@ -78,6 +78,7 @@ type GetInfoResponse struct {
 	}
 }
 
+// GetInfo from examples/github/operations/operations.graphql:1
 func (c *gqlclient) GetInfo(ctx context.Context,
 	repoOwner string,
 	repoName string,
@@ -124,6 +125,7 @@ type CreatePullRequestResponse struct {
 	}
 }
 
+// CreatePullRequest from examples/github/operations/operations.graphql:39
 func (c *gqlclient) CreatePullRequest(ctx context.Context,
 	input CreatePullRequestInput,
 ) (*CreatePullRequestResponse, error) {
@@ -166,6 +168,7 @@ type UpdatePullRequestResponse struct {
 	}
 }
 
+// UpdatePullRequest from examples/github/operations/operations.graphql:50
 func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 	input UpdatePullRequestInput,
 ) (*UpdatePullRequestResponse, error) {
@@ -204,6 +207,7 @@ type CommentPullRequestResponse struct {
 	}
 }
 
+// CommentPullRequest from examples/github/operations/operations.graphql:60
 func (c *gqlclient) CommentPullRequest(ctx context.Context,
 	input AddCommentInput,
 ) (*CommentPullRequestResponse, error) {
@@ -246,6 +250,7 @@ type MergePullRequestResponse struct {
 	}
 }
 
+// MergePullRequest from examples/github/operations/operations.graphql:68
 func (c *gqlclient) MergePullRequest(ctx context.Context,
 	input MergePullRequestInput,
 ) (*MergePullRequestResponse, error) {
@@ -288,6 +293,7 @@ type ClosePullRequestResponse struct {
 	}
 }
 
+// ClosePullRequest from examples/github/operations/operations.graphql:78
 func (c *gqlclient) ClosePullRequest(ctx context.Context,
 	input ClosePullRequestInput,
 ) (*ClosePullRequestResponse, error) {
