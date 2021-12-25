@@ -1,6 +1,10 @@
 package fezzik_ast
 
-import "github.com/inigolabs/fezzik/config"
+import (
+	"fmt"
+
+	"github.com/inigolabs/fezzik/config"
+)
 
 func GetGoType(cfg *config.Config, typeName string) (string, bool) {
 	var builtinTypeMap = map[string]string{
@@ -18,4 +22,8 @@ func GetGoType(cfg *config.Config, typeName string) (string, bool) {
 		return val, true
 	}
 	return "", false
+}
+
+func (s Source) String() string {
+	return fmt.Sprintf("%s:%d", s.FileName, s.Line)
 }

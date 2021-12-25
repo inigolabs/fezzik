@@ -41,6 +41,10 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 			Operation:    getOperation(o),
 			ResponseType: getResponseType(cfg, result, o),
 			Inputs:       getOperationInputs(cfg, result, o.VariableDefinitions),
+			Source: fezzik_ast.Source{
+				FileName: o.Position.Src.Name,
+				Line:     o.Position.Line,
+			},
 		})
 	}
 

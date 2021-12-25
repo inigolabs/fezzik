@@ -4,6 +4,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"strings"
 )
 
@@ -33,4 +34,13 @@ func RootDir() string {
 		panic(err)
 	}
 	return strings.TrimSpace(string(out))
+}
+
+func RootPath(filename string) string {
+	currdir, err := os.Getwd()
+	Check(err)
+	fullpath := filepath.Join(currdir, filename)
+	relpath, err := filepath.Rel(RootDir(), fullpath)
+	Check(err)
+	return relpath
 }
