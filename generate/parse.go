@@ -1,6 +1,7 @@
 package generate
 
 import (
+	"os"
 	"path/filepath"
 
 	"github.com/inigolabs/fezzik/common"
@@ -22,10 +23,12 @@ func ParseSchema(cfg *config.Config) *ast.Schema {
 	}
 
 	// make sources
+	currDir, err := os.Getwd()
+	common.Check(err)
 	sources := make([]*ast.Source, len(schemaFiles))
 	for i, filename := range schemaFiles {
 		sources[i] = &ast.Source{
-			Name:  filename,
+			Name:  filepath.Join(currDir, filename),
 			Input: common.FileRead(filename),
 		}
 	}
@@ -43,10 +46,12 @@ func ParseOperations(cfg *config.Config, schema *ast.Schema) *ast.QueryDocument 
 	}
 
 	// make sources
+	currDir, err := os.Getwd()
+	common.Check(err)
 	sources := make([]*ast.Source, len(operationFiles))
 	for i, filename := range operationFiles {
 		sources[i] = &ast.Source{
-			Name:  filename,
+			Name:  filepath.Join(currDir, filename),
 			Input: common.FileRead(filename),
 		}
 	}
@@ -58,7 +63,7 @@ func ParseOperations(cfg *config.Config, schema *ast.Schema) *ast.QueryDocument 
 		appendQueryDoc(result, doc)
 	}
 
-	err := validator.Validate(schema, result)
+	err = validator.Validate(schema, result)
 	common.Check(err)
 
 	return result
