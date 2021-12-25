@@ -4,11 +4,16 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/render"
 )
 
 func Generate(cfg *config.Config) {
+	if cfg.Debug {
+		common.PrefixPretty("config", cfg)
+	}
+
 	// parse
 	schema := ParseSchema(cfg)
 	operations := ParseOperations(cfg, schema)
@@ -16,6 +21,10 @@ func Generate(cfg *config.Config) {
 	// process
 	doc := Process(cfg, schema, operations)
 	doc.PackageName = cfg.PackageName
+
+	if cfg.Debug {
+		common.PrefixPretty("doc", doc)
+	}
 
 	// render
 	genPath := filepath.Join(cfg.PackageDir, cfg.PackageName)

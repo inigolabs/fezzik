@@ -5,7 +5,6 @@ import (
 
 	"github.com/alexflint/go-arg"
 	"github.com/ejoffe/rake"
-	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/generate"
 	"github.com/rs/zerolog"
@@ -25,11 +24,11 @@ func main() {
 
 	var cfg config.Config
 	rake.LoadSources(&cfg,
+		rake.DefaultSource(),
 		rake.YamlMustFileSource(args.Config),
 	)
 
 	if cfg.Debug {
-		common.PrefixPretty("config", cfg)
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 	generate.Generate(&cfg)
