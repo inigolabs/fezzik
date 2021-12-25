@@ -6,43 +6,7 @@ import (
 	"github.com/inigolabs/fezzik/client"
 )
 
-var GetInfoOperation string = `
-query GetInfo($repo_owner : String!, $repo_name : String!) {
-   viewer {
-      login
-      pullRequests(first: 100, states: [OPEN]) {
-         nodes {
-            id
-            number
-            title
-            baseRefName
-            headRefName
-            mergeable
-            reviewDecision
-            repository {
-               id
-            }
-            commits(first: 100) {
-               nodes {
-                  commit {
-                     oid
-                     messageHeadline
-                     messageBody
-                     statusCheckRollup {
-                        state
-                     }
-                  }
-               }
-            }
-         }
-      }
-   }
-   repository(owner: $repo_owner, name: $repo_name) {
-      id
-   }
-}
-`
-
+// GetInfoResponse response type for GetInfo
 type GetInfoResponse struct {
 	Viewer struct {
 		Login        string
@@ -84,9 +48,45 @@ func (c *gqlclient) GetInfo(ctx context.Context,
 	repoName string,
 ) (*GetInfoResponse, error) {
 
+	var getInfoOperation string = `
+	query GetInfo($repo_owner : String!, $repo_name : String!) {
+		viewer {
+			login
+			pullRequests(first: 100, states: [OPEN]) {
+				nodes {
+					id
+					number
+					title
+					baseRefName
+					headRefName
+					mergeable
+					reviewDecision
+					repository {
+						id
+					}
+					commits(first: 100) {
+						nodes {
+							commit {
+								oid
+								messageHeadline
+								messageBody
+								statusCheckRollup {
+									state
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		repository(owner: $repo_owner, name: $repo_name) {
+			id
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "GetInfo",
-		Query:         GetInfoOperation,
+		Query:         getInfoOperation,
 		Variables: map[string]interface{}{
 			"repo_owner": repoOwner,
 			"repo_name":  repoName,
@@ -105,17 +105,7 @@ func (c *gqlclient) GetInfo(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var CreatePullRequestOperation string = `
-mutation CreatePullRequest($input : CreatePullRequestInput!) {
-   createPullRequest(input: $input) {
-      pullRequest {
-         id
-         number
-      }
-   }
-}
-`
-
+// CreatePullRequestResponse response type for CreatePullRequest
 type CreatePullRequestResponse struct {
 	CreatePullRequest *struct {
 		PullRequest *struct {
@@ -130,9 +120,19 @@ func (c *gqlclient) CreatePullRequest(ctx context.Context,
 	input CreatePullRequestInput,
 ) (*CreatePullRequestResponse, error) {
 
+	var createPullRequestOperation string = `
+	mutation CreatePullRequest($input : CreatePullRequestInput!) {
+		createPullRequest(input: $input) {
+			pullRequest {
+				id
+				number
+			}
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "CreatePullRequest",
-		Query:         CreatePullRequestOperation,
+		Query:         createPullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},
@@ -150,16 +150,7 @@ func (c *gqlclient) CreatePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var UpdatePullRequestOperation string = `
-mutation UpdatePullRequest($input : UpdatePullRequestInput!) {
-   updatePullRequest(input: $input) {
-      pullRequest {
-         number
-      }
-   }
-}
-`
-
+// UpdatePullRequestResponse response type for UpdatePullRequest
 type UpdatePullRequestResponse struct {
 	UpdatePullRequest *struct {
 		PullRequest *struct {
@@ -173,9 +164,18 @@ func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 	input UpdatePullRequestInput,
 ) (*UpdatePullRequestResponse, error) {
 
+	var updatePullRequestOperation string = `
+	mutation UpdatePullRequest($input : UpdatePullRequestInput!) {
+		updatePullRequest(input: $input) {
+			pullRequest {
+				number
+			}
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "UpdatePullRequest",
-		Query:         UpdatePullRequestOperation,
+		Query:         updatePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},
@@ -193,14 +193,7 @@ func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var CommentPullRequestOperation string = `
-mutation CommentPullRequest($input : AddCommentInput!) {
-   addComment(input: $input) {
-      clientMutationId
-   }
-}
-`
-
+// CommentPullRequestResponse response type for CommentPullRequest
 type CommentPullRequestResponse struct {
 	AddComment *struct {
 		ClientMutationId *string
@@ -212,9 +205,16 @@ func (c *gqlclient) CommentPullRequest(ctx context.Context,
 	input AddCommentInput,
 ) (*CommentPullRequestResponse, error) {
 
+	var commentPullRequestOperation string = `
+	mutation CommentPullRequest($input : AddCommentInput!) {
+		addComment(input: $input) {
+			clientMutationId
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "CommentPullRequest",
-		Query:         CommentPullRequestOperation,
+		Query:         commentPullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},
@@ -232,16 +232,7 @@ func (c *gqlclient) CommentPullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var MergePullRequestOperation string = `
-mutation MergePullRequest($input : MergePullRequestInput!) {
-   mergePullRequest(input: $input) {
-      pullRequest {
-         number
-      }
-   }
-}
-`
-
+// MergePullRequestResponse response type for MergePullRequest
 type MergePullRequestResponse struct {
 	MergePullRequest *struct {
 		PullRequest *struct {
@@ -255,9 +246,18 @@ func (c *gqlclient) MergePullRequest(ctx context.Context,
 	input MergePullRequestInput,
 ) (*MergePullRequestResponse, error) {
 
+	var mergePullRequestOperation string = `
+	mutation MergePullRequest($input : MergePullRequestInput!) {
+		mergePullRequest(input: $input) {
+			pullRequest {
+				number
+			}
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "MergePullRequest",
-		Query:         MergePullRequestOperation,
+		Query:         mergePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},
@@ -275,16 +275,7 @@ func (c *gqlclient) MergePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var ClosePullRequestOperation string = `
-mutation ClosePullRequest($input : ClosePullRequestInput!) {
-   closePullRequest(input: $input) {
-      pullRequest {
-         number
-      }
-   }
-}
-`
-
+// ClosePullRequestResponse response type for ClosePullRequest
 type ClosePullRequestResponse struct {
 	ClosePullRequest *struct {
 		PullRequest *struct {
@@ -298,9 +289,18 @@ func (c *gqlclient) ClosePullRequest(ctx context.Context,
 	input ClosePullRequestInput,
 ) (*ClosePullRequestResponse, error) {
 
+	var closePullRequestOperation string = `
+	mutation ClosePullRequest($input : ClosePullRequestInput!) {
+		closePullRequest(input: $input) {
+			pullRequest {
+				number
+			}
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "ClosePullRequest",
-		Query:         ClosePullRequestOperation,
+		Query:         closePullRequestOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},

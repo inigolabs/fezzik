@@ -6,18 +6,7 @@ import (
 	"github.com/inigolabs/fezzik/client"
 )
 
-var OneAllTypesOperation string = `
-query OneAllTypes {
-   one {
-      oneInt
-      oneIntMust
-      oneIntList
-      oneIntMustList
-      oneIntMustListMust
-   }
-}
-`
-
+// OneAllTypesResponse response type for OneAllTypes
 type OneAllTypesResponse struct {
 	One *struct {
 		OneInt             *int
@@ -31,9 +20,20 @@ type OneAllTypesResponse struct {
 // OneAllTypes from examples/basic/operations/operations.graphql:2
 func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, error) {
 
+	var oneAllTypesOperation string = `
+	query OneAllTypes {
+		one {
+			oneInt
+			oneIntMust
+			oneIntList
+			oneIntMustList
+			oneIntMustListMust
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneAllTypes",
-		Query:         OneAllTypesOperation,
+		Query:         oneAllTypesOperation,
 		Variables:     map[string]interface{}{},
 	}
 
@@ -49,20 +49,7 @@ func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, erro
 	return &gqldata, &gqlerrs
 }
 
-var OneWithSubSelectionsOperation string = `
-query OneWithSubSelections {
-   one {
-      two {
-         twoInt
-         twoStr
-         three {
-            threeInt
-         }
-      }
-   }
-}
-`
-
+// OneWithSubSelectionsResponse response type for OneWithSubSelections
 type OneWithSubSelectionsResponse struct {
 	One *struct {
 		Two *struct {
@@ -78,9 +65,22 @@ type OneWithSubSelectionsResponse struct {
 // OneWithSubSelections from examples/basic/operations/operations.graphql:13
 func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelectionsResponse, error) {
 
+	var oneWithSubSelectionsOperation string = `
+	query OneWithSubSelections {
+		one {
+			two {
+				twoInt
+				twoStr
+				three {
+					threeInt
+				}
+			}
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneWithSubSelections",
-		Query:         OneWithSubSelectionsOperation,
+		Query:         oneWithSubSelectionsOperation,
 		Variables:     map[string]interface{}{},
 	}
 
@@ -96,17 +96,7 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 	return &gqldata, &gqlerrs
 }
 
-var QueryWithInputsOperation string = `
-query QueryWithInputs($input_one : String, $input_two : String) {
-   one(input: $input_one) {
-      oneInt
-   }
-   two(input: $input_two) {
-      twoInt
-   }
-}
-`
-
+// QueryWithInputsResponse response type for QueryWithInputs
 type QueryWithInputsResponse struct {
 	One *struct {
 		OneInt *int
@@ -122,9 +112,19 @@ func (c *gqlclient) QueryWithInputs(ctx context.Context,
 	inputTwo *string,
 ) (*QueryWithInputsResponse, error) {
 
+	var queryWithInputsOperation string = `
+	query QueryWithInputs($input_one : String, $input_two : String) {
+		one(input: $input_one) {
+			oneInt
+		}
+		two(input: $input_two) {
+			twoInt
+		}
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "QueryWithInputs",
-		Query:         QueryWithInputsOperation,
+		Query:         queryWithInputsOperation,
 		Variables: map[string]interface{}{
 			"input_one": inputOne,
 			"input_two": inputTwo,
@@ -143,12 +143,7 @@ func (c *gqlclient) QueryWithInputs(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
-var OneAddOperation string = `
-mutation OneAdd($input : OneInput) {
-   oneAdd(input: $input)
-}
-`
-
+// OneAddResponse response type for OneAdd
 type OneAddResponse struct {
 	OneAdd *string
 }
@@ -158,9 +153,14 @@ func (c *gqlclient) OneAdd(ctx context.Context,
 	input *OneInput,
 ) (*OneAddResponse, error) {
 
+	var oneAddOperation string = `
+	mutation OneAdd($input : OneInput) {
+		oneAdd(input: $input)
+	}`
+
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneAdd",
-		Query:         OneAddOperation,
+		Query:         oneAddOperation,
 		Variables: map[string]interface{}{
 			"input": input,
 		},
