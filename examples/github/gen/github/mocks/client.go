@@ -15,11 +15,11 @@ type Client struct {
 }
 
 // ClosePullRequest provides a mock function with given fields: ctx, input
-func (_m *Client) ClosePullRequest(ctx context.Context, input *github.ClosePullRequestInputArgs) (*github.ClosePullRequestResponse, error) {
+func (_m *Client) ClosePullRequest(ctx context.Context, input github.ClosePullRequestInput) (*github.ClosePullRequestResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *github.ClosePullRequestResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.ClosePullRequestInputArgs) *github.ClosePullRequestResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, github.ClosePullRequestInput) *github.ClosePullRequestResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -28,7 +28,7 @@ func (_m *Client) ClosePullRequest(ctx context.Context, input *github.ClosePullR
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.ClosePullRequestInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, github.ClosePullRequestInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -38,11 +38,11 @@ func (_m *Client) ClosePullRequest(ctx context.Context, input *github.ClosePullR
 }
 
 // CommentPullRequest provides a mock function with given fields: ctx, input
-func (_m *Client) CommentPullRequest(ctx context.Context, input *github.CommentPullRequestInputArgs) (*github.CommentPullRequestResponse, error) {
+func (_m *Client) CommentPullRequest(ctx context.Context, input github.AddCommentInput) (*github.CommentPullRequestResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *github.CommentPullRequestResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.CommentPullRequestInputArgs) *github.CommentPullRequestResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, github.AddCommentInput) *github.CommentPullRequestResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -51,7 +51,7 @@ func (_m *Client) CommentPullRequest(ctx context.Context, input *github.CommentP
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.CommentPullRequestInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, github.AddCommentInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -61,11 +61,11 @@ func (_m *Client) CommentPullRequest(ctx context.Context, input *github.CommentP
 }
 
 // CreatePullRequest provides a mock function with given fields: ctx, input
-func (_m *Client) CreatePullRequest(ctx context.Context, input *github.CreatePullRequestInputArgs) (*github.CreatePullRequestResponse, error) {
+func (_m *Client) CreatePullRequest(ctx context.Context, input github.CreatePullRequestInput) (*github.CreatePullRequestResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *github.CreatePullRequestResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.CreatePullRequestInputArgs) *github.CreatePullRequestResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, github.CreatePullRequestInput) *github.CreatePullRequestResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -74,7 +74,7 @@ func (_m *Client) CreatePullRequest(ctx context.Context, input *github.CreatePul
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.CreatePullRequestInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, github.CreatePullRequestInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -83,13 +83,13 @@ func (_m *Client) CreatePullRequest(ctx context.Context, input *github.CreatePul
 	return r0, r1
 }
 
-// GetInfo provides a mock function with given fields: ctx, input
-func (_m *Client) GetInfo(ctx context.Context, input *github.GetInfoInputArgs) (*github.GetInfoResponse, error) {
-	ret := _m.Called(ctx, input)
+// GetInfo provides a mock function with given fields: ctx, repoOwner, repoName
+func (_m *Client) GetInfo(ctx context.Context, repoOwner string, repoName string) (*github.GetInfoResponse, error) {
+	ret := _m.Called(ctx, repoOwner, repoName)
 
 	var r0 *github.GetInfoResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.GetInfoInputArgs) *github.GetInfoResponse); ok {
-		r0 = rf(ctx, input)
+	if rf, ok := ret.Get(0).(func(context.Context, string, string) *github.GetInfoResponse); ok {
+		r0 = rf(ctx, repoOwner, repoName)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*github.GetInfoResponse)
@@ -97,8 +97,8 @@ func (_m *Client) GetInfo(ctx context.Context, input *github.GetInfoInputArgs) (
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.GetInfoInputArgs) error); ok {
-		r1 = rf(ctx, input)
+	if rf, ok := ret.Get(1).(func(context.Context, string, string) error); ok {
+		r1 = rf(ctx, repoOwner, repoName)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -107,11 +107,11 @@ func (_m *Client) GetInfo(ctx context.Context, input *github.GetInfoInputArgs) (
 }
 
 // MergePullRequest provides a mock function with given fields: ctx, input
-func (_m *Client) MergePullRequest(ctx context.Context, input *github.MergePullRequestInputArgs) (*github.MergePullRequestResponse, error) {
+func (_m *Client) MergePullRequest(ctx context.Context, input github.MergePullRequestInput) (*github.MergePullRequestResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *github.MergePullRequestResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.MergePullRequestInputArgs) *github.MergePullRequestResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, github.MergePullRequestInput) *github.MergePullRequestResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -120,7 +120,7 @@ func (_m *Client) MergePullRequest(ctx context.Context, input *github.MergePullR
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.MergePullRequestInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, github.MergePullRequestInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -130,11 +130,11 @@ func (_m *Client) MergePullRequest(ctx context.Context, input *github.MergePullR
 }
 
 // UpdatePullRequest provides a mock function with given fields: ctx, input
-func (_m *Client) UpdatePullRequest(ctx context.Context, input *github.UpdatePullRequestInputArgs) (*github.UpdatePullRequestResponse, error) {
+func (_m *Client) UpdatePullRequest(ctx context.Context, input github.UpdatePullRequestInput) (*github.UpdatePullRequestResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *github.UpdatePullRequestResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *github.UpdatePullRequestInputArgs) *github.UpdatePullRequestResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, github.UpdatePullRequestInput) *github.UpdatePullRequestResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -143,7 +143,7 @@ func (_m *Client) UpdatePullRequest(ctx context.Context, input *github.UpdatePul
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *github.UpdatePullRequestInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, github.UpdatePullRequestInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)

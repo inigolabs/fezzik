@@ -43,11 +43,6 @@ query GetInfo($repo_owner : String!, $repo_name : String!) {
 }
 `
 
-type GetInfoInputArgs struct {
-	RepoOwner string `json:"repo_owner"`
-	RepoName  string `json:"repo_name"`
-}
-
 type GetInfoResponse struct {
 	Viewer struct {
 		Login        string
@@ -83,15 +78,17 @@ type GetInfoResponse struct {
 	}
 }
 
-func (c *gqlclient) GetInfo(ctx context.Context, input *GetInfoInputArgs) (
-	*GetInfoResponse, error) {
+func (c *gqlclient) GetInfo(ctx context.Context,
+	repoOwner string,
+	repoName string,
+) (*GetInfoResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "GetInfo",
 		Query:         GetInfoOperation,
 		Variables: map[string]interface{}{
-			"repo_owner": input.RepoOwner,
-			"repo_name":  input.RepoName,
+			"repo_owner": repoOwner,
+			"repo_name":  repoName,
 		},
 	}
 
@@ -118,10 +115,6 @@ mutation CreatePullRequest($input : CreatePullRequestInput!) {
 }
 `
 
-type CreatePullRequestInputArgs struct {
-	Input CreatePullRequestInput `json:"input"`
-}
-
 type CreatePullRequestResponse struct {
 	CreatePullRequest *struct {
 		PullRequest *struct {
@@ -131,14 +124,15 @@ type CreatePullRequestResponse struct {
 	}
 }
 
-func (c *gqlclient) CreatePullRequest(ctx context.Context, input *CreatePullRequestInputArgs) (
-	*CreatePullRequestResponse, error) {
+func (c *gqlclient) CreatePullRequest(ctx context.Context,
+	input CreatePullRequestInput,
+) (*CreatePullRequestResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "CreatePullRequest",
 		Query:         CreatePullRequestOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 
@@ -164,10 +158,6 @@ mutation UpdatePullRequest($input : UpdatePullRequestInput!) {
 }
 `
 
-type UpdatePullRequestInputArgs struct {
-	Input UpdatePullRequestInput `json:"input"`
-}
-
 type UpdatePullRequestResponse struct {
 	UpdatePullRequest *struct {
 		PullRequest *struct {
@@ -176,14 +166,15 @@ type UpdatePullRequestResponse struct {
 	}
 }
 
-func (c *gqlclient) UpdatePullRequest(ctx context.Context, input *UpdatePullRequestInputArgs) (
-	*UpdatePullRequestResponse, error) {
+func (c *gqlclient) UpdatePullRequest(ctx context.Context,
+	input UpdatePullRequestInput,
+) (*UpdatePullRequestResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "UpdatePullRequest",
 		Query:         UpdatePullRequestOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 
@@ -207,24 +198,21 @@ mutation CommentPullRequest($input : AddCommentInput!) {
 }
 `
 
-type CommentPullRequestInputArgs struct {
-	Input AddCommentInput `json:"input"`
-}
-
 type CommentPullRequestResponse struct {
 	AddComment *struct {
 		ClientMutationId *string
 	}
 }
 
-func (c *gqlclient) CommentPullRequest(ctx context.Context, input *CommentPullRequestInputArgs) (
-	*CommentPullRequestResponse, error) {
+func (c *gqlclient) CommentPullRequest(ctx context.Context,
+	input AddCommentInput,
+) (*CommentPullRequestResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "CommentPullRequest",
 		Query:         CommentPullRequestOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 
@@ -250,10 +238,6 @@ mutation MergePullRequest($input : MergePullRequestInput!) {
 }
 `
 
-type MergePullRequestInputArgs struct {
-	Input MergePullRequestInput `json:"input"`
-}
-
 type MergePullRequestResponse struct {
 	MergePullRequest *struct {
 		PullRequest *struct {
@@ -262,14 +246,15 @@ type MergePullRequestResponse struct {
 	}
 }
 
-func (c *gqlclient) MergePullRequest(ctx context.Context, input *MergePullRequestInputArgs) (
-	*MergePullRequestResponse, error) {
+func (c *gqlclient) MergePullRequest(ctx context.Context,
+	input MergePullRequestInput,
+) (*MergePullRequestResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "MergePullRequest",
 		Query:         MergePullRequestOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 
@@ -295,10 +280,6 @@ mutation ClosePullRequest($input : ClosePullRequestInput!) {
 }
 `
 
-type ClosePullRequestInputArgs struct {
-	Input ClosePullRequestInput `json:"input"`
-}
-
 type ClosePullRequestResponse struct {
 	ClosePullRequest *struct {
 		PullRequest *struct {
@@ -307,14 +288,15 @@ type ClosePullRequestResponse struct {
 	}
 }
 
-func (c *gqlclient) ClosePullRequest(ctx context.Context, input *ClosePullRequestInputArgs) (
-	*ClosePullRequestResponse, error) {
+func (c *gqlclient) ClosePullRequest(ctx context.Context,
+	input ClosePullRequestInput,
+) (*ClosePullRequestResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "ClosePullRequest",
 		Query:         ClosePullRequestOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 

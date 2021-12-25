@@ -105,11 +105,6 @@ query QueryWithInputs($input_one : String, $input_two : String) {
 }
 `
 
-type QueryWithInputsInputArgs struct {
-	InputOne *string `json:"input_one"`
-	InputTwo *string `json:"input_two"`
-}
-
 type QueryWithInputsResponse struct {
 	One *struct {
 		OneInt *int
@@ -119,15 +114,17 @@ type QueryWithInputsResponse struct {
 	}
 }
 
-func (c *gqlclient) QueryWithInputs(ctx context.Context, input *QueryWithInputsInputArgs) (
-	*QueryWithInputsResponse, error) {
+func (c *gqlclient) QueryWithInputs(ctx context.Context,
+	inputOne *string,
+	inputTwo *string,
+) (*QueryWithInputsResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "QueryWithInputs",
 		Query:         QueryWithInputsOperation,
 		Variables: map[string]interface{}{
-			"input_one": input.InputOne,
-			"input_two": input.InputTwo,
+			"input_one": inputOne,
+			"input_two": inputTwo,
 		},
 	}
 
@@ -149,22 +146,19 @@ mutation OneAdd($input : OneInput) {
 }
 `
 
-type OneAddInputArgs struct {
-	Input *OneInput `json:"input"`
-}
-
 type OneAddResponse struct {
 	OneAdd *string
 }
 
-func (c *gqlclient) OneAdd(ctx context.Context, input *OneAddInputArgs) (
-	*OneAddResponse, error) {
+func (c *gqlclient) OneAdd(ctx context.Context,
+	input *OneInput,
+) (*OneAddResponse, error) {
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneAdd",
 		Query:         OneAddOperation,
 		Variables: map[string]interface{}{
-			"input": input.Input,
+			"input": input,
 		},
 	}
 
