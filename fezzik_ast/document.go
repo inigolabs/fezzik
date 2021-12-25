@@ -24,9 +24,10 @@ type InputType struct {
 }
 
 type InputField struct {
-	Name     string
-	Type     *TypeInfo
-	TypeName string
+	Name      string
+	Type      *TypeInfo
+	TypeName  string
+	StructTag string
 }
 
 type TypeInfo struct {
