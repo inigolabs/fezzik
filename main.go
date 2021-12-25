@@ -29,6 +29,7 @@ func main() {
 	)
 
 	if cfg.Debug {
+		os.Setenv("DEBUG", "1")
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	}
 	generate.Generate(&cfg)
