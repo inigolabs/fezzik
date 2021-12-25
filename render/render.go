@@ -29,6 +29,7 @@ var (
 func Render(cfg *config.Config, templateName string, doc *fezzik_ast.Document, writer io.Writer) {
 	templateFuncs := template.FuncMap{
 		"pascal": strcase.ToCamel,
+		"camel":  strcase.ToLowerCamel,
 	}
 	template := template.Must(template.New(templateName).Funcs(templateFuncs).
 		ParseFS(templateFiles, templateName))

@@ -16,11 +16,11 @@ type Client struct {
 }
 
 // OneAdd provides a mock function with given fields: ctx, input
-func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*basic.OneAddResponse, error) {
+func (_m *Client) OneAdd(ctx context.Context, input *basic.OneInput) (*basic.OneAddResponse, error) {
 	ret := _m.Called(ctx, input)
 
 	var r0 *basic.OneAddResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *basic.OneAddInputArgs) *basic.OneAddResponse); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *basic.OneInput) *basic.OneAddResponse); ok {
 		r0 = rf(ctx, input)
 	} else {
 		if ret.Get(0) != nil {
@@ -29,7 +29,7 @@ func (_m *Client) OneAdd(ctx context.Context, input *basic.OneAddInputArgs) (*ba
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneAddInputArgs) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *basic.OneInput) error); ok {
 		r1 = rf(ctx, input)
 	} else {
 		r1 = ret.Error(1)
@@ -84,13 +84,13 @@ func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSe
 	return r0, r1
 }
 
-// QueryWithInputs provides a mock function with given fields: ctx, input
-func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInputsInputArgs) (*basic.QueryWithInputsResponse, error) {
-	ret := _m.Called(ctx, input)
+// QueryWithInputs provides a mock function with given fields: ctx, inputOne, inputTwo
+func (_m *Client) QueryWithInputs(ctx context.Context, inputOne *string, inputTwo *string) (*basic.QueryWithInputsResponse, error) {
+	ret := _m.Called(ctx, inputOne, inputTwo)
 
 	var r0 *basic.QueryWithInputsResponse
-	if rf, ok := ret.Get(0).(func(context.Context, *basic.QueryWithInputsInputArgs) *basic.QueryWithInputsResponse); ok {
-		r0 = rf(ctx, input)
+	if rf, ok := ret.Get(0).(func(context.Context, *string, *string) *basic.QueryWithInputsResponse); ok {
+		r0 = rf(ctx, inputOne, inputTwo)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*basic.QueryWithInputsResponse)
@@ -98,8 +98,8 @@ func (_m *Client) QueryWithInputs(ctx context.Context, input *basic.QueryWithInp
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *basic.QueryWithInputsInputArgs) error); ok {
-		r1 = rf(ctx, input)
+	if rf, ok := ret.Get(1).(func(context.Context, *string, *string) error); ok {
+		r1 = rf(ctx, inputOne, inputTwo)
 	} else {
 		r1 = ret.Error(1)
 	}
