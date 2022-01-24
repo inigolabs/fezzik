@@ -5,6 +5,7 @@ operations:
 package_name: basic
 package_dir: gen
 scalar_type_map:
+  ID: string
   Time: time.Time
 struct_tag_case: snake
 generate_mocks: true

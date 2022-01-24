@@ -10,7 +10,6 @@ func GetGoType(cfg *config.Config, typeName string) (string, bool) {
 	var builtinTypeMap = map[string]string{
 		"Boolean": "bool",
 		"Float":   "float32",
-		"ID":      "string",
 		"Int":     "int",
 		"String":  "string",
 	}
