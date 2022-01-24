@@ -5,6 +5,7 @@ operations:
 package_name: "github"
 package_dir: "gen"
 scalar_type_map:
+  ID: string
   DateTime: time.Time
   URI: string
   GitObjectID: string
