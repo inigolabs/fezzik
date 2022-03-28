@@ -6,40 +6,58 @@ import (
 	"github.com/inigolabs/fezzik/client"
 )
 
+type GetInfoViewer struct {
+	Login        string
+	PullRequests GetInfoViewerPullRequests
+}
+
+type GetInfoViewerPullRequests struct {
+	Nodes *GetInfoViewerPullRequestsNodes
+}
+
+type GetInfoViewerPullRequestsNodes []*struct {
+	Id             string
+	Number         int
+	Title          string
+	BaseRefName    string
+	HeadRefName    string
+	Mergeable      MergeableState
+	ReviewDecision *PullRequestReviewDecision
+	Repository     GetInfoViewerPullRequestsNodesRepository
+	Commits        GetInfoViewerPullRequestsNodesCommits
+}
+
+type GetInfoViewerPullRequestsNodesRepository struct {
+	Id string
+}
+
+type GetInfoViewerPullRequestsNodesCommits struct {
+	Nodes *GetInfoViewerPullRequestsNodesCommitsNodes
+}
+
+type GetInfoViewerPullRequestsNodesCommitsNodes []*struct {
+	Commit GetInfoViewerPullRequestsNodesCommitsNodesCommit
+}
+
+type GetInfoViewerPullRequestsNodesCommitsNodesCommit struct {
+	Oid               string
+	MessageHeadline   string
+	MessageBody       string
+	StatusCheckRollup *GetInfoViewerPullRequestsNodesCommitsNodesCommitStatusCheckRollup
+}
+
+type GetInfoViewerPullRequestsNodesCommitsNodesCommitStatusCheckRollup struct {
+	State StatusState
+}
+
+type GetInfoRepository struct {
+	Id string
+}
+
 // GetInfoResponse response type for GetInfo
 type GetInfoResponse struct {
-	Viewer struct {
-		Login        string
-		PullRequests struct {
-			Nodes *[]*struct {
-				Id             string
-				Number         int
-				Title          string
-				BaseRefName    string
-				HeadRefName    string
-				Mergeable      MergeableState
-				ReviewDecision *PullRequestReviewDecision
-				Repository     struct {
-					Id string
-				}
-				Commits struct {
-					Nodes *[]*struct {
-						Commit struct {
-							Oid               string
-							MessageHeadline   string
-							MessageBody       string
-							StatusCheckRollup *struct {
-								State StatusState
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	Repository *struct {
-		Id string
-	}
+	Viewer     GetInfoViewer
+	Repository *GetInfoRepository
 }
 
 // GetInfo from examples/github/operations/operations.graphql:1
@@ -105,14 +123,18 @@ func (c *gqlclient) GetInfo(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
+type CreatePullRequestCreatePullRequest struct {
+	PullRequest *CreatePullRequestCreatePullRequestPullRequest
+}
+
+type CreatePullRequestCreatePullRequestPullRequest struct {
+	Id     string
+	Number int
+}
+
 // CreatePullRequestResponse response type for CreatePullRequest
 type CreatePullRequestResponse struct {
-	CreatePullRequest *struct {
-		PullRequest *struct {
-			Id     string
-			Number int
-		}
-	}
+	CreatePullRequest *CreatePullRequestCreatePullRequest
 }
 
 // CreatePullRequest from examples/github/operations/operations.graphql:39
@@ -150,13 +172,17 @@ func (c *gqlclient) CreatePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
+type UpdatePullRequestUpdatePullRequest struct {
+	PullRequest *UpdatePullRequestUpdatePullRequestPullRequest
+}
+
+type UpdatePullRequestUpdatePullRequestPullRequest struct {
+	Number int
+}
+
 // UpdatePullRequestResponse response type for UpdatePullRequest
 type UpdatePullRequestResponse struct {
-	UpdatePullRequest *struct {
-		PullRequest *struct {
-			Number int
-		}
-	}
+	UpdatePullRequest *UpdatePullRequestUpdatePullRequest
 }
 
 // UpdatePullRequest from examples/github/operations/operations.graphql:50
@@ -193,11 +219,13 @@ func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
+type CommentPullRequestAddComment struct {
+	ClientMutationId *string
+}
+
 // CommentPullRequestResponse response type for CommentPullRequest
 type CommentPullRequestResponse struct {
-	AddComment *struct {
-		ClientMutationId *string
-	}
+	AddComment *CommentPullRequestAddComment
 }
 
 // CommentPullRequest from examples/github/operations/operations.graphql:60
@@ -232,13 +260,17 @@ func (c *gqlclient) CommentPullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
+type MergePullRequestMergePullRequest struct {
+	PullRequest *MergePullRequestMergePullRequestPullRequest
+}
+
+type MergePullRequestMergePullRequestPullRequest struct {
+	Number int
+}
+
 // MergePullRequestResponse response type for MergePullRequest
 type MergePullRequestResponse struct {
-	MergePullRequest *struct {
-		PullRequest *struct {
-			Number int
-		}
-	}
+	MergePullRequest *MergePullRequestMergePullRequest
 }
 
 // MergePullRequest from examples/github/operations/operations.graphql:68
@@ -275,13 +307,17 @@ func (c *gqlclient) MergePullRequest(ctx context.Context,
 	return &gqldata, &gqlerrs
 }
 
+type ClosePullRequestClosePullRequest struct {
+	PullRequest *ClosePullRequestClosePullRequestPullRequest
+}
+
+type ClosePullRequestClosePullRequestPullRequest struct {
+	Number int
+}
+
 // ClosePullRequestResponse response type for ClosePullRequest
 type ClosePullRequestResponse struct {
-	ClosePullRequest *struct {
-		PullRequest *struct {
-			Number int
-		}
-	}
+	ClosePullRequest *ClosePullRequestClosePullRequest
 }
 
 // ClosePullRequest from examples/github/operations/operations.graphql:78

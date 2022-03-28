@@ -2,6 +2,7 @@ package generate
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/iancoleman/strcase"
 	"github.com/inigolabs/fezzik/common"
@@ -36,11 +37,14 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	for _, o := range operations.Operations {
+		responseTypes := getResponseTypes(cfg, result, o)
+
 		result.Operations = append(result.Operations, &fezzik_ast.OperationInfo{
-			Name:         o.Name,
-			Operation:    getOperation(o),
-			ResponseType: getResponseType(cfg, result, o),
-			Inputs:       getOperationInputs(cfg, result, o.VariableDefinitions),
+			Name:             o.Name,
+			Operation:        getOperation(o),
+			ResponseType:     responseTypes[0],  // root is always the first one
+			ResponseSubTypes: responseTypes[1:], // root's subtypes
+			Inputs:           getOperationInputs(cfg, result, o.VariableDefinitions),
 			Source: fezzik_ast.Source{
 				FileName: o.Position.Src.Name,
 				Line:     o.Position.Line,
@@ -156,32 +160,54 @@ func getOperation(operation *ast.OperationDefinition) string {
 	return b.String()
 }
 
-func getResponseType(cfg *config.Config, doc *fezzik_ast.Document, operation *ast.OperationDefinition) string {
-	b := common.NewStringBuilder()
+func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *ast.OperationDefinition) []string {
+	var visitSelectionSet func(ast.SelectionSet, string, string) []string
+	visitSelectionSet = func(ss ast.SelectionSet, operationName, sig string) []string {
+		if len(ss) == 0 {
+			return nil
+		}
 
-	var visitSelectionSet func(ss ast.SelectionSet, indent string)
-	visitSelectionSet = func(ss ast.SelectionSet, indent string) {
-		if len(ss) > 0 {
-			b.Writeln(indent, "{")
-			for _, s := range ss {
-				switch fs := s.(type) {
-				case *ast.Field:
-					name := common.UppercaseFirstChar(fs.Name)
-					sig := getFieldTypeSignature(cfg, doc, fs.Definition.Type)
-					b.Writeln(indent, name, " ", sig)
-					visitSelectionSet(fs.SelectionSet, indent+"  ")
-				default:
-					common.Check(fmt.Errorf("unimplamented type %T", s))
+		var allTypes []string
+
+		b := common.NewStringBuilder()
+
+		if sig != "" {
+			b.Writeln("type ", operationName, " ", sig, " ")
+		}
+
+		b.Writeln("{")
+
+		for _, s := range ss {
+			switch fs := s.(type) {
+			case *ast.Field:
+				name := common.UppercaseFirstChar(fs.Name)
+				sig = getFieldTypeSignature(cfg, doc, fs.Definition.Type)
+
+				if len(fs.SelectionSet) == 0 {
+					b.Writeln(" ", name, " ", sig)
+
+					break
 				}
 
+				var ptr = "*"
+				if !strings.HasPrefix(sig, ptr) {
+					ptr = ""
+				}
+
+				allTypes = append(allTypes, visitSelectionSet(fs.SelectionSet, operationName+name, strings.TrimPrefix(sig, ptr))...)
+
+				b.Writeln(" ", name, " ", ptr+operationName+name)
+			default:
+				common.Check(fmt.Errorf("unimplamented type %T", s))
 			}
-			b.Writeln(indent, "}")
 		}
+
+		b.Writeln("}")
+
+		return append([]string{b.String()}, allTypes...)
 	}
 
-	visitSelectionSet(operation.SelectionSet, "")
-
-	return b.String()
+	return visitSelectionSet(operation.SelectionSet, operation.Name, "")
 }
 
 func getFieldTypeSignature(cfg *config.Config, doc *fezzik_ast.Document, fieldType *ast.Type) string {

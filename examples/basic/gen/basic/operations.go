@@ -6,15 +6,17 @@ import (
 	"github.com/inigolabs/fezzik/client"
 )
 
+type OneAllTypesOne struct {
+	OneInt             *int
+	OneIntMust         int
+	OneIntList         *[]*int
+	OneIntMustList     *[]int
+	OneIntMustListMust []int
+}
+
 // OneAllTypesResponse response type for OneAllTypes
 type OneAllTypesResponse struct {
-	One *struct {
-		OneInt             *int
-		OneIntMust         int
-		OneIntList         *[]*int
-		OneIntMustList     *[]int
-		OneIntMustListMust []int
-	}
+	One *OneAllTypesOne
 }
 
 // OneAllTypes from examples/basic/operations/operations.graphql:2
@@ -49,17 +51,23 @@ func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, erro
 	return &gqldata, &gqlerrs
 }
 
+type OneWithSubSelectionsOne struct {
+	Two *OneWithSubSelectionsOneTwo
+}
+
+type OneWithSubSelectionsOneTwo struct {
+	TwoInt *int
+	TwoStr *string
+	Three  *OneWithSubSelectionsOneTwoThree
+}
+
+type OneWithSubSelectionsOneTwoThree struct {
+	ThreeInt *int
+}
+
 // OneWithSubSelectionsResponse response type for OneWithSubSelections
 type OneWithSubSelectionsResponse struct {
-	One *struct {
-		Two *struct {
-			TwoInt *int
-			TwoStr *string
-			Three  *struct {
-				ThreeInt *int
-			}
-		}
-	}
+	One *OneWithSubSelectionsOne
 }
 
 // OneWithSubSelections from examples/basic/operations/operations.graphql:13
@@ -96,14 +104,18 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 	return &gqldata, &gqlerrs
 }
 
+type QueryWithInputsOne struct {
+	OneInt *int
+}
+
+type QueryWithInputsTwo struct {
+	TwoInt *int
+}
+
 // QueryWithInputsResponse response type for QueryWithInputs
 type QueryWithInputsResponse struct {
-	One *struct {
-		OneInt *int
-	}
-	Two *struct {
-		TwoInt *int
-	}
+	One *QueryWithInputsOne
+	Two *QueryWithInputsTwo
 }
 
 // QueryWithInputs from examples/basic/operations/operations.graphql:27

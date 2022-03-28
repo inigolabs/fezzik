@@ -10,6 +10,10 @@ import (
 
 {{- range $operation := .Operations }}
 
+{{range $operation.ResponseSubTypes}}
+     {{.}}
+{{end}}
+
 
 // {{$operation.Name}}Response response type for {{$operation.Name}}
 type {{ $operation.Name }}Response struct 
