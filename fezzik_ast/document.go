@@ -45,11 +45,12 @@ type EnumType struct {
 }
 
 type OperationInfo struct {
-	Name         string
-	Operation    string
-	ResponseType string
-	Inputs       []OperationInput
-	Source       Source
+	Name             string
+	Operation        string
+	ResponseType     string
+	ResponseSubTypes []string
+	Inputs           []OperationInput
+	Source           Source
 }
 
 type OperationInput struct {
