@@ -25,6 +25,10 @@ func NewGQLClient(endpoint string, httpClient *http.Client) *GQLClient {
 	}
 }
 
+func (c *GQLClient) SetHttpClient(httpClient *http.Client) {
+	c.httpClient = httpClient
+}
+
 func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}, errors *GQLErrors) error {
 	var body bytes.Buffer
 	encoder := json.NewEncoder(&body)
