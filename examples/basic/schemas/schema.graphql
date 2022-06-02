@@ -1,5 +1,9 @@
 scalar Time
 
+scalar DuplicatedType
+
+scalar DuplicatedType
+
 schema {
 	query : Query
 	mutation : Mutation
