@@ -41,16 +41,25 @@ func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, erro
 		Variables:     map[string]interface{}{},
 	}
 
-	var gqldata OneAllTypesResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &OneAllTypesResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *OneAllTypesResponse
+	if resp.Data != nil {
+		data = resp.Data.(*OneAllTypesResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type OneWithSubSelectionsOne struct {
@@ -94,16 +103,25 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 		Variables:     map[string]interface{}{},
 	}
 
-	var gqldata OneWithSubSelectionsResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &OneWithSubSelectionsResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *OneWithSubSelectionsResponse
+	if resp.Data != nil {
+		data = resp.Data.(*OneWithSubSelectionsResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type QueryWithInputsOne struct {
@@ -145,16 +163,25 @@ func (c *gqlclient) QueryWithInputs(ctx context.Context,
 		},
 	}
 
-	var gqldata QueryWithInputsResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &QueryWithInputsResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *QueryWithInputsResponse
+	if resp.Data != nil {
+		data = resp.Data.(*QueryWithInputsResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 // OneAddResponse response type for OneAdd
@@ -180,14 +207,23 @@ func (c *gqlclient) OneAdd(ctx context.Context,
 		},
 	}
 
-	var gqldata OneAddResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &OneAddResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *OneAddResponse
+	if resp.Data != nil {
+		data = resp.Data.(*OneAddResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }

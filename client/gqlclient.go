@@ -29,7 +29,7 @@ func (c *GQLClient) SetHttpClient(httpClient *http.Client) {
 	c.httpClient = httpClient
 }
 
-func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}, errors *GQLErrors) error {
+func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, res *GQLResponse) error {
 	var body bytes.Buffer
 	encoder := json.NewEncoder(&body)
 	err := encoder.Encode(req)
@@ -50,12 +50,8 @@ func (c *GQLClient) Query(ctx context.Context, req *GQLRequest, resp interface{}
 	}
 	defer response.Body.Close()
 
-	gqlresponse := &GQLResponse{
-		Data:   resp,
-		Errors: errors,
-	}
 	decoder := json.NewDecoder(response.Body)
-	err = decoder.Decode(gqlresponse)
+	err = decoder.Decode(res)
 	if err != nil {
 		return err
 	}
