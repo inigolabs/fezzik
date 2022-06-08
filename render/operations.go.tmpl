@@ -45,16 +45,26 @@ func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.N
 		},
 	}
 
-	var gqldata {{ $operation.Name }}Response
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+	    Data: &{{ $operation.Name }}Response{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+
+    var data *{{ $operation.Name }}Response
+	if resp.Data != nil {
+		data = resp.Data.(*{{ $operation.Name }}Response)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 {{- end }}

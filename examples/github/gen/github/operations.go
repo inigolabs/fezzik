@@ -113,16 +113,25 @@ func (c *gqlclient) GetInfo(ctx context.Context,
 		},
 	}
 
-	var gqldata GetInfoResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &GetInfoResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *GetInfoResponse
+	if resp.Data != nil {
+		data = resp.Data.(*GetInfoResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type CreatePullRequestCreatePullRequest struct {
@@ -162,16 +171,25 @@ func (c *gqlclient) CreatePullRequest(ctx context.Context,
 		},
 	}
 
-	var gqldata CreatePullRequestResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &CreatePullRequestResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *CreatePullRequestResponse
+	if resp.Data != nil {
+		data = resp.Data.(*CreatePullRequestResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type UpdatePullRequestUpdatePullRequest struct {
@@ -209,16 +227,25 @@ func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 		},
 	}
 
-	var gqldata UpdatePullRequestResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &UpdatePullRequestResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *UpdatePullRequestResponse
+	if resp.Data != nil {
+		data = resp.Data.(*UpdatePullRequestResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type CommentPullRequestAddComment struct {
@@ -250,16 +277,25 @@ func (c *gqlclient) CommentPullRequest(ctx context.Context,
 		},
 	}
 
-	var gqldata CommentPullRequestResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &CommentPullRequestResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *CommentPullRequestResponse
+	if resp.Data != nil {
+		data = resp.Data.(*CommentPullRequestResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type MergePullRequestMergePullRequest struct {
@@ -297,16 +333,25 @@ func (c *gqlclient) MergePullRequest(ctx context.Context,
 		},
 	}
 
-	var gqldata MergePullRequestResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &MergePullRequestResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *MergePullRequestResponse
+	if resp.Data != nil {
+		data = resp.Data.(*MergePullRequestResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
 
 type ClosePullRequestClosePullRequest struct {
@@ -344,14 +389,23 @@ func (c *gqlclient) ClosePullRequest(ctx context.Context,
 		},
 	}
 
-	var gqldata ClosePullRequestResponse
-	var gqlerrs client.GQLErrors
-	err := c.gql.Query(ctx, gqlreq, &gqldata, &gqlerrs)
+	resp := &client.GQLResponse{
+		Data: &ClosePullRequestResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
 	if err != nil {
 		return nil, err
 	}
-	if len(gqlerrs) == 0 {
-		return &gqldata, nil
+
+	var data *ClosePullRequestResponse
+	if resp.Data != nil {
+		data = resp.Data.(*ClosePullRequestResponse)
 	}
-	return &gqldata, &gqlerrs
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
 }
