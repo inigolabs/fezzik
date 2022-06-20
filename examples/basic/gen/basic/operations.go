@@ -124,6 +124,60 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 	return data, resp.Errors
 }
 
+type OneWithAliasOne struct {
+	OneInt *int
+}
+
+type OneWithAliasTwo struct {
+	OneInt *int
+}
+
+// OneWithAliasResponse response type for OneWithAlias
+type OneWithAliasResponse struct {
+	One *OneWithAliasOne
+	Two *OneWithAliasTwo
+}
+
+// OneWithAlias from examples/basic/operations/operations.graphql:27
+func (c *gqlclient) OneWithAlias(ctx context.Context) (*OneWithAliasResponse, error) {
+
+	var oneWithAliasOperation string = `
+	query OneWithAlias {
+		one {
+			oneInt
+		}
+		two : one {
+			oneInt
+		}
+	}`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "OneWithAlias",
+		Query:         oneWithAliasOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &OneWithAliasResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *OneWithAliasResponse
+	if resp.Data != nil {
+		data = resp.Data.(*OneWithAliasResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
 type QueryWithInputsOne struct {
 	OneInt *int
 }
@@ -138,7 +192,7 @@ type QueryWithInputsResponse struct {
 	Two *QueryWithInputsTwo
 }
 
-// QueryWithInputs from examples/basic/operations/operations.graphql:27
+// QueryWithInputs from examples/basic/operations/operations.graphql:38
 func (c *gqlclient) QueryWithInputs(ctx context.Context,
 	inputOne *string,
 	inputTwo *string,
@@ -189,7 +243,7 @@ type OneAddResponse struct {
 	OneAdd *string
 }
 
-// OneAdd from examples/basic/operations/operations.graphql:38
+// OneAdd from examples/basic/operations/operations.graphql:49
 func (c *gqlclient) OneAdd(ctx context.Context,
 	input *OneInput,
 ) (*OneAddResponse, error) {

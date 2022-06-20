@@ -61,6 +61,29 @@ func (_m *Client) OneAllTypes(ctx context.Context) (*basic.OneAllTypesResponse, 
 	return r0, r1
 }
 
+// OneWithAlias provides a mock function with given fields: ctx
+func (_m *Client) OneWithAlias(ctx context.Context) (*basic.OneWithAliasResponse, error) {
+	ret := _m.Called(ctx)
+
+	var r0 *basic.OneWithAliasResponse
+	if rf, ok := ret.Get(0).(func(context.Context) *basic.OneWithAliasResponse); ok {
+		r0 = rf(ctx)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*basic.OneWithAliasResponse)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
+		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // OneWithSubSelections provides a mock function with given fields: ctx
 func (_m *Client) OneWithSubSelections(ctx context.Context) (*basic.OneWithSubSelectionsResponse, error) {
 	ret := _m.Called(ctx)

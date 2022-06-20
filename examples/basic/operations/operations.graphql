@@ -23,6 +23,17 @@ query OneWithSubSelections {
 	}
 }
 
+# OneWithAlias query
+query OneWithAlias {
+	one {
+		oneInt
+	}
+
+	two : one {
+		oneInt
+	}
+}
+
 # OneWithInputs query
 query QueryWithInputs($input_one : String, $input_two : String) {
 	one(input : $input_one) {
