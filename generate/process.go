@@ -118,7 +118,11 @@ func getOperation(operation *ast.OperationDefinition) string {
 			for i := 0; i < len(ss); i++ {
 				switch fs := ss[i].(type) {
 				case *ast.Field:
-					b.Write("\n", indent, "\t", fs.Name)
+					if fs.Alias != fs.Name {
+						b.Write("\n", indent, "\t", fs.Alias, " : ", fs.Name)
+					} else {
+						b.Write("\n", indent, "\t", fs.Name)
+					}
 					if len(fs.Arguments) > 0 {
 						b.Write("(")
 						for ia := 0; ia < len(fs.Arguments); ia++ {
@@ -180,7 +184,7 @@ func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *a
 		for _, s := range ss {
 			switch fs := s.(type) {
 			case *ast.Field:
-				name := common.UppercaseFirstChar(fs.Name)
+				name := common.UppercaseFirstChar(fs.Alias)
 				sig = getFieldTypeSignature(cfg, doc, fs.Definition.Type)
 
 				if len(fs.SelectionSet) == 0 {
