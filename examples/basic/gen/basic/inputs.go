@@ -50,13 +50,13 @@ const (
 )
 
 type OneInput struct {
-	OneInt             *int       `json:"one_int"`
+	OneInt             *int       `json:"one_int,omitempty"`
 	OneIntMust         int        `json:"one_int_must"`
-	OneIntList         *[]*int    `json:"one_int_list"`
-	OneIntMustList     *[]int     `json:"one_int_must_list"`
+	OneIntList         *[]*int    `json:"one_int_list,omitempty"`
+	OneIntMustList     *[]int     `json:"one_int_must_list,omitempty"`
 	OneIntMustListMust []int      `json:"one_int_must_list_must"`
-	OneStr             *string    `json:"one_str"`
-	OneBool            *bool      `json:"one_bool"`
-	OneEnum            *OneEnum   `json:"one_enum"`
-	OneTime            *time.Time `json:"one_time"`
+	OneStr             *string    `json:"one_str,omitempty"`
+	OneBool            *bool      `json:"one_bool,omitempty"`
+	OneEnum            *OneEnum   `json:"one_enum,omitempty"`
+	OneTime            *time.Time `json:"one_time,omitempty"`
 }

@@ -17,9 +17,17 @@ const (
 type {{$obj.Name}} struct {
 {{- range $field := $obj.Fields }}
 	{{- if $field.Type.IsList }}
-		{{ pascal $field.Name }} {{if $field.Type.IsListNullable}}*{{end}}[]{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} `json:"{{$field.StructTag}}"`
+		{{- if $field.Type.IsListNullable}}
+			{{ pascal $field.Name }} *[]{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} `json:"{{$field.StructTag}},omitempty"`
+		{{- else}}
+			{{ pascal $field.Name }} []{{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} `json:"{{$field.StructTag}}"`
+		{{- end }}
 	{{- else }}
-		{{ pascal $field.Name }} {{if $field.Type.IsTypeNullable}}*{{end}}{{$field.TypeName}} `json:"{{$field.StructTag}}"`
+		{{- if $field.Type.IsTypeNullable}}
+			{{ pascal $field.Name }} *{{$field.TypeName}} `json:"{{$field.StructTag}},omitempty"`
+		{{- else }}
+			{{ pascal $field.Name }} {{$field.TypeName}} `json:"{{$field.StructTag}}"`
+		{{- end }}
 	{{- end }}
 {{- end }}
 }

@@ -1389,12 +1389,12 @@ const (
 )
 
 type AcceptEnterpriseAdministratorInvitationInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	InvitationId     string  `json:"invitationId"`
 }
 
 type AcceptTopicSuggestionInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Name             string  `json:"name"`
 	RepositoryId     string  `json:"repositoryId"`
 }
@@ -1402,136 +1402,136 @@ type AcceptTopicSuggestionInput struct {
 type AddAssigneesToAssignableInput struct {
 	AssignableId     string   `json:"assignableId"`
 	AssigneeIds      []string `json:"assigneeIds"`
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 }
 
 type AddCommentInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	SubjectId        string  `json:"subjectId"`
 }
 
 type AddDiscussionCommentInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	DiscussionId     string  `json:"discussionId"`
-	ReplyToId        *string `json:"replyToId"`
+	ReplyToId        *string `json:"replyToId,omitempty"`
 }
 
 type AddEnterpriseSupportEntitlementInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 	Login            string  `json:"login"`
 }
 
 type AddLabelsToLabelableInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 	LabelIds         []string `json:"labelIds"`
 	LabelableId      string   `json:"labelableId"`
 }
 
 type AddProjectCardInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
-	ContentId        *string `json:"contentId"`
-	Note             *string `json:"note"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	ContentId        *string `json:"contentId,omitempty"`
+	Note             *string `json:"note,omitempty"`
 	ProjectColumnId  string  `json:"projectColumnId"`
 }
 
 type AddProjectColumnInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Name             string  `json:"name"`
 	ProjectId        string  `json:"projectId"`
 }
 
 type AddPullRequestReviewCommentInput struct {
 	Body                string  `json:"body"`
-	ClientMutationId    *string `json:"clientMutationId"`
-	CommitOID           *string `json:"commitOID"`
-	InReplyTo           *string `json:"inReplyTo"`
-	Path                *string `json:"path"`
-	Position            *int    `json:"position"`
-	PullRequestId       *string `json:"pullRequestId"`
-	PullRequestReviewId *string `json:"pullRequestReviewId"`
+	ClientMutationId    *string `json:"clientMutationId,omitempty"`
+	CommitOID           *string `json:"commitOID,omitempty"`
+	InReplyTo           *string `json:"inReplyTo,omitempty"`
+	Path                *string `json:"path,omitempty"`
+	Position            *int    `json:"position,omitempty"`
+	PullRequestId       *string `json:"pullRequestId,omitempty"`
+	PullRequestReviewId *string `json:"pullRequestReviewId,omitempty"`
 }
 
 type AddPullRequestReviewInput struct {
-	Body             *string                           `json:"body"`
-	ClientMutationId *string                           `json:"clientMutationId"`
-	Comments         *[]*DraftPullRequestReviewComment `json:"comments"`
-	CommitOID        *string                           `json:"commitOID"`
-	Event            *PullRequestReviewEvent           `json:"event"`
+	Body             *string                           `json:"body,omitempty"`
+	ClientMutationId *string                           `json:"clientMutationId,omitempty"`
+	Comments         *[]*DraftPullRequestReviewComment `json:"comments,omitempty"`
+	CommitOID        *string                           `json:"commitOID,omitempty"`
+	Event            *PullRequestReviewEvent           `json:"event,omitempty"`
 	PullRequestId    string                            `json:"pullRequestId"`
-	Threads          *[]*DraftPullRequestReviewThread  `json:"threads"`
+	Threads          *[]*DraftPullRequestReviewThread  `json:"threads,omitempty"`
 }
 
 type AddPullRequestReviewThreadInput struct {
 	Body                string    `json:"body"`
-	ClientMutationId    *string   `json:"clientMutationId"`
+	ClientMutationId    *string   `json:"clientMutationId,omitempty"`
 	Line                int       `json:"line"`
 	Path                string    `json:"path"`
-	PullRequestId       *string   `json:"pullRequestId"`
-	PullRequestReviewId *string   `json:"pullRequestReviewId"`
-	Side                *DiffSide `json:"side"`
-	StartLine           *int      `json:"startLine"`
-	StartSide           *DiffSide `json:"startSide"`
+	PullRequestId       *string   `json:"pullRequestId,omitempty"`
+	PullRequestReviewId *string   `json:"pullRequestReviewId,omitempty"`
+	Side                *DiffSide `json:"side,omitempty"`
+	StartLine           *int      `json:"startLine,omitempty"`
+	StartSide           *DiffSide `json:"startSide,omitempty"`
 }
 
 type AddReactionInput struct {
-	ClientMutationId *string         `json:"clientMutationId"`
+	ClientMutationId *string         `json:"clientMutationId,omitempty"`
 	Content          ReactionContent `json:"content"`
 	SubjectId        string          `json:"subjectId"`
 }
 
 type AddStarInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	StarrableId      string  `json:"starrableId"`
 }
 
 type AddUpvoteInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	SubjectId        string  `json:"subjectId"`
 }
 
 type AddVerifiableDomainInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Domain           string  `json:"domain"`
 	OwnerId          string  `json:"ownerId"`
 }
 
 type ApproveDeploymentsInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
-	Comment          *string  `json:"comment"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
+	Comment          *string  `json:"comment,omitempty"`
 	EnvironmentIds   []string `json:"environmentIds"`
 	WorkflowRunId    string   `json:"workflowRunId"`
 }
 
 type ApproveVerifiableDomainInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type ArchiveRepositoryInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type AuditLogOrder struct {
-	Direction *OrderDirection     `json:"direction"`
-	Field     *AuditLogOrderField `json:"field"`
+	Direction *OrderDirection     `json:"direction,omitempty"`
+	Field     *AuditLogOrderField `json:"field,omitempty"`
 }
 
 type CancelEnterpriseAdminInvitationInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	InvitationId     string  `json:"invitationId"`
 }
 
 type ChangeUserStatusInput struct {
-	ClientMutationId    *string    `json:"clientMutationId"`
-	Emoji               *string    `json:"emoji"`
-	ExpiresAt           *time.Time `json:"expiresAt"`
-	LimitedAvailability *bool      `json:"limitedAvailability"`
-	Message             *string    `json:"message"`
-	OrganizationId      *string    `json:"organizationId"`
+	ClientMutationId    *string    `json:"clientMutationId,omitempty"`
+	Emoji               *string    `json:"emoji,omitempty"`
+	ExpiresAt           *time.Time `json:"expiresAt,omitempty"`
+	LimitedAvailability *bool      `json:"limitedAvailability,omitempty"`
+	Message             *string    `json:"message,omitempty"`
+	OrganizationId      *string    `json:"organizationId,omitempty"`
 }
 
 type CheckAnnotationData struct {
@@ -1539,14 +1539,14 @@ type CheckAnnotationData struct {
 	Location        CheckAnnotationRange `json:"location"`
 	Message         string               `json:"message"`
 	Path            string               `json:"path"`
-	RawDetails      *string              `json:"rawDetails"`
-	Title           *string              `json:"title"`
+	RawDetails      *string              `json:"rawDetails,omitempty"`
+	Title           *string              `json:"title,omitempty"`
 }
 
 type CheckAnnotationRange struct {
-	EndColumn   *int `json:"endColumn"`
+	EndColumn   *int `json:"endColumn,omitempty"`
 	EndLine     int  `json:"endLine"`
-	StartColumn *int `json:"startColumn"`
+	StartColumn *int `json:"startColumn,omitempty"`
 	StartLine   int  `json:"startLine"`
 }
 
@@ -1557,23 +1557,23 @@ type CheckRunAction struct {
 }
 
 type CheckRunFilter struct {
-	AppId     *int              `json:"appId"`
-	CheckName *string           `json:"checkName"`
-	CheckType *CheckRunType     `json:"checkType"`
-	Status    *CheckStatusState `json:"status"`
+	AppId     *int              `json:"appId,omitempty"`
+	CheckName *string           `json:"checkName,omitempty"`
+	CheckType *CheckRunType     `json:"checkType,omitempty"`
+	Status    *CheckStatusState `json:"status,omitempty"`
 }
 
 type CheckRunOutput struct {
-	Annotations *[]CheckAnnotationData `json:"annotations"`
-	Images      *[]CheckRunOutputImage `json:"images"`
+	Annotations *[]CheckAnnotationData `json:"annotations,omitempty"`
+	Images      *[]CheckRunOutputImage `json:"images,omitempty"`
 	Summary     string                 `json:"summary"`
-	Text        *string                `json:"text"`
+	Text        *string                `json:"text,omitempty"`
 	Title       string                 `json:"title"`
 }
 
 type CheckRunOutputImage struct {
 	Alt      string  `json:"alt"`
-	Caption  *string `json:"caption"`
+	Caption  *string `json:"caption,omitempty"`
 	ImageUrl string  `json:"imageUrl"`
 }
 
@@ -1583,29 +1583,29 @@ type CheckSuiteAutoTriggerPreference struct {
 }
 
 type CheckSuiteFilter struct {
-	AppId     *int    `json:"appId"`
-	CheckName *string `json:"checkName"`
+	AppId     *int    `json:"appId,omitempty"`
+	CheckName *string `json:"checkName,omitempty"`
 }
 
 type ClearLabelsFromLabelableInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	LabelableId      string  `json:"labelableId"`
 }
 
 type CloneProjectInput struct {
-	Body             *string `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	Body             *string `json:"body,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IncludeWorkflows bool    `json:"includeWorkflows"`
 	Name             string  `json:"name"`
-	Public           *bool   `json:"public"`
+	Public           *bool   `json:"public,omitempty"`
 	SourceId         string  `json:"sourceId"`
 	TargetOwnerId    string  `json:"targetOwnerId"`
 }
 
 type CloneTemplateRepositoryInput struct {
-	ClientMutationId   *string              `json:"clientMutationId"`
-	Description        *string              `json:"description"`
-	IncludeAllBranches *bool                `json:"includeAllBranches"`
+	ClientMutationId   *string              `json:"clientMutationId,omitempty"`
+	Description        *string              `json:"description,omitempty"`
+	IncludeAllBranches *bool                `json:"includeAllBranches,omitempty"`
 	Name               string               `json:"name"`
 	OwnerId            string               `json:"ownerId"`
 	RepositoryId       string               `json:"repositoryId"`
@@ -1613,18 +1613,18 @@ type CloneTemplateRepositoryInput struct {
 }
 
 type CloseIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 }
 
 type ClosePullRequestInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
 type CommitAuthor struct {
-	Emails *[]string `json:"emails"`
-	Id     *string   `json:"id"`
+	Emails *[]string `json:"emails,omitempty"`
+	Id     *string   `json:"id,omitempty"`
 }
 
 type CommitContributionOrder struct {
@@ -1637,96 +1637,96 @@ type ContributionOrder struct {
 }
 
 type ConvertProjectCardNoteToIssueInput struct {
-	Body             *string `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	Body             *string `json:"body,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ProjectCardId    string  `json:"projectCardId"`
 	RepositoryId     string  `json:"repositoryId"`
-	Title            *string `json:"title"`
+	Title            *string `json:"title,omitempty"`
 }
 
 type ConvertPullRequestToDraftInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
 type CreateBranchProtectionRuleInput struct {
-	AllowsDeletions                *bool     `json:"allowsDeletions"`
-	AllowsForcePushes              *bool     `json:"allowsForcePushes"`
-	ClientMutationId               *string   `json:"clientMutationId"`
-	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews"`
-	IsAdminEnforced                *bool     `json:"isAdminEnforced"`
+	AllowsDeletions                *bool     `json:"allowsDeletions,omitempty"`
+	AllowsForcePushes              *bool     `json:"allowsForcePushes,omitempty"`
+	ClientMutationId               *string   `json:"clientMutationId,omitempty"`
+	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews,omitempty"`
+	IsAdminEnforced                *bool     `json:"isAdminEnforced,omitempty"`
 	Pattern                        string    `json:"pattern"`
-	PushActorIds                   *[]string `json:"pushActorIds"`
+	PushActorIds                   *[]string `json:"pushActorIds,omitempty"`
 	RepositoryId                   string    `json:"repositoryId"`
-	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount"`
-	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts"`
-	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews"`
-	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews"`
-	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures"`
-	RequiresConversationResolution *bool     `json:"requiresConversationResolution"`
-	RequiresLinearHistory          *bool     `json:"requiresLinearHistory"`
-	RequiresStatusChecks           *bool     `json:"requiresStatusChecks"`
-	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks"`
-	RestrictsPushes                *bool     `json:"restrictsPushes"`
-	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals"`
-	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds"`
+	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount,omitempty"`
+	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts,omitempty"`
+	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews,omitempty"`
+	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews,omitempty"`
+	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures,omitempty"`
+	RequiresConversationResolution *bool     `json:"requiresConversationResolution,omitempty"`
+	RequiresLinearHistory          *bool     `json:"requiresLinearHistory,omitempty"`
+	RequiresStatusChecks           *bool     `json:"requiresStatusChecks,omitempty"`
+	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks,omitempty"`
+	RestrictsPushes                *bool     `json:"restrictsPushes,omitempty"`
+	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals,omitempty"`
+	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds,omitempty"`
 }
 
 type CreateCheckRunInput struct {
-	Actions          *[]CheckRunAction            `json:"actions"`
-	ClientMutationId *string                      `json:"clientMutationId"`
-	CompletedAt      *time.Time                   `json:"completedAt"`
-	Conclusion       *CheckConclusionState        `json:"conclusion"`
-	DetailsUrl       *string                      `json:"detailsUrl"`
-	ExternalId       *string                      `json:"externalId"`
+	Actions          *[]CheckRunAction            `json:"actions,omitempty"`
+	ClientMutationId *string                      `json:"clientMutationId,omitempty"`
+	CompletedAt      *time.Time                   `json:"completedAt,omitempty"`
+	Conclusion       *CheckConclusionState        `json:"conclusion,omitempty"`
+	DetailsUrl       *string                      `json:"detailsUrl,omitempty"`
+	ExternalId       *string                      `json:"externalId,omitempty"`
 	HeadSha          string                       `json:"headSha"`
 	Name             string                       `json:"name"`
-	Output           *CheckRunOutput              `json:"output"`
+	Output           *CheckRunOutput              `json:"output,omitempty"`
 	RepositoryId     string                       `json:"repositoryId"`
-	StartedAt        *time.Time                   `json:"startedAt"`
-	Status           *RequestableCheckStatusState `json:"status"`
+	StartedAt        *time.Time                   `json:"startedAt,omitempty"`
+	Status           *RequestableCheckStatusState `json:"status,omitempty"`
 }
 
 type CreateCheckSuiteInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	HeadSha          string  `json:"headSha"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type CreateContentAttachmentInput struct {
 	Body               string  `json:"body"`
-	ClientMutationId   *string `json:"clientMutationId"`
+	ClientMutationId   *string `json:"clientMutationId,omitempty"`
 	ContentReferenceId string  `json:"contentReferenceId"`
 	Title              string  `json:"title"`
 }
 
 type CreateDeploymentInput struct {
-	AutoMerge        *bool     `json:"autoMerge"`
-	ClientMutationId *string   `json:"clientMutationId"`
-	Description      *string   `json:"description"`
-	Environment      *string   `json:"environment"`
-	Payload          *string   `json:"payload"`
+	AutoMerge        *bool     `json:"autoMerge,omitempty"`
+	ClientMutationId *string   `json:"clientMutationId,omitempty"`
+	Description      *string   `json:"description,omitempty"`
+	Environment      *string   `json:"environment,omitempty"`
+	Payload          *string   `json:"payload,omitempty"`
 	RefId            string    `json:"refId"`
 	RepositoryId     string    `json:"repositoryId"`
-	RequiredContexts *[]string `json:"requiredContexts"`
-	Task             *string   `json:"task"`
+	RequiredContexts *[]string `json:"requiredContexts,omitempty"`
+	Task             *string   `json:"task,omitempty"`
 }
 
 type CreateDeploymentStatusInput struct {
-	AutoInactive     *bool                 `json:"autoInactive"`
-	ClientMutationId *string               `json:"clientMutationId"`
+	AutoInactive     *bool                 `json:"autoInactive,omitempty"`
+	ClientMutationId *string               `json:"clientMutationId,omitempty"`
 	DeploymentId     string                `json:"deploymentId"`
-	Description      *string               `json:"description"`
-	Environment      *string               `json:"environment"`
-	EnvironmentUrl   *string               `json:"environmentUrl"`
-	LogUrl           *string               `json:"logUrl"`
+	Description      *string               `json:"description,omitempty"`
+	Environment      *string               `json:"environment,omitempty"`
+	EnvironmentUrl   *string               `json:"environmentUrl,omitempty"`
+	LogUrl           *string               `json:"logUrl,omitempty"`
 	State            DeploymentStatusState `json:"state"`
 }
 
 type CreateDiscussionInput struct {
 	Body             string  `json:"body"`
 	CategoryId       string  `json:"categoryId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	RepositoryId     string  `json:"repositoryId"`
 	Title            string  `json:"title"`
 }
@@ -1734,102 +1734,102 @@ type CreateDiscussionInput struct {
 type CreateEnterpriseOrganizationInput struct {
 	AdminLogins      []string `json:"adminLogins"`
 	BillingEmail     string   `json:"billingEmail"`
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 	EnterpriseId     string   `json:"enterpriseId"`
 	Login            string   `json:"login"`
 	ProfileName      string   `json:"profileName"`
 }
 
 type CreateEnvironmentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Name             string  `json:"name"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type CreateIpAllowListEntryInput struct {
 	AllowListValue   string  `json:"allowListValue"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IsActive         bool    `json:"isActive"`
-	Name             *string `json:"name"`
+	Name             *string `json:"name,omitempty"`
 	OwnerId          string  `json:"ownerId"`
 }
 
 type CreateIssueInput struct {
-	AssigneeIds      *[]string `json:"assigneeIds"`
-	Body             *string   `json:"body"`
-	ClientMutationId *string   `json:"clientMutationId"`
-	IssueTemplate    *string   `json:"issueTemplate"`
-	LabelIds         *[]string `json:"labelIds"`
-	MilestoneId      *string   `json:"milestoneId"`
-	ProjectIds       *[]string `json:"projectIds"`
+	AssigneeIds      *[]string `json:"assigneeIds,omitempty"`
+	Body             *string   `json:"body,omitempty"`
+	ClientMutationId *string   `json:"clientMutationId,omitempty"`
+	IssueTemplate    *string   `json:"issueTemplate,omitempty"`
+	LabelIds         *[]string `json:"labelIds,omitempty"`
+	MilestoneId      *string   `json:"milestoneId,omitempty"`
+	ProjectIds       *[]string `json:"projectIds,omitempty"`
 	RepositoryId     string    `json:"repositoryId"`
 	Title            string    `json:"title"`
 }
 
 type CreateLabelInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Color            string  `json:"color"`
-	Description      *string `json:"description"`
+	Description      *string `json:"description,omitempty"`
 	Name             string  `json:"name"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type CreateProjectInput struct {
-	Body             *string          `json:"body"`
-	ClientMutationId *string          `json:"clientMutationId"`
+	Body             *string          `json:"body,omitempty"`
+	ClientMutationId *string          `json:"clientMutationId,omitempty"`
 	Name             string           `json:"name"`
 	OwnerId          string           `json:"ownerId"`
-	RepositoryIds    *[]string        `json:"repositoryIds"`
-	Template         *ProjectTemplate `json:"template"`
+	RepositoryIds    *[]string        `json:"repositoryIds,omitempty"`
+	Template         *ProjectTemplate `json:"template,omitempty"`
 }
 
 type CreatePullRequestInput struct {
 	BaseRefName         string  `json:"baseRefName"`
-	Body                *string `json:"body"`
-	ClientMutationId    *string `json:"clientMutationId"`
-	Draft               *bool   `json:"draft"`
+	Body                *string `json:"body,omitempty"`
+	ClientMutationId    *string `json:"clientMutationId,omitempty"`
+	Draft               *bool   `json:"draft,omitempty"`
 	HeadRefName         string  `json:"headRefName"`
-	MaintainerCanModify *bool   `json:"maintainerCanModify"`
+	MaintainerCanModify *bool   `json:"maintainerCanModify,omitempty"`
 	RepositoryId        string  `json:"repositoryId"`
 	Title               string  `json:"title"`
 }
 
 type CreateRefInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Name             string  `json:"name"`
 	Oid              string  `json:"oid"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type CreateRepositoryInput struct {
-	ClientMutationId *string              `json:"clientMutationId"`
-	Description      *string              `json:"description"`
-	HasIssuesEnabled *bool                `json:"hasIssuesEnabled"`
-	HasWikiEnabled   *bool                `json:"hasWikiEnabled"`
-	HomepageUrl      *string              `json:"homepageUrl"`
+	ClientMutationId *string              `json:"clientMutationId,omitempty"`
+	Description      *string              `json:"description,omitempty"`
+	HasIssuesEnabled *bool                `json:"hasIssuesEnabled,omitempty"`
+	HasWikiEnabled   *bool                `json:"hasWikiEnabled,omitempty"`
+	HomepageUrl      *string              `json:"homepageUrl,omitempty"`
 	Name             string               `json:"name"`
-	OwnerId          *string              `json:"ownerId"`
-	TeamId           *string              `json:"teamId"`
-	Template         *bool                `json:"template"`
+	OwnerId          *string              `json:"ownerId,omitempty"`
+	TeamId           *string              `json:"teamId,omitempty"`
+	Template         *bool                `json:"template,omitempty"`
 	Visibility       RepositoryVisibility `json:"visibility"`
 }
 
 type CreateTeamDiscussionCommentInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	DiscussionId     string  `json:"discussionId"`
 }
 
 type CreateTeamDiscussionInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
-	Private          *bool   `json:"private"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	Private          *bool   `json:"private,omitempty"`
 	TeamId           string  `json:"teamId"`
 	Title            string  `json:"title"`
 }
 
 type DeclineTopicSuggestionInput struct {
-	ClientMutationId *string                      `json:"clientMutationId"`
+	ClientMutationId *string                      `json:"clientMutationId,omitempty"`
 	Name             string                       `json:"name"`
 	Reason           TopicSuggestionDeclineReason `json:"reason"`
 	RepositoryId     string                       `json:"repositoryId"`
@@ -1837,96 +1837,96 @@ type DeclineTopicSuggestionInput struct {
 
 type DeleteBranchProtectionRuleInput struct {
 	BranchProtectionRuleId string  `json:"branchProtectionRuleId"`
-	ClientMutationId       *string `json:"clientMutationId"`
+	ClientMutationId       *string `json:"clientMutationId,omitempty"`
 }
 
 type DeleteDeploymentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteDiscussionCommentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteDiscussionInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteEnvironmentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteIpAllowListEntryInput struct {
-	ClientMutationId   *string `json:"clientMutationId"`
+	ClientMutationId   *string `json:"clientMutationId,omitempty"`
 	IpAllowListEntryId string  `json:"ipAllowListEntryId"`
 }
 
 type DeleteIssueCommentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 }
 
 type DeleteLabelInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeletePackageVersionInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PackageVersionId string  `json:"packageVersionId"`
 }
 
 type DeleteProjectCardInput struct {
 	CardId           string  `json:"cardId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 }
 
 type DeleteProjectColumnInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ColumnId         string  `json:"columnId"`
 }
 
 type DeleteProjectInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ProjectId        string  `json:"projectId"`
 }
 
 type DeletePullRequestReviewCommentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeletePullRequestReviewInput struct {
-	ClientMutationId    *string `json:"clientMutationId"`
+	ClientMutationId    *string `json:"clientMutationId,omitempty"`
 	PullRequestReviewId string  `json:"pullRequestReviewId"`
 }
 
 type DeleteRefInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	RefId            string  `json:"refId"`
 }
 
 type DeleteTeamDiscussionCommentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteTeamDiscussionInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type DeleteVerifiableDomainInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
@@ -1936,7 +1936,7 @@ type DeploymentOrder struct {
 }
 
 type DisablePullRequestAutoMergeInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
@@ -1946,7 +1946,7 @@ type DiscussionOrder struct {
 }
 
 type DismissPullRequestReviewInput struct {
-	ClientMutationId    *string `json:"clientMutationId"`
+	ClientMutationId    *string `json:"clientMutationId,omitempty"`
 	Message             string  `json:"message"`
 	PullRequestReviewId string  `json:"pullRequestReviewId"`
 }
@@ -1961,17 +1961,17 @@ type DraftPullRequestReviewThread struct {
 	Body      string    `json:"body"`
 	Line      int       `json:"line"`
 	Path      string    `json:"path"`
-	Side      *DiffSide `json:"side"`
-	StartLine *int      `json:"startLine"`
-	StartSide *DiffSide `json:"startSide"`
+	Side      *DiffSide `json:"side,omitempty"`
+	StartLine *int      `json:"startLine,omitempty"`
+	StartSide *DiffSide `json:"startSide,omitempty"`
 }
 
 type EnablePullRequestAutoMergeInput struct {
-	AuthorEmail      *string                 `json:"authorEmail"`
-	ClientMutationId *string                 `json:"clientMutationId"`
-	CommitBody       *string                 `json:"commitBody"`
-	CommitHeadline   *string                 `json:"commitHeadline"`
-	MergeMethod      *PullRequestMergeMethod `json:"mergeMethod"`
+	AuthorEmail      *string                 `json:"authorEmail,omitempty"`
+	ClientMutationId *string                 `json:"clientMutationId,omitempty"`
+	CommitBody       *string                 `json:"commitBody,omitempty"`
+	CommitHeadline   *string                 `json:"commitHeadline,omitempty"`
+	MergeMethod      *PullRequestMergeMethod `json:"mergeMethod,omitempty"`
 	PullRequestId    string                  `json:"pullRequestId"`
 }
 
@@ -2006,7 +2006,7 @@ type EnterpriseServerUserAccountsUploadOrder struct {
 }
 
 type FollowUserInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	UserId           string  `json:"userId"`
 }
 
@@ -2016,20 +2016,20 @@ type GistOrder struct {
 }
 
 type ImportProjectInput struct {
-	Body             *string               `json:"body"`
-	ClientMutationId *string               `json:"clientMutationId"`
+	Body             *string               `json:"body,omitempty"`
+	ClientMutationId *string               `json:"clientMutationId,omitempty"`
 	ColumnImports    []ProjectColumnImport `json:"columnImports"`
 	Name             string                `json:"name"`
 	OwnerName        string                `json:"ownerName"`
-	Public           *bool                 `json:"public"`
+	Public           *bool                 `json:"public,omitempty"`
 }
 
 type InviteEnterpriseAdminInput struct {
-	ClientMutationId *string                      `json:"clientMutationId"`
-	Email            *string                      `json:"email"`
+	ClientMutationId *string                      `json:"clientMutationId,omitempty"`
+	Email            *string                      `json:"email,omitempty"`
 	EnterpriseId     string                       `json:"enterpriseId"`
-	Invitee          *string                      `json:"invitee"`
-	Role             *EnterpriseAdministratorRole `json:"role"`
+	Invitee          *string                      `json:"invitee,omitempty"`
+	Role             *EnterpriseAdministratorRole `json:"role,omitempty"`
 }
 
 type IpAllowListEntryOrder struct {
@@ -2043,14 +2043,14 @@ type IssueCommentOrder struct {
 }
 
 type IssueFilters struct {
-	Assignee         *string       `json:"assignee"`
-	CreatedBy        *string       `json:"createdBy"`
-	Labels           *[]string     `json:"labels"`
-	Mentioned        *string       `json:"mentioned"`
-	Milestone        *string       `json:"milestone"`
-	Since            *time.Time    `json:"since"`
-	States           *[]IssueState `json:"states"`
-	ViewerSubscribed *bool         `json:"viewerSubscribed"`
+	Assignee         *string       `json:"assignee,omitempty"`
+	CreatedBy        *string       `json:"createdBy,omitempty"`
+	Labels           *[]string     `json:"labels,omitempty"`
+	Mentioned        *string       `json:"mentioned,omitempty"`
+	Milestone        *string       `json:"milestone,omitempty"`
+	Since            *time.Time    `json:"since,omitempty"`
+	States           *[]IssueState `json:"states,omitempty"`
+	ViewerSubscribed *bool         `json:"viewerSubscribed,omitempty"`
 }
 
 type IssueOrder struct {
@@ -2069,49 +2069,49 @@ type LanguageOrder struct {
 }
 
 type LinkRepositoryToProjectInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ProjectId        string  `json:"projectId"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type LockLockableInput struct {
-	ClientMutationId *string     `json:"clientMutationId"`
-	LockReason       *LockReason `json:"lockReason"`
+	ClientMutationId *string     `json:"clientMutationId,omitempty"`
+	LockReason       *LockReason `json:"lockReason,omitempty"`
 	LockableId       string      `json:"lockableId"`
 }
 
 type MarkDiscussionCommentAsAnswerInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type MarkFileAsViewedInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Path             string  `json:"path"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
 type MarkPullRequestReadyForReviewInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
 type MergeBranchInput struct {
-	AuthorEmail      *string `json:"authorEmail"`
+	AuthorEmail      *string `json:"authorEmail,omitempty"`
 	Base             string  `json:"base"`
-	ClientMutationId *string `json:"clientMutationId"`
-	CommitMessage    *string `json:"commitMessage"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	CommitMessage    *string `json:"commitMessage,omitempty"`
 	Head             string  `json:"head"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type MergePullRequestInput struct {
-	AuthorEmail      *string                 `json:"authorEmail"`
-	ClientMutationId *string                 `json:"clientMutationId"`
-	CommitBody       *string                 `json:"commitBody"`
-	CommitHeadline   *string                 `json:"commitHeadline"`
-	ExpectedHeadOid  *string                 `json:"expectedHeadOid"`
-	MergeMethod      *PullRequestMergeMethod `json:"mergeMethod"`
+	AuthorEmail      *string                 `json:"authorEmail,omitempty"`
+	ClientMutationId *string                 `json:"clientMutationId,omitempty"`
+	CommitBody       *string                 `json:"commitBody,omitempty"`
+	CommitHeadline   *string                 `json:"commitHeadline,omitempty"`
+	ExpectedHeadOid  *string                 `json:"expectedHeadOid,omitempty"`
+	MergeMethod      *PullRequestMergeMethod `json:"mergeMethod,omitempty"`
 	PullRequestId    string                  `json:"pullRequestId"`
 }
 
@@ -2122,20 +2122,20 @@ type MilestoneOrder struct {
 
 type MinimizeCommentInput struct {
 	Classifier       ReportedContentClassifiers `json:"classifier"`
-	ClientMutationId *string                    `json:"clientMutationId"`
+	ClientMutationId *string                    `json:"clientMutationId,omitempty"`
 	SubjectId        string                     `json:"subjectId"`
 }
 
 type MoveProjectCardInput struct {
-	AfterCardId      *string `json:"afterCardId"`
+	AfterCardId      *string `json:"afterCardId,omitempty"`
 	CardId           string  `json:"cardId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ColumnId         string  `json:"columnId"`
 }
 
 type MoveProjectColumnInput struct {
-	AfterColumnId    *string `json:"afterColumnId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	AfterColumnId    *string `json:"afterColumnId,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ColumnId         string  `json:"columnId"`
 }
 
@@ -2145,22 +2145,22 @@ type OrganizationOrder struct {
 }
 
 type PackageFileOrder struct {
-	Direction *OrderDirection        `json:"direction"`
-	Field     *PackageFileOrderField `json:"field"`
+	Direction *OrderDirection        `json:"direction,omitempty"`
+	Field     *PackageFileOrderField `json:"field,omitempty"`
 }
 
 type PackageOrder struct {
-	Direction *OrderDirection    `json:"direction"`
-	Field     *PackageOrderField `json:"field"`
+	Direction *OrderDirection    `json:"direction,omitempty"`
+	Field     *PackageOrderField `json:"field,omitempty"`
 }
 
 type PackageVersionOrder struct {
-	Direction *OrderDirection           `json:"direction"`
-	Field     *PackageVersionOrderField `json:"field"`
+	Direction *OrderDirection           `json:"direction,omitempty"`
+	Field     *PackageVersionOrderField `json:"field,omitempty"`
 }
 
 type PinIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 }
 
@@ -2171,7 +2171,7 @@ type ProjectCardImport struct {
 
 type ProjectColumnImport struct {
 	ColumnName string               `json:"columnName"`
-	Issues     *[]ProjectCardImport `json:"issues"`
+	Issues     *[]ProjectCardImport `json:"issues,omitempty"`
 	Position   int                  `json:"position"`
 }
 
@@ -2197,24 +2197,24 @@ type RefOrder struct {
 
 type RefUpdate struct {
 	AfterOid  string  `json:"afterOid"`
-	BeforeOid *string `json:"beforeOid"`
-	Force     *bool   `json:"force"`
+	BeforeOid *string `json:"beforeOid,omitempty"`
+	Force     *bool   `json:"force,omitempty"`
 	Name      string  `json:"name"`
 }
 
 type RegenerateEnterpriseIdentityProviderRecoveryCodesInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 }
 
 type RegenerateVerifiableDomainTokenInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type RejectDeploymentsInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
-	Comment          *string  `json:"comment"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
+	Comment          *string  `json:"comment,omitempty"`
 	EnvironmentIds   []string `json:"environmentIds"`
 	WorkflowRunId    string   `json:"workflowRunId"`
 }
@@ -2227,67 +2227,67 @@ type ReleaseOrder struct {
 type RemoveAssigneesFromAssignableInput struct {
 	AssignableId     string   `json:"assignableId"`
 	AssigneeIds      []string `json:"assigneeIds"`
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 }
 
 type RemoveEnterpriseAdminInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 	Login            string  `json:"login"`
 }
 
 type RemoveEnterpriseIdentityProviderInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 }
 
 type RemoveEnterpriseOrganizationInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 	OrganizationId   string  `json:"organizationId"`
 }
 
 type RemoveEnterpriseSupportEntitlementInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
 	Login            string  `json:"login"`
 }
 
 type RemoveLabelsFromLabelableInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 	LabelIds         []string `json:"labelIds"`
 	LabelableId      string   `json:"labelableId"`
 }
 
 type RemoveOutsideCollaboratorInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	OrganizationId   string  `json:"organizationId"`
 	UserId           string  `json:"userId"`
 }
 
 type RemoveReactionInput struct {
-	ClientMutationId *string         `json:"clientMutationId"`
+	ClientMutationId *string         `json:"clientMutationId,omitempty"`
 	Content          ReactionContent `json:"content"`
 	SubjectId        string          `json:"subjectId"`
 }
 
 type RemoveStarInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	StarrableId      string  `json:"starrableId"`
 }
 
 type RemoveUpvoteInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	SubjectId        string  `json:"subjectId"`
 }
 
 type ReopenIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 }
 
 type ReopenPullRequestInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
@@ -2302,21 +2302,21 @@ type RepositoryOrder struct {
 }
 
 type RequestReviewsInput struct {
-	ClientMutationId *string   `json:"clientMutationId"`
+	ClientMutationId *string   `json:"clientMutationId,omitempty"`
 	PullRequestId    string    `json:"pullRequestId"`
-	TeamIds          *[]string `json:"teamIds"`
-	Union            *bool     `json:"union"`
-	UserIds          *[]string `json:"userIds"`
+	TeamIds          *[]string `json:"teamIds,omitempty"`
+	Union            *bool     `json:"union,omitempty"`
+	UserIds          *[]string `json:"userIds,omitempty"`
 }
 
 type RerequestCheckSuiteInput struct {
 	CheckSuiteId     string  `json:"checkSuiteId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type ResolveReviewThreadInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ThreadId         string  `json:"threadId"`
 }
 
@@ -2341,32 +2341,32 @@ type SecurityVulnerabilityOrder struct {
 }
 
 type SetEnterpriseIdentityProviderInput struct {
-	ClientMutationId *string                `json:"clientMutationId"`
+	ClientMutationId *string                `json:"clientMutationId,omitempty"`
 	DigestMethod     SamlDigestAlgorithm    `json:"digestMethod"`
 	EnterpriseId     string                 `json:"enterpriseId"`
 	IdpCertificate   string                 `json:"idpCertificate"`
-	Issuer           *string                `json:"issuer"`
+	Issuer           *string                `json:"issuer,omitempty"`
 	SignatureMethod  SamlSignatureAlgorithm `json:"signatureMethod"`
 	SsoUrl           string                 `json:"ssoUrl"`
 }
 
 type SetOrganizationInteractionLimitInput struct {
-	ClientMutationId *string                           `json:"clientMutationId"`
-	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry"`
+	ClientMutationId *string                           `json:"clientMutationId,omitempty"`
+	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry,omitempty"`
 	Limit            RepositoryInteractionLimit        `json:"limit"`
 	OrganizationId   string                            `json:"organizationId"`
 }
 
 type SetRepositoryInteractionLimitInput struct {
-	ClientMutationId *string                           `json:"clientMutationId"`
-	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry"`
+	ClientMutationId *string                           `json:"clientMutationId,omitempty"`
+	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry,omitempty"`
 	Limit            RepositoryInteractionLimit        `json:"limit"`
 	RepositoryId     string                            `json:"repositoryId"`
 }
 
 type SetUserInteractionLimitInput struct {
-	ClientMutationId *string                           `json:"clientMutationId"`
-	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry"`
+	ClientMutationId *string                           `json:"clientMutationId,omitempty"`
+	Expiry           *RepositoryInteractionLimitExpiry `json:"expiry,omitempty"`
 	Limit            RepositoryInteractionLimit        `json:"limit"`
 	UserId           string                            `json:"userId"`
 }
@@ -2397,11 +2397,11 @@ type StarOrder struct {
 }
 
 type SubmitPullRequestReviewInput struct {
-	Body                *string                `json:"body"`
-	ClientMutationId    *string                `json:"clientMutationId"`
+	Body                *string                `json:"body,omitempty"`
+	ClientMutationId    *string                `json:"clientMutationId,omitempty"`
 	Event               PullRequestReviewEvent `json:"event"`
-	PullRequestId       *string                `json:"pullRequestId"`
-	PullRequestReviewId *string                `json:"pullRequestReviewId"`
+	PullRequestId       *string                `json:"pullRequestId,omitempty"`
+	PullRequestReviewId *string                `json:"pullRequestReviewId,omitempty"`
 }
 
 type TeamDiscussionCommentOrder struct {
@@ -2430,392 +2430,392 @@ type TeamRepositoryOrder struct {
 }
 
 type TransferIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type UnarchiveRepositoryInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type UnfollowUserInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	UserId           string  `json:"userId"`
 }
 
 type UnlinkRepositoryFromProjectInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ProjectId        string  `json:"projectId"`
 	RepositoryId     string  `json:"repositoryId"`
 }
 
 type UnlockLockableInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	LockableId       string  `json:"lockableId"`
 }
 
 type UnmarkDiscussionCommentAsAnswerInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type UnmarkFileAsViewedInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Path             string  `json:"path"`
 	PullRequestId    string  `json:"pullRequestId"`
 }
 
 type UnmarkIssueAsDuplicateInput struct {
 	CanonicalId      string  `json:"canonicalId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	DuplicateId      string  `json:"duplicateId"`
 }
 
 type UnminimizeCommentInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	SubjectId        string  `json:"subjectId"`
 }
 
 type UnpinIssueInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	IssueId          string  `json:"issueId"`
 }
 
 type UnresolveReviewThreadInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	ThreadId         string  `json:"threadId"`
 }
 
 type UpdateBranchProtectionRuleInput struct {
-	AllowsDeletions                *bool     `json:"allowsDeletions"`
-	AllowsForcePushes              *bool     `json:"allowsForcePushes"`
+	AllowsDeletions                *bool     `json:"allowsDeletions,omitempty"`
+	AllowsForcePushes              *bool     `json:"allowsForcePushes,omitempty"`
 	BranchProtectionRuleId         string    `json:"branchProtectionRuleId"`
-	ClientMutationId               *string   `json:"clientMutationId"`
-	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews"`
-	IsAdminEnforced                *bool     `json:"isAdminEnforced"`
-	Pattern                        *string   `json:"pattern"`
-	PushActorIds                   *[]string `json:"pushActorIds"`
-	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount"`
-	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts"`
-	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews"`
-	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews"`
-	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures"`
-	RequiresConversationResolution *bool     `json:"requiresConversationResolution"`
-	RequiresLinearHistory          *bool     `json:"requiresLinearHistory"`
-	RequiresStatusChecks           *bool     `json:"requiresStatusChecks"`
-	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks"`
-	RestrictsPushes                *bool     `json:"restrictsPushes"`
-	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals"`
-	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds"`
+	ClientMutationId               *string   `json:"clientMutationId,omitempty"`
+	DismissesStaleReviews          *bool     `json:"dismissesStaleReviews,omitempty"`
+	IsAdminEnforced                *bool     `json:"isAdminEnforced,omitempty"`
+	Pattern                        *string   `json:"pattern,omitempty"`
+	PushActorIds                   *[]string `json:"pushActorIds,omitempty"`
+	RequiredApprovingReviewCount   *int      `json:"requiredApprovingReviewCount,omitempty"`
+	RequiredStatusCheckContexts    *[]string `json:"requiredStatusCheckContexts,omitempty"`
+	RequiresApprovingReviews       *bool     `json:"requiresApprovingReviews,omitempty"`
+	RequiresCodeOwnerReviews       *bool     `json:"requiresCodeOwnerReviews,omitempty"`
+	RequiresCommitSignatures       *bool     `json:"requiresCommitSignatures,omitempty"`
+	RequiresConversationResolution *bool     `json:"requiresConversationResolution,omitempty"`
+	RequiresLinearHistory          *bool     `json:"requiresLinearHistory,omitempty"`
+	RequiresStatusChecks           *bool     `json:"requiresStatusChecks,omitempty"`
+	RequiresStrictStatusChecks     *bool     `json:"requiresStrictStatusChecks,omitempty"`
+	RestrictsPushes                *bool     `json:"restrictsPushes,omitempty"`
+	RestrictsReviewDismissals      *bool     `json:"restrictsReviewDismissals,omitempty"`
+	ReviewDismissalActorIds        *[]string `json:"reviewDismissalActorIds,omitempty"`
 }
 
 type UpdateCheckRunInput struct {
-	Actions          *[]CheckRunAction            `json:"actions"`
+	Actions          *[]CheckRunAction            `json:"actions,omitempty"`
 	CheckRunId       string                       `json:"checkRunId"`
-	ClientMutationId *string                      `json:"clientMutationId"`
-	CompletedAt      *time.Time                   `json:"completedAt"`
-	Conclusion       *CheckConclusionState        `json:"conclusion"`
-	DetailsUrl       *string                      `json:"detailsUrl"`
-	ExternalId       *string                      `json:"externalId"`
-	Name             *string                      `json:"name"`
-	Output           *CheckRunOutput              `json:"output"`
+	ClientMutationId *string                      `json:"clientMutationId,omitempty"`
+	CompletedAt      *time.Time                   `json:"completedAt,omitempty"`
+	Conclusion       *CheckConclusionState        `json:"conclusion,omitempty"`
+	DetailsUrl       *string                      `json:"detailsUrl,omitempty"`
+	ExternalId       *string                      `json:"externalId,omitempty"`
+	Name             *string                      `json:"name,omitempty"`
+	Output           *CheckRunOutput              `json:"output,omitempty"`
 	RepositoryId     string                       `json:"repositoryId"`
-	StartedAt        *time.Time                   `json:"startedAt"`
-	Status           *RequestableCheckStatusState `json:"status"`
+	StartedAt        *time.Time                   `json:"startedAt,omitempty"`
+	Status           *RequestableCheckStatusState `json:"status,omitempty"`
 }
 
 type UpdateCheckSuitePreferencesInput struct {
 	AutoTriggerPreferences []CheckSuiteAutoTriggerPreference `json:"autoTriggerPreferences"`
-	ClientMutationId       *string                           `json:"clientMutationId"`
+	ClientMutationId       *string                           `json:"clientMutationId,omitempty"`
 	RepositoryId           string                            `json:"repositoryId"`
 }
 
 type UpdateDiscussionCommentInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	CommentId        string  `json:"commentId"`
 }
 
 type UpdateDiscussionInput struct {
-	Body             *string `json:"body"`
-	CategoryId       *string `json:"categoryId"`
-	ClientMutationId *string `json:"clientMutationId"`
+	Body             *string `json:"body,omitempty"`
+	CategoryId       *string `json:"categoryId,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	DiscussionId     string  `json:"discussionId"`
-	Title            *string `json:"title"`
+	Title            *string `json:"title,omitempty"`
 }
 
 type UpdateEnterpriseAdministratorRoleInput struct {
-	ClientMutationId *string                     `json:"clientMutationId"`
+	ClientMutationId *string                     `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                      `json:"enterpriseId"`
 	Login            string                      `json:"login"`
 	Role             EnterpriseAdministratorRole `json:"role"`
 }
 
 type UpdateEnterpriseAllowPrivateRepositoryForkingSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseDefaultRepositoryPermissionSettingInput struct {
-	ClientMutationId *string                                           `json:"clientMutationId"`
+	ClientMutationId *string                                           `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                            `json:"enterpriseId"`
 	SettingValue     EnterpriseDefaultRepositoryPermissionSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanChangeRepositoryVisibilitySettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanCreateRepositoriesSettingInput struct {
-	ClientMutationId                          *string                                             `json:"clientMutationId"`
+	ClientMutationId                          *string                                             `json:"clientMutationId,omitempty"`
 	EnterpriseId                              string                                              `json:"enterpriseId"`
-	MembersCanCreateInternalRepositories      *bool                                               `json:"membersCanCreateInternalRepositories"`
-	MembersCanCreatePrivateRepositories       *bool                                               `json:"membersCanCreatePrivateRepositories"`
-	MembersCanCreatePublicRepositories        *bool                                               `json:"membersCanCreatePublicRepositories"`
-	MembersCanCreateRepositoriesPolicyEnabled *bool                                               `json:"membersCanCreateRepositoriesPolicyEnabled"`
-	SettingValue                              *EnterpriseMembersCanCreateRepositoriesSettingValue `json:"settingValue"`
+	MembersCanCreateInternalRepositories      *bool                                               `json:"membersCanCreateInternalRepositories,omitempty"`
+	MembersCanCreatePrivateRepositories       *bool                                               `json:"membersCanCreatePrivateRepositories,omitempty"`
+	MembersCanCreatePublicRepositories        *bool                                               `json:"membersCanCreatePublicRepositories,omitempty"`
+	MembersCanCreateRepositoriesPolicyEnabled *bool                                               `json:"membersCanCreateRepositoriesPolicyEnabled,omitempty"`
+	SettingValue                              *EnterpriseMembersCanCreateRepositoriesSettingValue `json:"settingValue,omitempty"`
 }
 
 type UpdateEnterpriseMembersCanDeleteIssuesSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanDeleteRepositoriesSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanInviteCollaboratorsSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanMakePurchasesSettingInput struct {
-	ClientMutationId *string                                       `json:"clientMutationId"`
+	ClientMutationId *string                                       `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                        `json:"enterpriseId"`
 	SettingValue     EnterpriseMembersCanMakePurchasesSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseMembersCanViewDependencyInsightsSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseOrganizationProjectsSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseProfileInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
-	Description      *string `json:"description"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	Description      *string `json:"description,omitempty"`
 	EnterpriseId     string  `json:"enterpriseId"`
-	Location         *string `json:"location"`
-	Name             *string `json:"name"`
-	WebsiteUrl       *string `json:"websiteUrl"`
+	Location         *string `json:"location,omitempty"`
+	Name             *string `json:"name,omitempty"`
+	WebsiteUrl       *string `json:"websiteUrl,omitempty"`
 }
 
 type UpdateEnterpriseRepositoryProjectsSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseTeamDiscussionsSettingInput struct {
-	ClientMutationId *string                               `json:"clientMutationId"`
+	ClientMutationId *string                               `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                                `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledDisabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnterpriseTwoFactorAuthenticationRequiredSettingInput struct {
-	ClientMutationId *string                       `json:"clientMutationId"`
+	ClientMutationId *string                       `json:"clientMutationId,omitempty"`
 	EnterpriseId     string                        `json:"enterpriseId"`
 	SettingValue     EnterpriseEnabledSettingValue `json:"settingValue"`
 }
 
 type UpdateEnvironmentInput struct {
-	ClientMutationId *string   `json:"clientMutationId"`
+	ClientMutationId *string   `json:"clientMutationId,omitempty"`
 	EnvironmentId    string    `json:"environmentId"`
-	Reviewers        *[]string `json:"reviewers"`
-	WaitTimer        *int      `json:"waitTimer"`
+	Reviewers        *[]string `json:"reviewers,omitempty"`
+	WaitTimer        *int      `json:"waitTimer,omitempty"`
 }
 
 type UpdateIpAllowListEnabledSettingInput struct {
-	ClientMutationId *string                        `json:"clientMutationId"`
+	ClientMutationId *string                        `json:"clientMutationId,omitempty"`
 	OwnerId          string                         `json:"ownerId"`
 	SettingValue     IpAllowListEnabledSettingValue `json:"settingValue"`
 }
 
 type UpdateIpAllowListEntryInput struct {
 	AllowListValue     string  `json:"allowListValue"`
-	ClientMutationId   *string `json:"clientMutationId"`
+	ClientMutationId   *string `json:"clientMutationId,omitempty"`
 	IpAllowListEntryId string  `json:"ipAllowListEntryId"`
 	IsActive           bool    `json:"isActive"`
-	Name               *string `json:"name"`
+	Name               *string `json:"name,omitempty"`
 }
 
 type UpdateIpAllowListForInstalledAppsEnabledSettingInput struct {
-	ClientMutationId *string                                        `json:"clientMutationId"`
+	ClientMutationId *string                                        `json:"clientMutationId,omitempty"`
 	OwnerId          string                                         `json:"ownerId"`
 	SettingValue     IpAllowListForInstalledAppsEnabledSettingValue `json:"settingValue"`
 }
 
 type UpdateIssueCommentInput struct {
 	Body             string  `json:"body"`
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type UpdateIssueInput struct {
-	AssigneeIds      *[]string   `json:"assigneeIds"`
-	Body             *string     `json:"body"`
-	ClientMutationId *string     `json:"clientMutationId"`
+	AssigneeIds      *[]string   `json:"assigneeIds,omitempty"`
+	Body             *string     `json:"body,omitempty"`
+	ClientMutationId *string     `json:"clientMutationId,omitempty"`
 	Id               string      `json:"id"`
-	LabelIds         *[]string   `json:"labelIds"`
-	MilestoneId      *string     `json:"milestoneId"`
-	ProjectIds       *[]string   `json:"projectIds"`
-	State            *IssueState `json:"state"`
-	Title            *string     `json:"title"`
+	LabelIds         *[]string   `json:"labelIds,omitempty"`
+	MilestoneId      *string     `json:"milestoneId,omitempty"`
+	ProjectIds       *[]string   `json:"projectIds,omitempty"`
+	State            *IssueState `json:"state,omitempty"`
+	Title            *string     `json:"title,omitempty"`
 }
 
 type UpdateLabelInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
-	Color            *string `json:"color"`
-	Description      *string `json:"description"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	Color            *string `json:"color,omitempty"`
+	Description      *string `json:"description,omitempty"`
 	Id               string  `json:"id"`
-	Name             *string `json:"name"`
+	Name             *string `json:"name,omitempty"`
 }
 
 type UpdateNotificationRestrictionSettingInput struct {
-	ClientMutationId *string                             `json:"clientMutationId"`
+	ClientMutationId *string                             `json:"clientMutationId,omitempty"`
 	OwnerId          string                              `json:"ownerId"`
 	SettingValue     NotificationRestrictionSettingValue `json:"settingValue"`
 }
 
 type UpdateProjectCardInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
-	IsArchived       *bool   `json:"isArchived"`
-	Note             *string `json:"note"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	IsArchived       *bool   `json:"isArchived,omitempty"`
+	Note             *string `json:"note,omitempty"`
 	ProjectCardId    string  `json:"projectCardId"`
 }
 
 type UpdateProjectColumnInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Name             string  `json:"name"`
 	ProjectColumnId  string  `json:"projectColumnId"`
 }
 
 type UpdateProjectInput struct {
-	Body             *string       `json:"body"`
-	ClientMutationId *string       `json:"clientMutationId"`
-	Name             *string       `json:"name"`
+	Body             *string       `json:"body,omitempty"`
+	ClientMutationId *string       `json:"clientMutationId,omitempty"`
+	Name             *string       `json:"name,omitempty"`
 	ProjectId        string        `json:"projectId"`
-	Public           *bool         `json:"public"`
-	State            *ProjectState `json:"state"`
+	Public           *bool         `json:"public,omitempty"`
+	State            *ProjectState `json:"state,omitempty"`
 }
 
 type UpdatePullRequestInput struct {
-	AssigneeIds         *[]string               `json:"assigneeIds"`
-	BaseRefName         *string                 `json:"baseRefName"`
-	Body                *string                 `json:"body"`
-	ClientMutationId    *string                 `json:"clientMutationId"`
-	LabelIds            *[]string               `json:"labelIds"`
-	MaintainerCanModify *bool                   `json:"maintainerCanModify"`
-	MilestoneId         *string                 `json:"milestoneId"`
-	ProjectIds          *[]string               `json:"projectIds"`
+	AssigneeIds         *[]string               `json:"assigneeIds,omitempty"`
+	BaseRefName         *string                 `json:"baseRefName,omitempty"`
+	Body                *string                 `json:"body,omitempty"`
+	ClientMutationId    *string                 `json:"clientMutationId,omitempty"`
+	LabelIds            *[]string               `json:"labelIds,omitempty"`
+	MaintainerCanModify *bool                   `json:"maintainerCanModify,omitempty"`
+	MilestoneId         *string                 `json:"milestoneId,omitempty"`
+	ProjectIds          *[]string               `json:"projectIds,omitempty"`
 	PullRequestId       string                  `json:"pullRequestId"`
-	State               *PullRequestUpdateState `json:"state"`
-	Title               *string                 `json:"title"`
+	State               *PullRequestUpdateState `json:"state,omitempty"`
+	Title               *string                 `json:"title,omitempty"`
 }
 
 type UpdatePullRequestReviewCommentInput struct {
 	Body                       string  `json:"body"`
-	ClientMutationId           *string `json:"clientMutationId"`
+	ClientMutationId           *string `json:"clientMutationId,omitempty"`
 	PullRequestReviewCommentId string  `json:"pullRequestReviewCommentId"`
 }
 
 type UpdatePullRequestReviewInput struct {
 	Body                string  `json:"body"`
-	ClientMutationId    *string `json:"clientMutationId"`
+	ClientMutationId    *string `json:"clientMutationId,omitempty"`
 	PullRequestReviewId string  `json:"pullRequestReviewId"`
 }
 
 type UpdateRefInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
-	Force            *bool   `json:"force"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
+	Force            *bool   `json:"force,omitempty"`
 	Oid              string  `json:"oid"`
 	RefId            string  `json:"refId"`
 }
 
 type UpdateRefsInput struct {
-	ClientMutationId *string     `json:"clientMutationId"`
+	ClientMutationId *string     `json:"clientMutationId,omitempty"`
 	RefUpdates       []RefUpdate `json:"refUpdates"`
 	RepositoryId     string      `json:"repositoryId"`
 }
 
 type UpdateRepositoryInput struct {
-	ClientMutationId   *string `json:"clientMutationId"`
-	Description        *string `json:"description"`
-	HasIssuesEnabled   *bool   `json:"hasIssuesEnabled"`
-	HasProjectsEnabled *bool   `json:"hasProjectsEnabled"`
-	HasWikiEnabled     *bool   `json:"hasWikiEnabled"`
-	HomepageUrl        *string `json:"homepageUrl"`
-	Name               *string `json:"name"`
+	ClientMutationId   *string `json:"clientMutationId,omitempty"`
+	Description        *string `json:"description,omitempty"`
+	HasIssuesEnabled   *bool   `json:"hasIssuesEnabled,omitempty"`
+	HasProjectsEnabled *bool   `json:"hasProjectsEnabled,omitempty"`
+	HasWikiEnabled     *bool   `json:"hasWikiEnabled,omitempty"`
+	HomepageUrl        *string `json:"homepageUrl,omitempty"`
+	Name               *string `json:"name,omitempty"`
 	RepositoryId       string  `json:"repositoryId"`
-	Template           *bool   `json:"template"`
+	Template           *bool   `json:"template,omitempty"`
 }
 
 type UpdateSubscriptionInput struct {
-	ClientMutationId *string           `json:"clientMutationId"`
+	ClientMutationId *string           `json:"clientMutationId,omitempty"`
 	State            SubscriptionState `json:"state"`
 	SubscribableId   string            `json:"subscribableId"`
 }
 
 type UpdateTeamDiscussionCommentInput struct {
 	Body             string  `json:"body"`
-	BodyVersion      *string `json:"bodyVersion"`
-	ClientMutationId *string `json:"clientMutationId"`
+	BodyVersion      *string `json:"bodyVersion,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
 
 type UpdateTeamDiscussionInput struct {
-	Body             *string `json:"body"`
-	BodyVersion      *string `json:"bodyVersion"`
-	ClientMutationId *string `json:"clientMutationId"`
+	Body             *string `json:"body,omitempty"`
+	BodyVersion      *string `json:"bodyVersion,omitempty"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
-	Pinned           *bool   `json:"pinned"`
-	Title            *string `json:"title"`
+	Pinned           *bool   `json:"pinned,omitempty"`
+	Title            *string `json:"title,omitempty"`
 }
 
 type UpdateTeamReviewAssignmentInput struct {
-	Algorithm             *TeamReviewAssignmentAlgorithm `json:"algorithm"`
-	ClientMutationId      *string                        `json:"clientMutationId"`
+	Algorithm             *TeamReviewAssignmentAlgorithm `json:"algorithm,omitempty"`
+	ClientMutationId      *string                        `json:"clientMutationId,omitempty"`
 	Enabled               bool                           `json:"enabled"`
-	ExcludedTeamMemberIds *[]string                      `json:"excludedTeamMemberIds"`
+	ExcludedTeamMemberIds *[]string                      `json:"excludedTeamMemberIds,omitempty"`
 	Id                    string                         `json:"id"`
-	NotifyTeam            *bool                          `json:"notifyTeam"`
-	TeamMemberCount       *int                           `json:"teamMemberCount"`
+	NotifyTeam            *bool                          `json:"notifyTeam,omitempty"`
+	TeamMemberCount       *int                           `json:"teamMemberCount,omitempty"`
 }
 
 type UpdateTopicsInput struct {
-	ClientMutationId *string  `json:"clientMutationId"`
+	ClientMutationId *string  `json:"clientMutationId,omitempty"`
 	RepositoryId     string   `json:"repositoryId"`
 	TopicNames       []string `json:"topicNames"`
 }
@@ -2831,6 +2831,6 @@ type VerifiableDomainOrder struct {
 }
 
 type VerifyVerifiableDomainInput struct {
-	ClientMutationId *string `json:"clientMutationId"`
+	ClientMutationId *string `json:"clientMutationId,omitempty"`
 	Id               string  `json:"id"`
 }
