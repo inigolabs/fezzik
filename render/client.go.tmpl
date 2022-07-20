@@ -11,6 +11,7 @@ import (
 
 type Client interface {
 {{- range $operation := .Operations }}
+{{- if ne $operation.OperationType "subscription" }}
 // {{$operation.Name}} from {{ $operation.Source }}
 {{- if len $operation.Inputs }}
 	{{ $operation.Name }}(ctx context.Context, 
@@ -20,9 +21,9 @@ type Client interface {
 	) (*{{ $operation.Name }}Response, error)
 {{- else }}
 	{{ $operation.Name }}(ctx context.Context) (*{{ $operation.Name }}Response, error)
-{{- end }}	
-
+{{- end }}
 {{ end }}
+{{- end }}
 }
 
 func NewClient(url string, httpclient *http.Client) Client {

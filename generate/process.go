@@ -41,6 +41,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 
 		result.Operations = append(result.Operations, &fezzik_ast.OperationInfo{
 			Name:             o.Name,
+			OperationType:    o.Operation,
 			Operation:        getOperation(o),
 			ResponseType:     responseTypes[0],  // root is always the first one
 			ResponseSubTypes: responseTypes[1:], // root's subtypes

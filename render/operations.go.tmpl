@@ -12,6 +12,8 @@ import (
 
 {{- range $operation := .Operations }}
 
+{{ if ne $operation.OperationType "subscription" }}
+
 {{range $operation.ResponseSubTypes}}
      {{.}}
 {{end}}
@@ -67,4 +69,57 @@ func (c *gqlclient) {{ $operation.Name }}(ctx context.Context) (*{{ $operation.N
 	return data, resp.Errors
 }
 
+{{end}}
+{{- end }}
+
+
+{{- range $operation := .Operations }}
+
+{{ if eq $operation.OperationType "subscription" }}
+
+{{range $operation.ResponseSubTypes}}
+     {{.}}
+{{end}}
+
+
+// {{$operation.Name}}Response response type for {{$operation.Name}}
+type {{ $operation.Name }}Response struct
+{{ $operation.ResponseType }}
+
+// {{$operation.Name}} from {{ $operation.Source }}
+{{- if len $operation.Inputs }}
+func (c *gqlSubscriptionClient) {{ $operation.Name }}(
+	{{- range $val := $operation.Inputs }}
+		{{ camel $val.Name }} {{ $val.Type}},
+	{{- end }}
+	fn func(out *{{ $operation.Name }}Response, err error) error,
+) (string, error) {
+{{- else }}
+func (c *gqlSubscriptionClient) {{ $operation.Name }}(fn func(out *{{ $operation.Name }}Response, err error) error) (string, error) {
+{{ end }}
+
+	var {{ camel $operation.Name }}Operation string = `
+	{{ $operation.Operation }}`
+
+	var variables = map[string]interface{}{
+        {{- range $val := $operation.Inputs }}
+        "{{ $val.Name }}" : {{ camel $val.Name }},
+        {{- end }}
+    }
+
+	return c.gql.Exec({{ camel $operation.Name }}Operation, variables, func(in *json.RawMessage, err error) error {
+        if err != nil {
+            return fn(nil, err)
+        }
+
+        var out *{{ $operation.Name }}Response
+        if err = json.Unmarshal(*in, &out); err != nil {
+            return err
+        }
+
+        return fn(out, nil)
+    })
+}
+
+{{end}}
 {{- end }}

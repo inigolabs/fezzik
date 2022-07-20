@@ -49,3 +49,15 @@ query QueryWithInputs($input_one : String, $input_two : String) {
 mutation OneAdd($input : OneInput) {
 	oneAdd(input : $input)
 }
+
+subscription Updated {
+	updated {
+		id
+	}
+}
+
+subscription Changed($input: String) {
+	changed(input : $input) {
+		id
+	}
+}

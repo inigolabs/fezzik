@@ -7,6 +7,7 @@ scalar DuplicatedType
 schema {
 	query : Query
 	mutation : Mutation
+	subscription: Subscription
 }
 
 type Query {
@@ -18,6 +19,11 @@ type Query {
 
 type Mutation {
 	oneAdd(input : OneInput) : ID
+}
+
+type Subscription {
+	updated: Result
+	changed(input : String): Result
 }
 
 # One
@@ -71,4 +77,8 @@ input OneInput {
 	oneBool : Boolean
 	oneEnum : OneEnum
 	oneTime : Time
+}
+
+type Result {
+	id: String
 }
