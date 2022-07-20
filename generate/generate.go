@@ -42,6 +42,10 @@ func Generate(cfg *config.Config) {
 	check(err)
 	render.Render(cfg, "client.go.tmpl", doc, writer)
 
+	writer, err = os.Create(filepath.Join(genPath, "subscription_client.go"))
+	check(err)
+	render.Render(cfg, "subscription_client.go.tmpl", doc, writer)
+
 	if cfg.GenerateMocks {
 		render.RenderMocks(cfg)
 	}

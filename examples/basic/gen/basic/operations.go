@@ -4,6 +4,7 @@ package basic
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/inigolabs/fezzik/client"
 )
@@ -280,4 +281,79 @@ func (c *gqlclient) OneAdd(ctx context.Context,
 	}
 
 	return data, resp.Errors
+}
+
+type UpdatedUpdated struct {
+	Id *string
+}
+
+// UpdatedResponse response type for Updated
+type UpdatedResponse struct {
+	Updated *UpdatedUpdated
+}
+
+// Updated from examples/basic/operations/operations.graphql:53
+func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error) error) (string, error) {
+
+	var updatedOperation string = `
+	subscription Updated {
+		updated {
+			id
+		}
+	}`
+
+	var variables = map[string]interface{}{}
+
+	return c.gql.Exec(updatedOperation, variables, func(in *json.RawMessage, err error) error {
+		if err != nil {
+			return fn(nil, err)
+		}
+
+		var out *UpdatedResponse
+		if err = json.Unmarshal(*in, &out); err != nil {
+			return err
+		}
+
+		return fn(out, nil)
+	})
+}
+
+type ChangedChanged struct {
+	Id *string
+}
+
+// ChangedResponse response type for Changed
+type ChangedResponse struct {
+	Changed *ChangedChanged
+}
+
+// Changed from examples/basic/operations/operations.graphql:59
+func (c *gqlSubscriptionClient) Changed(
+	input *string,
+	fn func(out *ChangedResponse, err error) error,
+) (string, error) {
+
+	var changedOperation string = `
+	subscription Changed($input : String) {
+		changed(input: $input) {
+			id
+		}
+	}`
+
+	var variables = map[string]interface{}{
+		"input": input,
+	}
+
+	return c.gql.Exec(changedOperation, variables, func(in *json.RawMessage, err error) error {
+		if err != nil {
+			return fn(nil, err)
+		}
+
+		var out *ChangedResponse
+		if err = json.Unmarshal(*in, &out); err != nil {
+			return err
+		}
+
+		return fn(out, nil)
+	})
 }
