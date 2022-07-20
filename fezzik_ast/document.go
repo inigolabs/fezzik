@@ -1,5 +1,7 @@
 package fezzik_ast
 
+import "github.com/vektah/gqlparser/v2/ast"
+
 func NewDocument() *Document {
 	return &Document{
 		InputTypes: make(map[InputTypeName]InputType),
@@ -46,6 +48,7 @@ type EnumType struct {
 
 type OperationInfo struct {
 	Name             string
+	OperationType    ast.Operation
 	Operation        string
 	ResponseType     string
 	ResponseSubTypes []string

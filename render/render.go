@@ -23,6 +23,7 @@ var (
 	//go:embed inputs.go.tmpl
 	//go:embed operations.go.tmpl
 	//go:embed client.go.tmpl
+	//go:embed subscription_client.go.tmpl
 	templateFiles embed.FS
 )
 
@@ -51,7 +52,7 @@ func Render(cfg *config.Config, templateName string, doc *fezzik_ast.Document, w
 
 func RenderMocks(cfg *config.Config) {
 	mcfg := mockery_config.Config{
-		Name:           "Client",
+		Name:           "Client,SubscriptionClient",
 		Case:           "underscore",
 		Dir:            ".",
 		LogLevel:       "error",
@@ -86,8 +87,8 @@ func RenderMocks(cfg *config.Config) {
 		Config:    mcfg,
 		BaseDir:   mcfg.Dir,
 		Recursive: true,
-		Filter:    regexp.MustCompile("Client"),
-		LimitOne:  true,
+		Filter:    regexp.MustCompile("Client|SubscriptionClient"),
+		LimitOne:  false,
 	}
 
 	ctx := context.Background()
