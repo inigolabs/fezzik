@@ -7,10 +7,10 @@ import (
 )
 
 type SubscriptionClient interface {
-	// Updated from examples/basic/operations/operations.graphql:53
+	// Updated from examples/basic/operations/operations.graphql:58
 	Updated(fn func(out *UpdatedResponse, err error) error) (string, error)
 
-	// Changed from examples/basic/operations/operations.graphql:59
+	// Changed from examples/basic/operations/operations.graphql:64
 	Changed(
 		input *string,
 		fn func(out *ChangedResponse, err error) error) (string, error)

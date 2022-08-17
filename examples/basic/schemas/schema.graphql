@@ -19,6 +19,7 @@ type Query {
 
 type Mutation {
 	oneAdd(input : OneInput) : ID
+	twoAdd(input : TwoInput) : ID
 }
 
 type Subscription {
@@ -77,6 +78,10 @@ input OneInput {
 	oneBool : Boolean
 	oneEnum : OneEnum
 	oneTime : Time
+}
+
+input TwoInput {
+	twoInt : Int
 }
 
 type Result {

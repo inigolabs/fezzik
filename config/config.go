@@ -11,6 +11,7 @@ type Config struct {
 	//  valid options: snake, camel, kebob
 	StructTagCase string `default:"camel" yaml:"struct_tag_case"`
 
+	Autobind      []string          `yaml:"autobind"`
 	ScalarTypeMap map[string]string `yaml:"scalar_type_map"`
 
 	GenerateMocks bool `default:"false" yaml:"generate_mocks"`

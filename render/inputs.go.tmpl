@@ -2,6 +2,12 @@
 
 package {{ .PackageName }}
 
+import (
+{{- range $key, $value := .Imports }}
+	"{{ $value }}"
+{{- end }}
+)
+
 {{- range $obj := .EnumTypes}}
 type {{ $obj.Name }} string
 const (

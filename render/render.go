@@ -13,10 +13,9 @@ import (
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/fezzik_ast"
 	"github.com/rs/zerolog/log"
-	"golang.org/x/tools/imports"
-
 	mockery "github.com/vektra/mockery/v2/pkg"
 	mockery_config "github.com/vektra/mockery/v2/pkg/config"
+	"golang.org/x/tools/imports"
 )
 
 var (

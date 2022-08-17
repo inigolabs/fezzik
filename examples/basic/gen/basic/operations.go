@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 
 	"github.com/inigolabs/fezzik/client"
+	"github.com/inigolabs/fezzik/examples/basic/types"
 )
 
 type OneAllTypesOne struct {
@@ -283,6 +284,50 @@ func (c *gqlclient) OneAdd(ctx context.Context,
 	return data, resp.Errors
 }
 
+// TwoAddResponse response type for TwoAdd
+type TwoAddResponse struct {
+	TwoAdd *string
+}
+
+// TwoAdd from examples/basic/operations/operations.graphql:54
+func (c *gqlclient) TwoAdd(ctx context.Context,
+	input *types.TwoInput,
+) (*TwoAddResponse, error) {
+
+	var twoAddOperation string = `
+	mutation TwoAdd($input : TwoInput) {
+		twoAdd(input: $input)
+	}`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "TwoAdd",
+		Query:         twoAddOperation,
+		Variables: map[string]interface{}{
+			"input": input,
+		},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &TwoAddResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *TwoAddResponse
+	if resp.Data != nil {
+		data = resp.Data.(*TwoAddResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
 type UpdatedUpdated struct {
 	Id *string
 }
@@ -292,7 +337,7 @@ type UpdatedResponse struct {
 	Updated *UpdatedUpdated
 }
 
-// Updated from examples/basic/operations/operations.graphql:53
+// Updated from examples/basic/operations/operations.graphql:58
 func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error) error) (string, error) {
 
 	var updatedOperation string = `
@@ -327,7 +372,7 @@ type ChangedResponse struct {
 	Changed *ChangedChanged
 }
 
-// Changed from examples/basic/operations/operations.graphql:59
+// Changed from examples/basic/operations/operations.graphql:64
 func (c *gqlSubscriptionClient) Changed(
 	input *string,
 	fn func(out *ChangedResponse, err error) error,

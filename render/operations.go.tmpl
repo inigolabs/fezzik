@@ -6,6 +6,9 @@ import (
 	"context"
 
 	"github.com/inigolabs/fezzik/client"
+{{- range $key, $value := .Imports }}
+	"{{ $value }}"
+{{- end }}
 )
 
 {{ $root := . }}
