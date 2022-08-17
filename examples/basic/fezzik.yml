@@ -4,6 +4,8 @@ operations:
   - operations/*.graphql
 package_name: basic
 package_dir: gen
+autobind:
+  - github.com/inigolabs/fezzik/examples/basic/types
 scalar_type_map:
   ID: string
   Time: time.Time

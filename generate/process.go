@@ -8,18 +8,44 @@ import (
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/fezzik_ast"
+	"golang.org/x/tools/go/packages"
 
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
+var mode = packages.NeedName | packages.NeedTypes | packages.NeedModule | packages.NeedTypesInfo
+
 func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocument) *fezzik_ast.Document {
 	result := &fezzik_ast.Document{
-		InputTypes: make(map[string]fezzik_ast.InputType),
-		EnumTypes:  make(map[string]fezzik_ast.EnumType),
+		InputTypes:      make(map[string]fezzik_ast.InputType),
+		BoundInputTypes: make(map[string]string),
+		EnumTypes:       make(map[string]fezzik_ast.EnumType),
+		BoundEnumTypes:  make(map[string]string),
+		Imports:         make(map[string]bool),
+	}
+
+	var pkgs []*packages.Package
+	var err error
+	if len(cfg.Autobind) > 0 {
+		pkgs, err = packages.Load(&packages.Config{Mode: mode}, cfg.Autobind...)
+		check(err)
 	}
 
 	for _, t := range schema.Types {
 		if t.Kind == ast.Enum {
+			var found bool
+			for _, pkg := range pkgs {
+				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
+					result.BoundEnumTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+					result.Imports[foundType.Pkg().Path()] = true
+					found = true
+				}
+			}
+
+			if found {
+				continue
+			}
+
 			result.EnumTypes[t.Name] = fezzik_ast.EnumType{
 				Name:   t.Name,
 				Values: getEnumValues(t),
@@ -29,6 +55,19 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 
 	for _, t := range schema.Types {
 		if t.Kind == ast.InputObject {
+			var found bool
+			for _, pkg := range pkgs {
+				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
+					result.BoundInputTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+					result.Imports[foundType.Pkg().Path()] = true
+					found = true
+				}
+			}
+
+			if found {
+				continue
+			}
+
 			result.InputTypes[t.Name] = fezzik_ast.InputType{
 				Name:   t.Name,
 				Fields: getInputFields(cfg, result, t),
@@ -228,12 +267,18 @@ func getFieldTypeSignature(cfg *config.Config, doc *fezzik_ast.Document, fieldTy
 	if typeInfo.IsTypeNullable {
 		b.Write("*")
 	}
+
+	var name string
 	if goType, ok := fezzik_ast.GetGoType(cfg, typeInfo.Name); ok {
 		b.Write(goType)
 	} else if _, found := doc.InputTypes[typeInfo.Name]; found {
 		b.Write(typeInfo.Name)
-	} else if _, found := doc.EnumTypes[typeInfo.Name]; found {
+	} else if _, found = doc.EnumTypes[typeInfo.Name]; found {
 		b.Write(typeInfo.Name)
+	} else if name, found = doc.BoundInputTypes[typeInfo.Name]; found {
+		b.Write(name)
+	} else if name, found = doc.BoundEnumTypes[typeInfo.Name]; found {
+		b.Write(name)
 	} else {
 		b.Write("struct")
 	}

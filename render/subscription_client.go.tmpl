@@ -4,6 +4,9 @@ package {{ .PackageName }}
 
 import (
     subscription "github.com/hasura/go-graphql-client"
+{{- range $key, $value := .Imports }}
+	"{{ $value }}"
+{{- end }}
 )
 
 type SubscriptionClient interface {

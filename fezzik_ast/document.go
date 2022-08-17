@@ -12,10 +12,15 @@ func NewDocument() *Document {
 type Document struct {
 	PackageName string
 
-	InputTypes map[InputTypeName]InputType
-	EnumTypes  map[EnumTypeName]EnumType
+	InputTypes      map[InputTypeName]InputType
+	BoundInputTypes map[InputTypeName]string
+
+	EnumTypes      map[EnumTypeName]EnumType
+	BoundEnumTypes map[EnumTypeName]string
 
 	Operations []*OperationInfo
+
+	Imports map[string]bool
 }
 
 type InputTypeName = string

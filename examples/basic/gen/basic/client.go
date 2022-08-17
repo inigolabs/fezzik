@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/inigolabs/fezzik/client"
+	"github.com/inigolabs/fezzik/examples/basic/types"
 )
 
 type Client interface {
@@ -29,6 +30,11 @@ type Client interface {
 	OneAdd(ctx context.Context,
 		input *OneInput,
 	) (*OneAddResponse, error)
+
+	// TwoAdd from examples/basic/operations/operations.graphql:54
+	TwoAdd(ctx context.Context,
+		input *types.TwoInput,
+	) (*TwoAddResponse, error)
 }
 
 func NewClient(url string, httpclient *http.Client) Client {

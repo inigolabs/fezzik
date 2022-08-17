@@ -50,6 +50,11 @@ mutation OneAdd($input : OneInput) {
 	oneAdd(input : $input)
 }
 
+# TwoAdd query
+mutation TwoAdd($input : TwoInput) {
+	twoAdd(input : $input)
+}
+
 subscription Updated {
 	updated {
 		id
