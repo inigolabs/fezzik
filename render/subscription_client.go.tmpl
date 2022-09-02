@@ -27,8 +27,9 @@ type SubscriptionClient interface {
     Close() (err error)
 }
 
-func NewSubscriptionClient(url string) SubscriptionClient {
+func NewSubscriptionClient(url string, params map[string]interface{}) SubscriptionClient {
 	gql := subscription.NewSubscriptionClient(url)
+	gql.WithConnectionParams(params)
 
 	go gql.Run()
 
