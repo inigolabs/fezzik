@@ -110,13 +110,13 @@ func (c *gqlSubscriptionClient) {{ $operation.Name }}(fn func(out *{{ $operation
         {{- end }}
     }
 
-	return c.gql.Exec({{ camel $operation.Name }}Operation, variables, func(in *json.RawMessage, err error) error {
+	return c.gql.Exec({{ camel $operation.Name }}Operation, variables, func(in []byte, err error) error {
         if err != nil {
             return fn(nil, err)
         }
 
         var out *{{ $operation.Name }}Response
-        if err = json.Unmarshal(*in, &out); err != nil {
+        if err = json.Unmarshal(in, &out); err != nil {
             return err
         }
 

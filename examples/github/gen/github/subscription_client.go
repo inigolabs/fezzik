@@ -3,7 +3,7 @@
 package github
 
 import (
-	subscription "github.com/hasura/go-graphql-client"
+	"github.com/inigolabs/fezzik/subscription"
 )
 
 type SubscriptionClient interface {
