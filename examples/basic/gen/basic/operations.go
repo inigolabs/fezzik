@@ -349,13 +349,13 @@ func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error)
 
 	var variables = map[string]interface{}{}
 
-	return c.gql.Exec(updatedOperation, variables, func(in *json.RawMessage, err error) error {
+	return c.gql.Exec(updatedOperation, variables, func(in []byte, err error) error {
 		if err != nil {
 			return fn(nil, err)
 		}
 
 		var out *UpdatedResponse
-		if err = json.Unmarshal(*in, &out); err != nil {
+		if err = json.Unmarshal(in, &out); err != nil {
 			return err
 		}
 
@@ -389,13 +389,13 @@ func (c *gqlSubscriptionClient) Changed(
 		"input": input,
 	}
 
-	return c.gql.Exec(changedOperation, variables, func(in *json.RawMessage, err error) error {
+	return c.gql.Exec(changedOperation, variables, func(in []byte, err error) error {
 		if err != nil {
 			return fn(nil, err)
 		}
 
 		var out *ChangedResponse
-		if err = json.Unmarshal(*in, &out); err != nil {
+		if err = json.Unmarshal(in, &out); err != nil {
 			return err
 		}
 
