@@ -5,7 +5,7 @@ package {{ .PackageName }}
 import (
     "github.com/inigolabs/fezzik/subscription"
 {{- range $key, $value := .Imports }}
-	"{{ $value }}"
+	"{{ $key }}"
 {{- end }}
 )
 

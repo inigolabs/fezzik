@@ -7,7 +7,7 @@ import (
 
 	"github.com/inigolabs/fezzik/client"
 {{- range $key, $value := .Imports }}
-	"{{ $value }}"
+	"{{ $key }}"
 {{- end }}
 )
 

@@ -8,9 +8,8 @@ import (
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/fezzik_ast"
-	"golang.org/x/tools/go/packages"
-
 	"github.com/vektah/gqlparser/v2/ast"
+	"golang.org/x/tools/go/packages"
 )
 
 var mode = packages.NeedName | packages.NeedTypes | packages.NeedModule | packages.NeedTypesInfo
@@ -32,7 +31,8 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	for _, t := range schema.Types {
-		if t.Kind == ast.Enum {
+		switch t.Kind {
+		case ast.Enum:
 			var found bool
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
@@ -42,19 +42,14 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 				}
 			}
 
-			if found {
-				continue
+			if !found {
+				result.EnumTypes[t.Name] = fezzik_ast.EnumType{
+					Name:   t.Name,
+					Values: getEnumValues(t),
+				}
 			}
 
-			result.EnumTypes[t.Name] = fezzik_ast.EnumType{
-				Name:   t.Name,
-				Values: getEnumValues(t),
-			}
-		}
-	}
-
-	for _, t := range schema.Types {
-		if t.Kind == ast.InputObject {
+		case ast.InputObject:
 			var found bool
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
@@ -64,15 +59,24 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 				}
 			}
 
-			if found {
-				continue
+			if !found {
+				result.InputTypes[t.Name] = fezzik_ast.InputType{
+					Name:   t.Name,
+					Fields: getInputFields(cfg, result, t),
+				}
 			}
 
-			result.InputTypes[t.Name] = fezzik_ast.InputType{
-				Name:   t.Name,
-				Fields: getInputFields(cfg, result, t),
-			}
 		}
+	}
+
+	for _, path := range cfg.ScalarTypeMap {
+		if !strings.Contains(path, "/") {
+			continue
+		}
+
+		scalarPkg, _ := fezzik_ast.PkgAndType(path)
+
+		result.Imports[scalarPkg] = true
 	}
 
 	for _, o := range operations.Operations {

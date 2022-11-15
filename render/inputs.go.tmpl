@@ -4,7 +4,7 @@ package {{ .PackageName }}
 
 import (
 {{- range $key, $value := .Imports }}
-	"{{ $value }}"
+	"{{ $key }}"
 {{- end }}
 )
 
