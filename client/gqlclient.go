@@ -30,10 +30,16 @@ func NewGQLClient(endpoint string, httpClient *http.Client, opts ...Option) *GQL
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
-	return &GQLClient{
+	client := &GQLClient{
 		endpoint:   endpoint,
 		httpClient: httpClient,
 	}
+
+	for _, o := range opts {
+		o(client)
+	}
+
+	return client
 }
 
 func (c *GQLClient) SetHttpClient(httpClient *http.Client) {
