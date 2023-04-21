@@ -641,6 +641,10 @@ func (sc *SubscriptionClient) Reset() error {
 // Close closes all subscription channel and websocket as well
 func (sc *SubscriptionClient) Close() (err error) {
 	sc.setIsRunning(false)
+
+	sc.subscribersMu.Lock()
+	defer sc.subscribersMu.Unlock()
+
 	for id := range sc.subscriptions {
 		if err = sc.Unsubscribe(id); err != nil {
 			sc.cancel()
