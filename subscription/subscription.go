@@ -425,14 +425,21 @@ func (sc *SubscriptionClient) Run() error {
 	}
 
 	// lazily start subscriptions
-	sc.subscribersMu.Lock()
-	for k, v := range sc.subscriptions {
-		if err := sc.startSubscription(k, v); err != nil {
-			sc.Unsubscribe(k)
-			return err
+	err := func() error {
+		sc.subscribersMu.Lock()
+		defer sc.subscribersMu.Unlock()
+
+		for k, v := range sc.subscriptions {
+			if err := sc.startSubscription(k, v); err != nil {
+				sc.Unsubscribe(k)
+				return err
+			}
 		}
+		return nil
+	}()
+	if err != nil {
+		return err
 	}
-	sc.subscribersMu.Unlock()
 
 	sc.setIsRunning(true)
 	go func() {
@@ -560,10 +567,8 @@ func (sc *SubscriptionClient) Run() error {
 
 // Unsubscribe sends stop message to server and close subscription channel
 // The input parameter is subscription ID that is returned from Subscribe function
+// NOTE: Routine-unsafe, make sure to use the mutexes provided
 func (sc *SubscriptionClient) Unsubscribe(id string) error {
-	sc.subscribersMu.Lock()
-	defer sc.subscribersMu.Unlock()
-
 	_, ok := sc.subscriptions[id]
 	if !ok {
 		return fmt.Errorf("subscription id %s doesn't not exist", id)
@@ -641,11 +646,21 @@ func (sc *SubscriptionClient) Reset() error {
 // Close closes all subscription channel and websocket as well
 func (sc *SubscriptionClient) Close() (err error) {
 	sc.setIsRunning(false)
-	for id := range sc.subscriptions {
-		if err = sc.Unsubscribe(id); err != nil {
-			sc.cancel()
-			return
+
+	err = func() error {
+		sc.subscribersMu.Lock()
+		defer sc.subscribersMu.Unlock()
+
+		for id := range sc.subscriptions {
+			if err = sc.Unsubscribe(id); err != nil {
+				sc.cancel()
+				return err
+			}
 		}
+		return nil
+	}()
+	if err != nil {
+		return
 	}
 
 	_ = sc.terminate()
