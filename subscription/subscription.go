@@ -118,9 +118,8 @@ type SubscriptionClient struct {
 	connectionParams map[string]interface{}
 	websocketOptions WebsocketOptions
 	context          context.Context
-	subscriptions    map[string]*subscription
+	subscriptions    sync.Map
 	cancel           context.CancelFunc
-	subscribersMu    sync.Mutex
 	timeout          time.Duration
 	isRunning        int64
 	readLimit        int64 // max size of response message. Default 10 MB
@@ -139,7 +138,7 @@ func NewSubscriptionClient(url string) *SubscriptionClient {
 		url:           url,
 		timeout:       time.Minute,
 		readLimit:     10 * 1024 * 1024, // set default limit 10MB
-		subscriptions: make(map[string]*subscription),
+		subscriptions: sync.Map{},
 		createConn:    newWebsocketConn,
 		retryTimeout:  time.Minute,
 		errorChan:     make(chan error),
@@ -368,10 +367,7 @@ func (sc *SubscriptionClient) doRaw(query string, variables map[string]interface
 		}
 	}
 
-	sc.subscribersMu.Lock()
-	sc.subscriptions[id] = &sub
-	sc.subscribersMu.Unlock()
-
+	sc.subscriptions.Store(id, &sub)
 	return id, nil
 }
 
@@ -425,18 +421,14 @@ func (sc *SubscriptionClient) Run() error {
 	}
 
 	// lazily start subscriptions
-	err := func() error {
-		sc.subscribersMu.Lock()
-		defer sc.subscribersMu.Unlock()
-
-		for k, v := range sc.subscriptions {
-			if err := sc.startSubscription(k, v); err != nil {
-				sc.Unsubscribe(k)
-				return err
-			}
+	var err error
+	sc.subscriptions.Range(func(k, v interface{}) bool {
+		if err = sc.startSubscription(k.(string), v.(*subscription)); err != nil {
+			sc.Unsubscribe(k.(string))
+			return false
 		}
-		return nil
-	}()
+		return true
+	})
 	if err != nil {
 		return err
 	}
@@ -493,9 +485,8 @@ func (sc *SubscriptionClient) Run() error {
 						continue
 					}
 
-					sc.subscribersMu.Lock()
-					sub, ok := sc.subscriptions[id.String()]
-					sc.subscribersMu.Unlock()
+					sub_, ok := sc.subscriptions.Load(id.String())
+					sub := sub_.(*subscription)
 
 					if !ok {
 						continue
@@ -569,19 +560,25 @@ func (sc *SubscriptionClient) Run() error {
 // The input parameter is subscription ID that is returned from Subscribe function
 // NOTE: Routine-unsafe, make sure to use the mutexes provided
 func (sc *SubscriptionClient) Unsubscribe(id string) error {
-	_, ok := sc.subscriptions[id]
+	_, ok := sc.subscriptions.Load(id)
 	if !ok {
 		return fmt.Errorf("subscription id %s doesn't not exist", id)
 	}
 
-	delete(sc.subscriptions, id)
+	sc.subscriptions.Delete(id)
 	err := sc.stopSubscription(id)
 	if err != nil {
 		return err
 	}
 
+	var count int
+	sc.subscriptions.Range(func(k, v interface{}) bool {
+		count++
+		return true
+	})
+
 	// close the client if there is no running subscription
-	if len(sc.subscriptions) == 0 {
+	if count == 0 {
 		sc.printLog("no running subscription. exiting...", "client", GQL_INTERNAL)
 		return sc.Close()
 	}
@@ -626,12 +623,11 @@ func (sc *SubscriptionClient) Reset() error {
 		return nil
 	}
 
-	sc.subscribersMu.Lock()
-	for id, sub := range sc.subscriptions {
-		_ = sc.stopSubscription(id)
-		sub.started = false
-	}
-	sc.subscribersMu.Unlock()
+	sc.subscriptions.Range(func(k, v interface{}) bool {
+		_ = sc.stopSubscription(k.(string))
+		v.(*subscription).started = false
+		return true
+	})
 
 	if sc.conn != nil {
 		_ = sc.terminate()
@@ -647,20 +643,15 @@ func (sc *SubscriptionClient) Reset() error {
 func (sc *SubscriptionClient) Close() (err error) {
 	sc.setIsRunning(false)
 
-	err = func() error {
-		sc.subscribersMu.Lock()
-		defer sc.subscribersMu.Unlock()
-
-		for id := range sc.subscriptions {
-			if err = sc.Unsubscribe(id); err != nil {
-				sc.cancel()
-				return err
-			}
+	sc.subscriptions.Range(func(k, v interface{}) bool {
+		if err = sc.Unsubscribe(k.(string)); err != nil {
+			sc.cancel()
+			return false
 		}
-		return nil
-	}()
+		return true
+	})
 	if err != nil {
-		return
+		return err
 	}
 
 	_ = sc.terminate()
