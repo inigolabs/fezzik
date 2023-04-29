@@ -20,7 +20,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 		BoundInputTypes: make(map[string]string),
 		EnumTypes:       make(map[string]fezzik_ast.EnumType),
 		BoundEnumTypes:  make(map[string]string),
-		Imports:         make(map[string]bool),
+		Imports:         make(map[string]string),
 	}
 
 	var pkgs []*packages.Package
@@ -37,7 +37,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
 					result.BoundEnumTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
-					result.Imports[foundType.Pkg().Path()] = true
+					result.Imports[foundType.Pkg().Path()] = ""
 					found = true
 				}
 			}
@@ -54,7 +54,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
 					result.BoundInputTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
-					result.Imports[foundType.Pkg().Path()] = true
+					result.Imports[foundType.Pkg().Path()] = ""
 					found = true
 				}
 			}
@@ -69,14 +69,42 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 		}
 	}
 
-	for _, path := range cfg.ScalarTypeMap {
-		if !strings.Contains(path, "/") {
+	// walked through defined scalars and collects imports with aliases and scalars full typeNames
+	names := map[string]string{}
+	for scalarName, path := range cfg.ScalarTypeMap {
+		if !strings.Contains(path, "/") { // no import required
 			continue
 		}
 
-		scalarPkg, _ := fezzik_ast.PkgAndType(path)
+		lastDotIndex := strings.LastIndex(path, ".")
+		lastSlackIndex := strings.LastIndex(path, "/")
 
-		result.Imports[scalarPkg] = true
+		scalarTypeName := path[lastDotIndex+1:]
+		scalarPkgName := path[lastSlackIndex+1 : lastDotIndex]
+		pkgPath := path[:lastDotIndex]
+
+		pkg, ok := names[scalarPkgName]
+		if ok && pkg != pkgPath {
+			pathToParentPkg := path[:lastSlackIndex]
+			parentPkgName := pathToParentPkg[strings.LastIndex(pathToParentPkg, "/")+1:]
+			alias := fmt.Sprintf("%s_%s", parentPkgName, scalarPkgName)
+
+			// modify provided input to use during codegen
+			cfg.ScalarTypeMap[scalarName] = fmt.Sprintf("%s.%s", alias, scalarTypeName)
+
+			result.Imports[pkgPath] = alias
+
+			names[alias] = pkgPath
+
+			continue
+		}
+
+		// modify provided input to use during codegen
+		cfg.ScalarTypeMap[scalarName] = fmt.Sprintf("%s.%s", scalarPkgName, scalarTypeName)
+
+		result.Imports[pkgPath] = ""
+
+		names[scalarPkgName] = pkgPath
 	}
 
 	for _, o := range operations.Operations {
