@@ -20,7 +20,7 @@ type Document struct {
 
 	Operations []*OperationInfo
 
-	Imports map[string]bool
+	Imports map[string]string // pkg path to alias
 }
 
 type InputTypeName = string

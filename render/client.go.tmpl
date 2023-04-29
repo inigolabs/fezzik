@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"github.com/inigolabs/fezzik/client"
-{{- range $key, $value := .Imports }}
-	"{{ $key }}"
+{{- range $path, $alias := .Imports }}
+	{{ $alias }} "{{ $path }}"
 {{- end }}
 )
 
