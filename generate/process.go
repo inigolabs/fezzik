@@ -16,11 +16,10 @@ var mode = packages.NeedName | packages.NeedTypes | packages.NeedModule | packag
 
 func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocument) *fezzik_ast.Document {
 	result := &fezzik_ast.Document{
-		InputTypes:      make(map[string]fezzik_ast.InputType),
-		BoundInputTypes: make(map[string]string),
-		EnumTypes:       make(map[string]fezzik_ast.EnumType),
-		BoundEnumTypes:  make(map[string]string),
-		Imports:         make(map[string]string),
+		InputTypes:   make(map[string]fezzik_ast.InputType),
+		BoundGoTypes: make(map[string]string),
+		EnumTypes:    make(map[string]fezzik_ast.EnumType),
+		Imports:      make(map[string]string),
 	}
 
 	var pkgs []*packages.Package
@@ -36,7 +35,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 			var found bool
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
-					result.BoundEnumTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
 					result.Imports[foundType.Pkg().Path()] = ""
 					found = true
 				}
@@ -53,7 +52,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 			var found bool
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
-					result.BoundInputTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
 					result.Imports[foundType.Pkg().Path()] = ""
 					found = true
 				}
@@ -65,7 +64,13 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 					Fields: getInputFields(cfg, result, t),
 				}
 			}
-
+		case ast.Object:
+			for _, pkg := range pkgs {
+				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
+					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+					result.Imports[foundType.Pkg().Path()] = ""
+				}
+			}
 		}
 	}
 
@@ -257,9 +262,10 @@ func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *a
 			switch fs := s.(type) {
 			case *ast.Field:
 				name := common.UppercaseFirstChar(fs.Alias)
-				sig = getFieldTypeSignature(cfg, doc, fs.Definition.Type)
+				sig, bound := getFieldTypeSignature(cfg, doc, fs.Definition.Type)
 
-				if len(fs.SelectionSet) == 0 {
+				// stop if underlying selection set is empty or bound go type is found
+				if len(fs.SelectionSet) == 0 || bound {
 					b.Writeln(" ", name, " ", sig)
 
 					break
@@ -286,7 +292,7 @@ func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *a
 	return visitSelectionSet(operation.SelectionSet, operation.Name, "")
 }
 
-func getFieldTypeSignature(cfg *config.Config, doc *fezzik_ast.Document, fieldType *ast.Type) string {
+func getFieldTypeSignature(cfg *config.Config, doc *fezzik_ast.Document, fieldType *ast.Type) (string, bool) {
 	b := common.NewStringBuilder()
 	typeInfo := getTypeInfo(fieldType)
 
@@ -300,29 +306,31 @@ func getFieldTypeSignature(cfg *config.Config, doc *fezzik_ast.Document, fieldTy
 		b.Write("*")
 	}
 
-	var name string
+	// search among bound types
+	if name, found := doc.BoundGoTypes[typeInfo.Name]; found {
+		b.Write(name)
+		return b.String(), true
+	}
+
 	if goType, ok := fezzik_ast.GetGoType(cfg, typeInfo.Name); ok {
 		b.Write(goType)
 	} else if _, found := doc.InputTypes[typeInfo.Name]; found {
 		b.Write(typeInfo.Name)
 	} else if _, found = doc.EnumTypes[typeInfo.Name]; found {
 		b.Write(typeInfo.Name)
-	} else if name, found = doc.BoundInputTypes[typeInfo.Name]; found {
-		b.Write(name)
-	} else if name, found = doc.BoundEnumTypes[typeInfo.Name]; found {
-		b.Write(name)
 	} else {
 		b.Write("struct")
 	}
-	return b.String()
+	return b.String(), false
 }
 
 func getOperationInputs(cfg *config.Config, doc *fezzik_ast.Document, vars ast.VariableDefinitionList) []fezzik_ast.OperationInput {
 	result := make([]fezzik_ast.OperationInput, len(vars))
 	for i := 0; i < len(vars); i++ {
+		typ, _ := getFieldTypeSignature(cfg, doc, vars[i].Type)
 		result[i] = fezzik_ast.OperationInput{
 			Name: vars[i].Variable,
-			Type: getFieldTypeSignature(cfg, doc, vars[i].Type),
+			Type: typ,
 		}
 	}
 	return result
