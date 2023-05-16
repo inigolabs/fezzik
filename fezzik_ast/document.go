@@ -11,16 +11,12 @@ func NewDocument() *Document {
 
 type Document struct {
 	PackageName string
+	InputTypes  map[InputTypeName]InputType
+	EnumTypes   map[EnumTypeName]EnumType
+	Operations  []*OperationInfo
 
-	InputTypes      map[InputTypeName]InputType
-	BoundInputTypes map[InputTypeName]string
-
-	EnumTypes      map[EnumTypeName]EnumType
-	BoundEnumTypes map[EnumTypeName]string
-
-	Operations []*OperationInfo
-
-	Imports map[string]string // pkg path to alias
+	BoundGoTypes map[InputTypeName]string
+	Imports      map[string]string // pkg path to alias
 }
 
 type InputTypeName = string
