@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/alexflint/go-arg v1.4.2
 	github.com/ejoffe/rake v0.2.7
+	github.com/gorilla/websocket v1.4.2
 	github.com/hasura/go-graphql-client v0.9.3
 	github.com/iancoleman/strcase v0.2.0
 	github.com/jensneuse/graphql-go-tools v1.51.1-0.20220407073143-b484a4fba0f8
