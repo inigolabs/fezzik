@@ -13,6 +13,7 @@ type SubscriptionClient interface {
 func NewSubscriptionClient(url string, params map[string]interface{}) SubscriptionClient {
 	gql := subscription.NewSubscriptionClient(url)
 	gql.WithConnectionParams(params)
+	gql.WithExitWhenNoSubscription(false)
 
 	go gql.Run()
 

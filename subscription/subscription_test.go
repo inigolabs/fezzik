@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"net/http/httptest"
+	"sync"
 	"sync/atomic"
 	"testing"
 	"time"
@@ -84,6 +85,7 @@ func startServer(t *testing.T, l net.Listener, fn http.HandlerFunc) func() {
 
 func TestNewSubscriptionClient_Reconnect(t *testing.T) {
 	const reconnections int32 = 3
+	const wsTimeout = time.Second / 100
 
 	l, err := net.Listen("tcp", "127.0.0.1:0")
 	require.NoError(t, err)
@@ -98,19 +100,37 @@ func TestNewSubscriptionClient_Reconnect(t *testing.T) {
 	stop := startServer(t, l, handle(responses...))
 
 	client := NewSubscriptionClient("http://" + l.Addr().String())
-	client.WithTimeout(time.Second)
 
 	var connectedCounter int32
 	client.OnConnected(func() {
 		atomic.AddInt32(&connectedCounter, 1)
 	})
 
+	var once sync.Once
+	var runDone = make(chan struct{})
+
 	var disconnectedCounter int32
 	client.OnDisconnected(func() {
 		atomic.AddInt32(&disconnectedCounter, 1)
+		go once.Do(func() {
+			<-runDone
+			client.WithExitWhenNoSubscription(false)
+			client.WithTimeout(wsTimeout)
+			time.Sleep(wsTimeout)
+			go func() { require.NoError(t, client.Run()) }()
+		})
 	})
 
-	go client.Run()
+	go func() {
+		require.NoError(t, client.Run())
+		close(runDone)
+	}()
+
+	select {
+	case <-time.After(time.Second):
+		require.Fail(t, "timeout")
+	case <-runDone:
+	}
 
 	var done = make(chan struct{})
 
@@ -142,12 +162,12 @@ func TestNewSubscriptionClient_Reconnect(t *testing.T) {
 	require.NoError(t, err)
 
 	select {
-	case <-time.After(time.Second * 10):
+	case <-time.After(time.Second):
 		require.Fail(t, "timeout")
 	case <-done:
 	}
 
 	require.Equal(t, reconnections*int32(len(responses)), counter)
-	require.Equal(t, reconnections, connectedCounter)
-	require.Equal(t, reconnections, disconnectedCounter)
+	require.Equal(t, reconnections+1, connectedCounter)
+	require.Equal(t, reconnections+1, disconnectedCounter)
 }
