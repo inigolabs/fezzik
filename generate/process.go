@@ -1,6 +1,7 @@
 package generate
 
 import (
+	"bytes"
 	"fmt"
 	"strings"
 
@@ -9,6 +10,7 @@ import (
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/fezzik_ast"
 	"github.com/vektah/gqlparser/v2/ast"
+	"github.com/vektah/gqlparser/v2/formatter"
 	"golang.org/x/tools/go/packages"
 )
 
@@ -20,6 +22,9 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 		BoundGoTypes: make(map[string]string),
 		EnumTypes:    make(map[string]fezzik_ast.EnumType),
 		Imports:      make(map[string]string),
+
+		// helper to keep track of already visited fragments, so go-struct is generated only once and re-used
+		VisitedFragments: map[string]struct{}{},
 	}
 
 	var pkgs []*packages.Package
@@ -113,12 +118,12 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	for _, o := range operations.Operations {
-		responseTypes := getResponseTypes(cfg, result, o)
+		responseTypes := getResponseTypes(cfg, schema, result, o)
 
 		result.Operations = append(result.Operations, &fezzik_ast.OperationInfo{
 			Name:             o.Name,
 			OperationType:    o.Operation,
-			Operation:        getOperation(o),
+			Operation:        getOperation(o, operations.Fragments),
 			ResponseType:     responseTypes[0],  // root is always the first one
 			ResponseSubTypes: responseTypes[1:], // root's subtypes
 			Inputs:           getOperationInputs(cfg, result, o.VariableDefinitions),
@@ -130,21 +135,6 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	return result
-}
-
-func appendQueryDoc(doc *ast.QueryDocument, addDoc *ast.QueryDocument) {
-	names := make(map[string]struct{})
-	for _, opCurr := range doc.Operations {
-		names[opCurr.Name] = struct{}{}
-	}
-
-	for _, opAdd := range addDoc.Operations {
-		if _, found := names[opAdd.Name]; found {
-			common.Check(fmt.Errorf("duplicate operation with name '%s'", opAdd.Name))
-		}
-	}
-
-	doc.Operations = append(doc.Operations, addDoc.Operations...)
 }
 
 func getInputFields(cfg *config.Config, doc *fezzik_ast.Document, def *ast.Definition) []fezzik_ast.InputField {
@@ -185,63 +175,36 @@ func getEnumValues(def *ast.Definition) []string {
 	return values
 }
 
-func getOperation(operation *ast.OperationDefinition) string {
-	b := common.NewStringBuilder()
+func getOperation(operation *ast.OperationDefinition, fragments ast.FragmentDefinitionList) string {
+	b := bytes.Buffer{}
 
-	var visitSelectionSet func(ss ast.SelectionSet, indent string)
-	visitSelectionSet = func(ss ast.SelectionSet, indent string) {
-		if len(ss) > 0 {
-			b.Write(" {")
-			for i := 0; i < len(ss); i++ {
-				switch fs := ss[i].(type) {
-				case *ast.Field:
-					if fs.Alias != fs.Name {
-						b.Write("\n", indent, "\t", fs.Alias, " : ", fs.Name)
-					} else {
-						b.Write("\n", indent, "\t", fs.Name)
-					}
-					if len(fs.Arguments) > 0 {
-						b.Write("(")
-						for ia := 0; ia < len(fs.Arguments); ia++ {
-							arg := fs.Arguments[ia]
-							b.Write(arg.Name, ": ", arg.Value.String())
-							if ia < len(fs.Arguments)-1 {
-								b.Write(", ")
-							}
-						}
-						b.Write(")")
-					}
-					visitSelectionSet(fs.SelectionSet, indent+"\t")
-				default:
-					common.Check(fmt.Errorf("unimplamented type %T", ss[i]))
-				}
-
-				if i == len(ss)-1 {
-					b.Writeln()
-				}
+	used := ast.FragmentDefinitionList{}
+	var findUsedFragments func(ast.SelectionSet)
+	findUsedFragments = func(selectionSet ast.SelectionSet) {
+		for _, selection := range selectionSet {
+			switch s := selection.(type) {
+			case *ast.Field:
+				findUsedFragments(s.SelectionSet)
+			case *ast.FragmentSpread:
+				used = append(used, fragments.ForName(s.Name))
+			default:
+				common.Check(fmt.Errorf("unimplamented type %T", s))
 			}
-			b.Write(indent, "}")
 		}
 	}
 
-	b.Write(string(operation.Operation), " ", operation.Name)
-	if len(operation.VariableDefinitions) > 0 {
-		b.Write("(")
-		for i := 0; i < len(operation.VariableDefinitions); i++ {
-			def := operation.VariableDefinitions[i]
-			b.Write("$", def.Variable, " : ", def.Type.String())
-			if i < len(operation.VariableDefinitions)-1 {
-				b.Write(", ")
-			}
-		}
-		b.Write(")")
-	}
-	visitSelectionSet(operation.SelectionSet, "\t")
+	findUsedFragments(operation.SelectionSet)
+
+	// print operation
+	formatter.NewFormatter(&b).FormatQueryDocument(&ast.QueryDocument{
+		Operations: ast.OperationList{operation},
+		Fragments:  used,
+	})
 
 	return b.String()
 }
 
-func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *ast.OperationDefinition) []string {
+func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Document, operation *ast.OperationDefinition) []string {
 	var visitSelectionSet func(ast.SelectionSet, string, string) []string
 	visitSelectionSet = func(ss ast.SelectionSet, operationName, sig string) []string {
 		if len(ss) == 0 {
@@ -261,6 +224,11 @@ func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *a
 		for _, s := range ss {
 			switch fs := s.(type) {
 			case *ast.Field:
+				kind := schema.Types[fs.Definition.Type.Name()].Kind
+				if kind == ast.Union || kind == ast.Interface {
+					panic("union and interface fields are not supported")
+				}
+
 				name := common.UppercaseFirstChar(fs.Alias)
 				sig, bound := getFieldTypeSignature(cfg, doc, fs.Definition.Type)
 
@@ -279,6 +247,13 @@ func getResponseTypes(cfg *config.Config, doc *fezzik_ast.Document, operation *a
 				allTypes = append(allTypes, visitSelectionSet(fs.SelectionSet, operationName+name, strings.TrimPrefix(sig, ptr))...)
 
 				b.Writeln(" ", name, " ", ptr+operationName+name)
+			case *ast.FragmentSpread:
+				if _, found := doc.VisitedFragments[fs.Name]; !found {
+					doc.VisitedFragments[fs.Name] = struct{}{}
+					allTypes = append(allTypes, visitSelectionSet(fs.Definition.SelectionSet, fs.Name, "struct")...)
+				}
+
+				b.Writeln(fmt.Sprintf("*%s", fs.Name))
 			default:
 				common.Check(fmt.Errorf("unimplamented type %T", s))
 			}

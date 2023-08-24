@@ -76,7 +76,9 @@ func ParseOperations(cfg *config.Config, schema *ast.Schema) *ast.QueryDocument 
 	for _, source := range sources {
 		doc, err := parser.ParseQuery(source)
 		common.Check(err)
-		appendQueryDoc(result, doc)
+
+		result.Fragments = append(result.Fragments, doc.Fragments...)
+		result.Operations = append(result.Operations, doc.Operations...)
 	}
 
 	err := validator.Validate(schema, result)

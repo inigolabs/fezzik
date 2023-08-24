@@ -17,6 +17,8 @@ type Document struct {
 
 	BoundGoTypes map[InputTypeName]string
 	Imports      map[string]string // pkg path to alias
+
+	VisitedFragments map[string]struct{}
 }
 
 type InputTypeName = string
