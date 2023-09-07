@@ -28,14 +28,15 @@ func (c *gqlclient) OneAllTypes(ctx context.Context) (*OneAllTypesResponse, erro
 
 	var oneAllTypesOperation string = `
 	query OneAllTypes {
-		one {
-			oneInt
-			oneIntMust
-			oneIntList
-			oneIntMustList
-			oneIntMustListMust
-		}
-	}`
+	one {
+		oneInt
+		oneIntMust
+		oneIntList
+		oneIntMustList
+		oneIntMustListMust
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneAllTypes",
@@ -88,16 +89,17 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 
 	var oneWithSubSelectionsOperation string = `
 	query OneWithSubSelections {
-		one {
-			two {
-				twoInt
-				twoStr
-				three {
-					threeInt
-				}
+	one {
+		two {
+			twoInt
+			twoStr
+			three {
+				threeInt
 			}
 		}
-	}`
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneWithSubSelections",
@@ -145,13 +147,14 @@ func (c *gqlclient) OneWithAlias(ctx context.Context) (*OneWithAliasResponse, er
 
 	var oneWithAliasOperation string = `
 	query OneWithAlias {
-		one {
-			oneInt
-		}
-		two : one {
-			oneInt
-		}
-	}`
+	one {
+		oneInt
+	}
+	two: one {
+		oneInt
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneWithAlias",
@@ -201,14 +204,15 @@ func (c *gqlclient) QueryWithInputs(ctx context.Context,
 ) (*QueryWithInputsResponse, error) {
 
 	var queryWithInputsOperation string = `
-	query QueryWithInputs($input_one : String, $input_two : String) {
-		one(input: $input_one) {
-			oneInt
-		}
-		two(input: $input_two) {
-			twoInt
-		}
-	}`
+	query QueryWithInputs ($input_one: String, $input_two: String) {
+	one(input: $input_one) {
+		oneInt
+	}
+	two(input: $input_two) {
+		twoInt
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "QueryWithInputs",
@@ -251,9 +255,10 @@ func (c *gqlclient) OneAdd(ctx context.Context,
 ) (*OneAddResponse, error) {
 
 	var oneAddOperation string = `
-	mutation OneAdd($input : OneInput) {
-		oneAdd(input: $input)
-	}`
+	mutation OneAdd ($input: OneInput) {
+	oneAdd(input: $input)
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "OneAdd",
@@ -295,9 +300,10 @@ func (c *gqlclient) TwoAdd(ctx context.Context,
 ) (*TwoAddResponse, error) {
 
 	var twoAddOperation string = `
-	mutation TwoAdd($input : TwoInput) {
-		twoAdd(input: $input)
-	}`
+	mutation TwoAdd ($input: TwoInput) {
+	twoAdd(input: $input)
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "TwoAdd",
@@ -338,10 +344,11 @@ func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error)
 
 	var updatedOperation string = `
 	subscription Updated {
-		updated {
-			id
-		}
-	}`
+	updated {
+		id
+	}
+}
+`
 
 	var variables = map[string]interface{}{}
 
@@ -371,11 +378,12 @@ func (c *gqlSubscriptionClient) Changed(
 ) (string, error) {
 
 	var changedOperation string = `
-	subscription Changed($input : String) {
-		changed(input: $input) {
-			id
-		}
-	}`
+	subscription Changed ($input: String) {
+	changed(input: $input) {
+		id
+	}
+}
+`
 
 	var variables = map[string]interface{}{
 		"input": input,
