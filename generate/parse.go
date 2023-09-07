@@ -5,11 +5,11 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/jensneuse/graphql-go-tools/pkg/federation"
 	"github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/parser"
 	"github.com/vektah/gqlparser/v2/validator"
+	"github.com/wundergraph/graphql-go-tools/pkg/federation"
 
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"

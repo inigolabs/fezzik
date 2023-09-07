@@ -69,40 +69,41 @@ func (c *gqlclient) GetInfo(ctx context.Context,
 ) (*GetInfoResponse, error) {
 
 	var getInfoOperation string = `
-	query GetInfo($repo_owner : String!, $repo_name : String!) {
-		viewer {
-			login
-			pullRequests(first: 100, states: [OPEN]) {
-				nodes {
+	query GetInfo ($repo_owner: String!, $repo_name: String!) {
+	viewer {
+		login
+		pullRequests(first: 100, states: [OPEN]) {
+			nodes {
+				id
+				number
+				title
+				baseRefName
+				headRefName
+				mergeable
+				reviewDecision
+				repository {
 					id
-					number
-					title
-					baseRefName
-					headRefName
-					mergeable
-					reviewDecision
-					repository {
-						id
-					}
-					commits(first: 100) {
-						nodes {
-							commit {
-								oid
-								messageHeadline
-								messageBody
-								statusCheckRollup {
-									state
-								}
+				}
+				commits(first: 100) {
+					nodes {
+						commit {
+							oid
+							messageHeadline
+							messageBody
+							statusCheckRollup {
+								state
 							}
 						}
 					}
 				}
 			}
 		}
-		repository(owner: $repo_owner, name: $repo_name) {
-			id
-		}
-	}`
+	}
+	repository(owner: $repo_owner, name: $repo_name) {
+		id
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "GetInfo",
@@ -154,14 +155,15 @@ func (c *gqlclient) CreatePullRequest(ctx context.Context,
 ) (*CreatePullRequestResponse, error) {
 
 	var createPullRequestOperation string = `
-	mutation CreatePullRequest($input : CreatePullRequestInput!) {
-		createPullRequest(input: $input) {
-			pullRequest {
-				id
-				number
-			}
+	mutation CreatePullRequest ($input: CreatePullRequestInput!) {
+	createPullRequest(input: $input) {
+		pullRequest {
+			id
+			number
 		}
-	}`
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "CreatePullRequest",
@@ -211,13 +213,14 @@ func (c *gqlclient) UpdatePullRequest(ctx context.Context,
 ) (*UpdatePullRequestResponse, error) {
 
 	var updatePullRequestOperation string = `
-	mutation UpdatePullRequest($input : UpdatePullRequestInput!) {
-		updatePullRequest(input: $input) {
-			pullRequest {
-				number
-			}
+	mutation UpdatePullRequest ($input: UpdatePullRequestInput!) {
+	updatePullRequest(input: $input) {
+		pullRequest {
+			number
 		}
-	}`
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "UpdatePullRequest",
@@ -263,11 +266,12 @@ func (c *gqlclient) CommentPullRequest(ctx context.Context,
 ) (*CommentPullRequestResponse, error) {
 
 	var commentPullRequestOperation string = `
-	mutation CommentPullRequest($input : AddCommentInput!) {
-		addComment(input: $input) {
-			clientMutationId
-		}
-	}`
+	mutation CommentPullRequest ($input: AddCommentInput!) {
+	addComment(input: $input) {
+		clientMutationId
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "CommentPullRequest",
@@ -317,13 +321,14 @@ func (c *gqlclient) MergePullRequest(ctx context.Context,
 ) (*MergePullRequestResponse, error) {
 
 	var mergePullRequestOperation string = `
-	mutation MergePullRequest($input : MergePullRequestInput!) {
-		mergePullRequest(input: $input) {
-			pullRequest {
-				number
-			}
+	mutation MergePullRequest ($input: MergePullRequestInput!) {
+	mergePullRequest(input: $input) {
+		pullRequest {
+			number
 		}
-	}`
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "MergePullRequest",
@@ -373,13 +378,14 @@ func (c *gqlclient) ClosePullRequest(ctx context.Context,
 ) (*ClosePullRequestResponse, error) {
 
 	var closePullRequestOperation string = `
-	mutation ClosePullRequest($input : ClosePullRequestInput!) {
-		closePullRequest(input: $input) {
-			pullRequest {
-				number
-			}
+	mutation ClosePullRequest ($input: ClosePullRequestInput!) {
+	closePullRequest(input: $input) {
+		pullRequest {
+			number
 		}
-	}`
+	}
+}
+`
 
 	gqlreq := &client.GQLRequest{
 		OperationName: "ClosePullRequest",
