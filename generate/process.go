@@ -35,46 +35,38 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	for _, t := range schema.Types {
-		switch t.Kind {
-		case ast.Enum:
-			var found bool
-			for _, pkg := range pkgs {
-				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
-					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
-					result.Imports[foundType.Pkg().Path()] = ""
-					found = true
-				}
-			}
-
-			if !found {
-				result.EnumTypes[t.Name] = fezzik_ast.EnumType{
-					Name:   t.Name,
-					Values: getEnumValues(t),
-				}
-			}
-
-		case ast.InputObject:
-			var found bool
-			for _, pkg := range pkgs {
-				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
-					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
-					result.Imports[foundType.Pkg().Path()] = ""
-					found = true
-				}
-			}
-
-			if !found {
-				result.InputTypes[t.Name] = fezzik_ast.InputType{
-					Name:   t.Name,
-					Fields: getInputFields(cfg, result, t),
-				}
-			}
-		case ast.Object:
+		if t.Kind == ast.Enum || t.Kind == ast.InputObject || t.Kind == ast.Object {
 			for _, pkg := range pkgs {
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
 					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
 					result.Imports[foundType.Pkg().Path()] = ""
 				}
+			}
+		}
+
+		// add all enums
+		if t.Kind == ast.Enum {
+			if _, ok := result.BoundGoTypes[t.Name]; ok {
+				continue
+			}
+
+			result.EnumTypes[t.Name] = fezzik_ast.EnumType{
+				Name:   t.Name,
+				Values: getEnumValues(t),
+			}
+		}
+	}
+
+	// generate only used inputs and enums
+	for _, op := range operations.Operations {
+		for _, v := range op.VariableDefinitions {
+			def, ok := schema.Types[v.Type.Name()]
+			if !ok {
+				panic(fmt.Sprintf("type %s not found", v.Type.Name()))
+			}
+
+			if def.Kind == ast.InputObject {
+				addInputs(def, cfg, schema, result)
 			}
 		}
 	}
@@ -135,6 +127,33 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	}
 
 	return result
+}
+
+func addInputs(def *ast.Definition, cfg *config.Config, schema *ast.Schema, result *fezzik_ast.Document) {
+	if _, ok := result.BoundGoTypes[def.Name]; ok {
+		return
+	}
+
+	t, ok := schema.Types[def.Name]
+	if !ok {
+		panic(fmt.Sprintf("type %s not found", def.Name))
+	}
+
+	result.InputTypes[def.Name] = fezzik_ast.InputType{
+		Name:   def.Name,
+		Fields: getInputFields(cfg, result, t),
+	}
+
+	for _, f := range t.Fields {
+		fdef, ok := schema.Types[f.Type.Name()]
+		if !ok {
+			panic(fmt.Sprintf("type %s not found", f.Type.Name()))
+		}
+
+		if fdef.Kind == ast.InputObject {
+			addInputs(fdef, cfg, schema, result)
+		}
+	}
 }
 
 func getInputFields(cfg *config.Config, doc *fezzik_ast.Document, def *ast.Definition) []fezzik_ast.InputField {
