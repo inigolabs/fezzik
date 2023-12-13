@@ -9,7 +9,8 @@ type Config struct {
 
 	// StructTagCase controls the format of the json struct tags
 	//  valid options: snake, camel, kebob
-	StructTagCase string `default:"camel" yaml:"struct_tag_case"`
+	//  default : empty, means json struct tag is the same as the field name in the schema
+	StructTagCase string `yaml:"struct_tag_case"`
 
 	Autobind      []string          `yaml:"autobind"`
 	ScalarTypeMap map[string]string `yaml:"scalar_type_map"`
