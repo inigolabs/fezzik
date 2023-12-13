@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/iancoleman/strcase"
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 	"github.com/inigolabs/fezzik/fezzik_ast"
@@ -168,16 +167,7 @@ func getInputFields(cfg *config.Config, doc *fezzik_ast.Document, def *ast.Defin
 		fields[i].Name = fieldInfo.Name
 		fields[i].Type = getTypeInfo(fieldInfo.Type)
 		fields[i].TypeName = getGoType(cfg, fieldInfo.Type)
-		switch cfg.StructTagCase {
-		case "snake":
-			fields[i].StructTag = strcase.ToSnake(fieldInfo.Name)
-		case "kebob":
-			fields[i].StructTag = strcase.ToKebab(fieldInfo.Name)
-		case "camel":
-			fields[i].StructTag = strcase.ToLowerCamel(fieldInfo.Name)
-		default:
-			fields[i].StructTag = fieldInfo.Name
-		}
+		fields[i].StructTag = fieldInfo.Name
 	}
 	return fields
 }
