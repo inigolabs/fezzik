@@ -2,20 +2,14 @@ package generate
 
 import (
 	"path/filepath"
-	"regexp"
-	"strings"
 
-	"github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/parser"
 	"github.com/vektah/gqlparser/v2/validator"
-	"github.com/wundergraph/graphql-go-tools/pkg/federation"
 
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 )
-
-var reScalar = regexp.MustCompile(`scalar \w+`)
 
 func ParseSchema(cfg *config.Config) *ast.Schema {
 	// get schema files from config globs
@@ -27,31 +21,38 @@ func ParseSchema(cfg *config.Config) *ast.Schema {
 	}
 
 	// make sources
-	var sources = make([]string, len(schemaFiles))
+	sources := make([]*ast.Source, len(schemaFiles)+1)
+	sources[0] = validator.Prelude
 	for i, filename := range schemaFiles {
-		sources[i] = common.FileRead(filename)
+		sources[i+1] = &ast.Source{Input: common.FileRead(filename)}
 	}
 
-	mergedSchema, err := federation.BuildBaseSchemaDocument(sources...)
+	doc, err := parser.ParseSchemas(sources...)
 	common.Check(err)
 
-	scalars := reScalar.FindAllString(mergedSchema, -1)
-
-	var set = map[string]struct{}{}
-
-	for i := range scalars {
-		if _, ok := set[scalars[i]]; !ok {
-			set[scalars[i]] = struct{}{}
-
+	// remove duplicated scalars
+	defs := make([]*ast.Definition, 0, len(doc.Definitions))
+	scalarsSet := make(map[string]struct{})
+	for _, def := range doc.Definitions {
+		if def.Kind != ast.Scalar {
+			defs = append(defs, def)
 			continue
 		}
 
-		mergedSchema = strings.ReplaceAll(mergedSchema, scalars[i], "")
-		mergedSchema += "\n" + scalars[i]
+		// skip known scalars
+		if _, ok := scalarsSet[def.Name]; ok {
+			continue
+		}
+
+		defs = append(defs, def)
+		scalarsSet[def.Name] = struct{}{}
 	}
 
-	schema, err := gqlparser.LoadSchema(&ast.Source{Input: mergedSchema})
+	doc.Definitions = defs // override definitions
+
+	schema, err := validator.ValidateSchemaDocument(doc)
 	common.Check(err)
+
 	return schema
 }
 
