@@ -2,20 +2,16 @@ package generate
 
 import (
 	"path/filepath"
-	"regexp"
 	"strings"
 
 	"github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/parser"
 	"github.com/vektah/gqlparser/v2/validator"
-	"github.com/wundergraph/graphql-go-tools/pkg/federation"
 
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
 )
-
-var reScalar = regexp.MustCompile(`scalar \w+`)
 
 func ParseSchema(cfg *config.Config) *ast.Schema {
 	// get schema files from config globs
@@ -26,31 +22,14 @@ func ParseSchema(cfg *config.Config) *ast.Schema {
 		schemaFiles = append(schemaFiles, files...)
 	}
 
-	// make sources
-	var sources = make([]string, len(schemaFiles))
-	for i, filename := range schemaFiles {
-		sources[i] = common.FileRead(filename)
+	// combine schema files
+	b := strings.Builder{}
+	for _, filename := range schemaFiles {
+		b.WriteRune('\n')
+		b.WriteString(common.FileRead(filename))
 	}
 
-	mergedSchema, err := federation.BuildBaseSchemaDocument(sources...)
-	common.Check(err)
-
-	scalars := reScalar.FindAllString(mergedSchema, -1)
-
-	var set = map[string]struct{}{}
-
-	for i := range scalars {
-		if _, ok := set[scalars[i]]; !ok {
-			set[scalars[i]] = struct{}{}
-
-			continue
-		}
-
-		mergedSchema = strings.ReplaceAll(mergedSchema, scalars[i], "")
-		mergedSchema += "\n" + scalars[i]
-	}
-
-	schema, err := gqlparser.LoadSchema(&ast.Source{Input: mergedSchema})
+	schema, err := gqlparser.LoadSchema(&ast.Source{Input: b.String()})
 	common.Check(err)
 	return schema
 }
