@@ -23,6 +23,70 @@ query OneWithSubSelections {
 	}
 }
 
+# UnionSearchResultInLine query
+query UnionSearchResultInLine {
+  search {
+    __typename
+    ... on Book{
+      title
+      updated
+    }
+    ... AuthorFr
+  }
+}
+
+# UnionSearchResult query
+query UnionSearchResult {
+  search {
+    __typename
+    ... BookFr
+    ... AuthorFr
+    ... AuthorAnotherFr
+  }
+}
+
+# UnionSearchResultNoTypename query
+query UnionSearchResultNoTypename {
+  search {
+    ... BookFr
+    ... AuthorFr
+  }
+}
+
+# InterfaceGetCreated query
+query InterfaceGetCreated {
+  getCreated {
+    created
+    __typename
+    ... BookFr
+    ... AuthorFr
+  }
+}
+
+# InterfaceGetCreatedNoTypename query
+query InterfaceGetCreatedNoTypename {
+  getCreated {
+    created
+    ... BookFr
+    ... AuthorFr
+  }
+}
+
+fragment AuthorFr on Author {
+  name
+  updated
+}
+
+fragment AuthorAnotherFr on Author {
+  name
+  updated
+}
+
+fragment BookFr on Book {
+  title
+  updated
+}
+
 # OneWithAlias query
 query OneWithAlias {
 	one {

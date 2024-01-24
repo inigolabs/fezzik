@@ -2,8 +2,10 @@ package generate
 
 import (
 	"bytes"
+	_ "embed"
 	"fmt"
 	"strings"
+	"text/template"
 
 	"github.com/inigolabs/fezzik/common"
 	"github.com/inigolabs/fezzik/config"
@@ -12,6 +14,9 @@ import (
 	"github.com/vektah/gqlparser/v2/formatter"
 	"golang.org/x/tools/go/packages"
 )
+
+//go:embed json.go.tmpl
+var jsonTmpl string
 
 var mode = packages.NeedName | packages.NeedTypes | packages.NeedModule | packages.NeedTypesInfo
 
@@ -23,7 +28,7 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 		Imports:      make(map[string]string),
 
 		// helper to keep track of already visited fragments, so go-struct is generated only once and re-used
-		VisitedFragments: map[string]struct{}{},
+		VisitedFragments: map[string][]Field{},
 	}
 
 	for _, typePath := range cfg.TypeMap {
@@ -222,6 +227,7 @@ func getOperation(operation *ast.OperationDefinition, fragments ast.FragmentDefi
 				findUsedFragments(s.SelectionSet)
 			case *ast.FragmentSpread:
 				used = append(used, fragments.ForName(s.Name))
+			case *ast.InlineFragment:
 			default:
 				common.Check(fmt.Errorf("unimplamented type %T", s))
 			}
@@ -239,11 +245,39 @@ func getOperation(operation *ast.OperationDefinition, fragments ast.FragmentDefi
 	return b.String()
 }
 
+type Field = fezzik_ast.Field
+
+type MetaInfo struct {
+	Operation string
+	Prefix    string
+	Fragments map[string]Field
+	Fields    []Field
+}
+
+func (mi *MetaInfo) UniqueFields() map[string]Field {
+	var set = map[string]Field{}
+	for _, v := range mi.Fields {
+		set[v.Field+" "+v.Signature] = v
+	}
+
+	return set
+}
+
 func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Document, operation *ast.OperationDefinition) []string {
 	var visitSelectionSet func(ast.SelectionSet, string, string) []string
+
+	var typeToMetaInfo = map[string]*MetaInfo{}
+
 	visitSelectionSet = func(ss ast.SelectionSet, operationName, sig string) []string {
 		if len(ss) == 0 {
 			return nil
+		}
+
+		if _, ok := typeToMetaInfo[operationName]; !ok {
+			typeToMetaInfo[operationName] = &MetaInfo{
+				Operation: operationName,
+				Fragments: map[string]Field{},
+			}
 		}
 
 		var allTypes []string
@@ -251,7 +285,15 @@ func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Do
 		b := common.NewStringBuilder()
 
 		if sig != "" {
-			b.Writeln("type ", operationName, " ", sig, " ")
+			if strings.Contains(sig, "[]") {
+				typeToMetaInfo[operationName].Prefix = "[]"
+			}
+
+			if strings.Contains(sig, "[]*") {
+				typeToMetaInfo[operationName].Prefix = "[]*"
+			}
+
+			b.Writeln("type ", operationName, " ", strings.TrimPrefix(sig, typeToMetaInfo[operationName].Prefix), " ")
 		}
 
 		b.Writeln("{")
@@ -259,17 +301,23 @@ func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Do
 		for _, s := range ss {
 			switch fs := s.(type) {
 			case *ast.Field:
-				kind := schema.Types[fs.Definition.Type.Name()].Kind
-				if kind == ast.Union || kind == ast.Interface {
-					panic("union and interface fields are not supported")
-				}
-
 				name := common.UppercaseFirstChar(fs.Alias)
 				sig, bound := getFieldTypeSignature(cfg, doc, fs.Definition.Type)
 
 				// stop if underlying selection set is empty or bound go type is found
 				if len(fs.SelectionSet) == 0 || bound {
-					b.Writeln(" ", name, " ", sig)
+					if name == "__typename" {
+						name = "Typename"
+						sig += "`json:\"__typename\"`"
+					}
+
+					typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
+						Field:     name,
+						Path:      name,
+						Signature: sig,
+					})
+
+					b.Writeln(" ", name+" "+sig)
 
 					break
 				}
@@ -281,20 +329,94 @@ func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Do
 
 				allTypes = append(allTypes, visitSelectionSet(fs.SelectionSet, operationName+name, strings.TrimPrefix(sig, ptr))...)
 
-				b.Writeln(" ", name, " ", ptr+operationName+name)
-			case *ast.FragmentSpread:
-				if _, found := doc.VisitedFragments[fs.Name]; !found {
-					doc.VisitedFragments[fs.Name] = struct{}{}
-					allTypes = append(allTypes, visitSelectionSet(fs.Definition.SelectionSet, fs.Name, "struct")...)
+				// drop pointer if it is a slice
+				if typeToMetaInfo[operationName+name].Prefix != "" {
+					ptr = ""
 				}
 
+				typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
+					Field:     name,
+					Signature: name + " " + ptr + typeToMetaInfo[operationName+name].Prefix + operationName + name,
+				})
+
+				b.Writeln(" ", name+" "+ptr+typeToMetaInfo[operationName+name].Prefix+operationName+name)
+			case *ast.FragmentSpread:
+				if _, found := doc.VisitedFragments[fs.Name]; !found {
+					doc.VisitedFragments[fs.Name] = nil
+					allTypes = append(allTypes, visitSelectionSet(fs.Definition.SelectionSet, fs.Name, "struct")...)
+					doc.VisitedFragments[fs.Name] = typeToMetaInfo[fs.Name].Fields
+				}
+
+				for _, v := range doc.VisitedFragments[fs.Name] {
+					typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
+						FragmentType: fs.Definition.Definition.Name,
+						Field:        v.Field,
+						Path:         fs.Name + "." + v.Field,
+						Signature:    v.Signature,
+					})
+				}
+
+				typeToMetaInfo[operationName].Fragments[fs.Name] = Field{
+					FragmentType: fs.Definition.Definition.Name,
+					Field:        fs.Name,
+				}
 				b.Writeln(fmt.Sprintf("*%s", fs.Name))
+			case *ast.InlineFragment:
+				name := operationName + fs.TypeCondition
+				if _, found := doc.VisitedFragments[name]; !found {
+					doc.VisitedFragments[name] = nil
+					allTypes = append(allTypes, visitSelectionSet(fs.SelectionSet, name, "struct")...)
+				}
+
+				for _, v := range typeToMetaInfo[name].Fields {
+					typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
+						FragmentType: fs.TypeCondition,
+						Field:        v.Field,
+						Path:         name + "." + v.Field,
+						Signature:    v.Signature,
+					})
+				}
+
+				typeToMetaInfo[operationName].Fragments[name] = Field{
+					FragmentType: fs.TypeCondition,
+					Field:        name,
+				}
+				b.Writeln(fmt.Sprintf("*%s", name))
 			default:
-				common.Check(fmt.Errorf("unimplamented type %T", s))
+				common.Check(fmt.Errorf("unimplamented fuck it type %T", s))
+			}
+		}
+
+		if len(typeToMetaInfo[operationName].Fragments) > 0 {
+			var found bool
+			for i := range typeToMetaInfo[operationName].Fields {
+				if typeToMetaInfo[operationName].Fields[i].Field == "Typename" {
+					found = true
+				}
+			}
+
+			if !found {
+				typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
+					Field:     "Typename",
+					Path:      "Typename",
+					Signature: "*string `json:\"__typename\"`",
+				})
+
+				b.Writeln(" ", "Typename *string `json:\"__typename\"`")
 			}
 		}
 
 		b.Writeln("}")
+
+		if len(typeToMetaInfo[operationName].Fragments) > 0 {
+			template := template.Must(template.New("fragments").Parse(jsonTmpl))
+			var out bytes.Buffer
+			err := template.Execute(&out, typeToMetaInfo[operationName])
+			if err != nil {
+				panic(err)
+			}
+			b.Writeln(out.String())
+		}
 
 		return append([]string{b.String()}, allTypes...)
 	}

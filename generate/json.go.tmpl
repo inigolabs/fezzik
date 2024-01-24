@@ -1,0 +1,44 @@
+func (f *{{.Operation}}) UnmarshalJSON(data []byte) error {
+	type alias {{.Operation}}
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = {{.Operation}}(*val)
+
+  {{ range $val := .Fragments }}
+    f.{{$val.Field}} = nil
+  {{- end}}
+
+  {{ range $val := .Fragments }}
+    if val.Typename != nil && *val.Typename == "{{$val.FragmentType}}" {
+		  if err := json.Unmarshal(data, &f.{{$val.Field}});err != nil {
+        return err
+      }
+	  }
+  {{end}}
+
+	return nil
+}
+
+func (f {{.Operation}}) MarshalJSON() ([]byte, error) {
+	var data = struct {
+    {{ range $val := .UniqueFields }}
+      {{$val.Field}} {{$val.Signature}}
+    {{- end}}
+  }{}
+
+  {{ range $val := .Fields }}
+    {{if $val.FragmentType }}
+      if f.Typename != nil && *f.Typename == "{{$val.FragmentType}}" {
+        data.{{$val.Field}} = f.{{$val.Path}}
+      }
+    {{else}}
+      data.{{$val.Field}} = f.{{$val.Path}}
+    {{end}}
+  {{- end}}
+
+	return json.Marshal(data)
+}

@@ -18,7 +18,14 @@ type Document struct {
 	BoundGoTypes map[InputTypeName]string
 	Imports      map[string]string // pkg path to alias
 
-	VisitedFragments map[string]struct{}
+	VisitedFragments map[string][]Field
+}
+
+type Field struct {
+	FragmentType string
+	Field        string
+	Path         string
+	Signature    string
 }
 
 type InputTypeName = string
