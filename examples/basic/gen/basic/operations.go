@@ -336,7 +336,7 @@ func (c *gqlclient) TwoAdd(ctx context.Context,
 
 // UpdatedResponse response type for Updated
 type UpdatedResponse struct {
-	Updated *types.Result
+	Updated *types.ServerResult
 }
 
 // Updated from examples/basic/operations/operations.graphql:58
@@ -368,7 +368,7 @@ func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error)
 
 // ChangedResponse response type for Changed
 type ChangedResponse struct {
-	Changed *types.Result
+	Changed *types.ServerResult
 }
 
 // Changed from examples/basic/operations/operations.graphql:64

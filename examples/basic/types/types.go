@@ -6,6 +6,6 @@ type TwoInput struct {
 }
 
 // Result is expected to be bound to GraphQL object type Result
-type Result struct {
+type ServerResult struct {
 	Id string
 }
