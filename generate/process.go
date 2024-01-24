@@ -26,6 +26,13 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 		VisitedFragments: map[string]struct{}{},
 	}
 
+	for _, typePath := range cfg.TypeMap {
+		pkgPath := typePath[:strings.LastIndex(typePath, ".")]
+		if !contains(cfg.Autobind, pkgPath) {
+			cfg.Autobind = append(cfg.Autobind)
+		}
+	}
+
 	var pkgs []*packages.Package
 	var err error
 	if len(cfg.Autobind) > 0 {
@@ -36,6 +43,25 @@ func Process(cfg *config.Config, schema *ast.Schema, operations *ast.QueryDocume
 	for _, t := range schema.Types {
 		if t.Kind == ast.Enum || t.Kind == ast.InputObject || t.Kind == ast.Object {
 			for _, pkg := range pkgs {
+				if _, ok := cfg.TypeMap[t.Name]; ok {
+					bindFullPath := cfg.TypeMap[t.Name]
+					splitAt := strings.LastIndex(bindFullPath, ".")
+
+					bindPkgPath := bindFullPath[:splitAt]
+					bindPkgType := bindFullPath[splitAt+1:]
+
+					if pkg.PkgPath != bindPkgPath {
+						continue
+					}
+
+					if foundType := pkg.Types.Scope().Lookup(bindPkgType); foundType != nil {
+						result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
+						result.Imports[foundType.Pkg().Path()] = ""
+					}
+
+					continue
+				}
+
 				if foundType := pkg.Types.Scope().Lookup(t.Name); foundType != nil {
 					result.BoundGoTypes[t.Name] = foundType.Pkg().Name() + "." + foundType.Name()
 					result.Imports[foundType.Pkg().Path()] = ""
@@ -342,4 +368,14 @@ func getGoType(cfg *config.Config, t *ast.Type) string {
 		return goType
 	}
 	return typeName
+}
+
+func contains(slice []string, item string) bool {
+	for _, s := range slice {
+		if s == item {
+			return true
+		}
+	}
+
+	return false
 }

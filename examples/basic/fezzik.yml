@@ -6,6 +6,8 @@ package_name: basic
 package_dir: gen
 autobind:
   - github.com/inigolabs/fezzik/examples/basic/types
+type_map:
+  Result: github.com/inigolabs/fezzik/examples/basic/types.ServerResult
 scalar_type_map:
   ID: string
   Time: time.Time
