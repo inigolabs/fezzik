@@ -128,6 +128,634 @@ func (c *gqlclient) OneWithSubSelections(ctx context.Context) (*OneWithSubSelect
 	return data, resp.Errors
 }
 
+type UnionSearchResultInLineSearch struct {
+	Typename *string `json:"__typename"`
+	*UnionSearchResultInLineSearchBook
+	*AuthorFr
+}
+
+func (f *UnionSearchResultInLineSearch) UnmarshalJSON(data []byte) error {
+	type alias UnionSearchResultInLineSearch
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = UnionSearchResultInLineSearch(*val)
+
+	f.AuthorFr = nil
+	f.UnionSearchResultInLineSearchBook = nil
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Book" {
+		if err := json.Unmarshal(data, &f.UnionSearchResultInLineSearchBook); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (f UnionSearchResultInLineSearch) MarshalJSON() ([]byte, error) {
+	var data = struct {
+		Name     string
+		Title    string
+		Typename *string `json:"__typename"`
+		Updated  string
+	}{}
+
+	data.Typename = f.Typename
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Title = f.UnionSearchResultInLineSearchBook.Title
+	}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Updated = f.UnionSearchResultInLineSearchBook.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorFr.Updated
+	}
+
+	return json.Marshal(data)
+}
+
+type UnionSearchResultInLineSearchBook struct {
+	Title   string
+	Updated string
+}
+
+type AuthorFr struct {
+	Name    string
+	Updated string
+}
+
+// UnionSearchResultInLineResponse response type for UnionSearchResultInLine
+type UnionSearchResultInLineResponse struct {
+	Search []UnionSearchResultInLineSearch
+}
+
+// UnionSearchResultInLine from examples/basic/operations/operations.graphql:27
+func (c *gqlclient) UnionSearchResultInLine(ctx context.Context) (*UnionSearchResultInLineResponse, error) {
+
+	var unionSearchResultInLineOperation string = `
+	query UnionSearchResultInLine {
+	search {
+		__typename
+		... on Book {
+			title
+			updated
+		}
+		... AuthorFr
+	}
+}
+fragment AuthorFr on Author {
+	name
+	updated
+}
+`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "UnionSearchResultInLine",
+		Query:         unionSearchResultInLineOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &UnionSearchResultInLineResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *UnionSearchResultInLineResponse
+	if resp.Data != nil {
+		data = resp.Data.(*UnionSearchResultInLineResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
+type UnionSearchResultSearch struct {
+	Typename *string `json:"__typename"`
+	*BookFr
+	*AuthorFr
+	*AuthorAnotherFr
+}
+
+func (f *UnionSearchResultSearch) UnmarshalJSON(data []byte) error {
+	type alias UnionSearchResultSearch
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = UnionSearchResultSearch(*val)
+
+	f.AuthorAnotherFr = nil
+	f.AuthorFr = nil
+	f.BookFr = nil
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorAnotherFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Book" {
+		if err := json.Unmarshal(data, &f.BookFr); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (f UnionSearchResultSearch) MarshalJSON() ([]byte, error) {
+	var data = struct {
+		Name     string
+		Title    string
+		Typename *string `json:"__typename"`
+		Updated  string
+	}{}
+
+	data.Typename = f.Typename
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Title = f.BookFr.Title
+	}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Updated = f.BookFr.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorFr.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorAnotherFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorAnotherFr.Updated
+	}
+
+	return json.Marshal(data)
+}
+
+type BookFr struct {
+	Title   string
+	Updated string
+}
+
+type AuthorAnotherFr struct {
+	Name    string
+	Updated string
+}
+
+// UnionSearchResultResponse response type for UnionSearchResult
+type UnionSearchResultResponse struct {
+	Search []UnionSearchResultSearch
+}
+
+// UnionSearchResult from examples/basic/operations/operations.graphql:39
+func (c *gqlclient) UnionSearchResult(ctx context.Context) (*UnionSearchResultResponse, error) {
+
+	var unionSearchResultOperation string = `
+	query UnionSearchResult {
+	search {
+		__typename
+		... BookFr
+		... AuthorFr
+		... AuthorAnotherFr
+	}
+}
+fragment BookFr on Book {
+	title
+	updated
+}
+fragment AuthorFr on Author {
+	name
+	updated
+}
+fragment AuthorAnotherFr on Author {
+	name
+	updated
+}
+`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "UnionSearchResult",
+		Query:         unionSearchResultOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &UnionSearchResultResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *UnionSearchResultResponse
+	if resp.Data != nil {
+		data = resp.Data.(*UnionSearchResultResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
+type UnionSearchResultNoTypenameSearch struct {
+	*BookFr
+	*AuthorFr
+	Typename *string `json:"__typename"`
+}
+
+func (f *UnionSearchResultNoTypenameSearch) UnmarshalJSON(data []byte) error {
+	type alias UnionSearchResultNoTypenameSearch
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = UnionSearchResultNoTypenameSearch(*val)
+
+	f.AuthorFr = nil
+	f.BookFr = nil
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Book" {
+		if err := json.Unmarshal(data, &f.BookFr); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (f UnionSearchResultNoTypenameSearch) MarshalJSON() ([]byte, error) {
+	var data = struct {
+		Name     string
+		Title    string
+		Typename *string `json:"__typename"`
+		Updated  string
+	}{}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Title = f.BookFr.Title
+	}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Updated = f.BookFr.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorFr.Updated
+	}
+
+	data.Typename = f.Typename
+
+	return json.Marshal(data)
+}
+
+// UnionSearchResultNoTypenameResponse response type for UnionSearchResultNoTypename
+type UnionSearchResultNoTypenameResponse struct {
+	Search []UnionSearchResultNoTypenameSearch
+}
+
+// UnionSearchResultNoTypename from examples/basic/operations/operations.graphql:49
+func (c *gqlclient) UnionSearchResultNoTypename(ctx context.Context) (*UnionSearchResultNoTypenameResponse, error) {
+
+	var unionSearchResultNoTypenameOperation string = `
+	query UnionSearchResultNoTypename {
+	search {
+		... BookFr
+		... AuthorFr
+	}
+}
+fragment BookFr on Book {
+	title
+	updated
+}
+fragment AuthorFr on Author {
+	name
+	updated
+}
+`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "UnionSearchResultNoTypename",
+		Query:         unionSearchResultNoTypenameOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &UnionSearchResultNoTypenameResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *UnionSearchResultNoTypenameResponse
+	if resp.Data != nil {
+		data = resp.Data.(*UnionSearchResultNoTypenameResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
+type InterfaceGetCreatedGetCreated struct {
+	Created  string
+	Typename *string `json:"__typename"`
+	*BookFr
+	*AuthorFr
+}
+
+func (f *InterfaceGetCreatedGetCreated) UnmarshalJSON(data []byte) error {
+	type alias InterfaceGetCreatedGetCreated
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = InterfaceGetCreatedGetCreated(*val)
+
+	f.AuthorFr = nil
+	f.BookFr = nil
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Book" {
+		if err := json.Unmarshal(data, &f.BookFr); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (f InterfaceGetCreatedGetCreated) MarshalJSON() ([]byte, error) {
+	var data = struct {
+		Created  string
+		Name     string
+		Title    string
+		Typename *string `json:"__typename"`
+		Updated  string
+	}{}
+
+	data.Created = f.Created
+
+	data.Typename = f.Typename
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Title = f.BookFr.Title
+	}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Updated = f.BookFr.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorFr.Updated
+	}
+
+	return json.Marshal(data)
+}
+
+// InterfaceGetCreatedResponse response type for InterfaceGetCreated
+type InterfaceGetCreatedResponse struct {
+	GetCreated []InterfaceGetCreatedGetCreated
+}
+
+// InterfaceGetCreated from examples/basic/operations/operations.graphql:57
+func (c *gqlclient) InterfaceGetCreated(ctx context.Context) (*InterfaceGetCreatedResponse, error) {
+
+	var interfaceGetCreatedOperation string = `
+	query InterfaceGetCreated {
+	getCreated {
+		created
+		__typename
+		... BookFr
+		... AuthorFr
+	}
+}
+fragment BookFr on Book {
+	title
+	updated
+}
+fragment AuthorFr on Author {
+	name
+	updated
+}
+`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "InterfaceGetCreated",
+		Query:         interfaceGetCreatedOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &InterfaceGetCreatedResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *InterfaceGetCreatedResponse
+	if resp.Data != nil {
+		data = resp.Data.(*InterfaceGetCreatedResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
+type InterfaceGetCreatedNoTypenameGetCreated struct {
+	Created string
+	*BookFr
+	*AuthorFr
+	Typename *string `json:"__typename"`
+}
+
+func (f *InterfaceGetCreatedNoTypenameGetCreated) UnmarshalJSON(data []byte) error {
+	type alias InterfaceGetCreatedNoTypenameGetCreated
+
+	var val *alias
+	if err := json.Unmarshal(data, &val); err != nil {
+		return err
+	}
+
+	*f = InterfaceGetCreatedNoTypenameGetCreated(*val)
+
+	f.AuthorFr = nil
+	f.BookFr = nil
+
+	if val.Typename != nil && *val.Typename == "Author" {
+		if err := json.Unmarshal(data, &f.AuthorFr); err != nil {
+			return err
+		}
+	}
+
+	if val.Typename != nil && *val.Typename == "Book" {
+		if err := json.Unmarshal(data, &f.BookFr); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (f InterfaceGetCreatedNoTypenameGetCreated) MarshalJSON() ([]byte, error) {
+	var data = struct {
+		Created  string
+		Name     string
+		Title    string
+		Typename *string `json:"__typename"`
+		Updated  string
+	}{}
+
+	data.Created = f.Created
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Title = f.BookFr.Title
+	}
+
+	if f.Typename != nil && *f.Typename == "Book" {
+		data.Updated = f.BookFr.Updated
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Name = f.AuthorFr.Name
+	}
+
+	if f.Typename != nil && *f.Typename == "Author" {
+		data.Updated = f.AuthorFr.Updated
+	}
+
+	data.Typename = f.Typename
+
+	return json.Marshal(data)
+}
+
+// InterfaceGetCreatedNoTypenameResponse response type for InterfaceGetCreatedNoTypename
+type InterfaceGetCreatedNoTypenameResponse struct {
+	GetCreated []InterfaceGetCreatedNoTypenameGetCreated
+}
+
+// InterfaceGetCreatedNoTypename from examples/basic/operations/operations.graphql:67
+func (c *gqlclient) InterfaceGetCreatedNoTypename(ctx context.Context) (*InterfaceGetCreatedNoTypenameResponse, error) {
+
+	var interfaceGetCreatedNoTypenameOperation string = `
+	query InterfaceGetCreatedNoTypename {
+	getCreated {
+		created
+		... BookFr
+		... AuthorFr
+	}
+}
+fragment BookFr on Book {
+	title
+	updated
+}
+fragment AuthorFr on Author {
+	name
+	updated
+}
+`
+
+	gqlreq := &client.GQLRequest{
+		OperationName: "InterfaceGetCreatedNoTypename",
+		Query:         interfaceGetCreatedNoTypenameOperation,
+		Variables:     map[string]interface{}{},
+	}
+
+	resp := &client.GQLResponse{
+		Data: &InterfaceGetCreatedNoTypenameResponse{},
+	}
+
+	err := c.gql.Query(ctx, gqlreq, resp)
+	if err != nil {
+		return nil, err
+	}
+
+	var data *InterfaceGetCreatedNoTypenameResponse
+	if resp.Data != nil {
+		data = resp.Data.(*InterfaceGetCreatedNoTypenameResponse)
+	}
+
+	if resp.Errors == nil {
+		return data, nil
+	}
+
+	return data, resp.Errors
+}
+
 type OneWithAliasOne struct {
 	OneInt *int
 }
@@ -142,7 +770,7 @@ type OneWithAliasResponse struct {
 	Two *OneWithAliasTwo
 }
 
-// OneWithAlias from examples/basic/operations/operations.graphql:27
+// OneWithAlias from examples/basic/operations/operations.graphql:91
 func (c *gqlclient) OneWithAlias(ctx context.Context) (*OneWithAliasResponse, error) {
 
 	var oneWithAliasOperation string = `
@@ -197,7 +825,7 @@ type QueryWithInputsResponse struct {
 	Two *QueryWithInputsTwo
 }
 
-// QueryWithInputs from examples/basic/operations/operations.graphql:38
+// QueryWithInputs from examples/basic/operations/operations.graphql:102
 func (c *gqlclient) QueryWithInputs(ctx context.Context,
 	inputOne *string,
 	inputTwo *string,
@@ -249,7 +877,7 @@ type OneAddResponse struct {
 	OneAdd *string
 }
 
-// OneAdd from examples/basic/operations/operations.graphql:49
+// OneAdd from examples/basic/operations/operations.graphql:113
 func (c *gqlclient) OneAdd(ctx context.Context,
 	input *OneInput,
 ) (*OneAddResponse, error) {
@@ -294,7 +922,7 @@ type TwoAddResponse struct {
 	TwoAdd *string
 }
 
-// TwoAdd from examples/basic/operations/operations.graphql:54
+// TwoAdd from examples/basic/operations/operations.graphql:118
 func (c *gqlclient) TwoAdd(ctx context.Context,
 	input *types.TwoInput,
 ) (*TwoAddResponse, error) {
@@ -339,7 +967,7 @@ type UpdatedResponse struct {
 	Updated *types.ServerResult
 }
 
-// Updated from examples/basic/operations/operations.graphql:58
+// Updated from examples/basic/operations/operations.graphql:122
 func (c *gqlSubscriptionClient) Updated(fn func(out *UpdatedResponse, err error) error) (string, error) {
 
 	var updatedOperation string = `
@@ -371,7 +999,7 @@ type ChangedResponse struct {
 	Changed *types.ServerResult
 }
 
-// Changed from examples/basic/operations/operations.graphql:64
+// Changed from examples/basic/operations/operations.graphql:128
 func (c *gqlSubscriptionClient) Changed(
 	input *string,
 	fn func(out *ChangedResponse, err error) error,

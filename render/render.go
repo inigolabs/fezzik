@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"context"
 	"embed"
-	"html/template"
 	"io"
 	"path/filepath"
 	"regexp"
+	"text/template"
 
 	"github.com/iancoleman/strcase"
 	"github.com/inigolabs/fezzik/config"

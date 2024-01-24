@@ -15,6 +15,8 @@ type Query {
 	one(input : String) : One
 
 	two(input : String) : Two
+	search: [SearchResult!]
+	getCreated: [Created!]
 }
 
 type Mutation {
@@ -86,4 +88,22 @@ input TwoInput {
 
 type Result {
 	id: String
+}
+
+union SearchResult = Book | Author
+
+interface Created {
+  created: String!
+}
+
+type Book implements Created {
+  title: String!
+  updated: String!
+  created: String!
+}
+
+type Author implements Created {
+  name: String!
+  updated: String!
+  created: String!
 }

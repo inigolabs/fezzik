@@ -14,10 +14,10 @@ type GetInfoViewer struct {
 }
 
 type GetInfoViewerPullRequests struct {
-	Nodes *GetInfoViewerPullRequestsNodes
+	Nodes []*GetInfoViewerPullRequestsNodes
 }
 
-type GetInfoViewerPullRequestsNodes []*struct {
+type GetInfoViewerPullRequestsNodes struct {
 	Id             string
 	Number         int
 	Title          string
@@ -34,10 +34,10 @@ type GetInfoViewerPullRequestsNodesRepository struct {
 }
 
 type GetInfoViewerPullRequestsNodesCommits struct {
-	Nodes *GetInfoViewerPullRequestsNodesCommitsNodes
+	Nodes []*GetInfoViewerPullRequestsNodesCommitsNodes
 }
 
-type GetInfoViewerPullRequestsNodesCommitsNodes []*struct {
+type GetInfoViewerPullRequestsNodesCommitsNodes struct {
 	Commit GetInfoViewerPullRequestsNodesCommitsNodesCommit
 }
 
