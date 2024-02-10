@@ -401,9 +401,9 @@ fragment AuthorAnotherFr on Author {
 }
 
 type UnionSearchResultNoTypenameSearch struct {
+	Typename *string `json:"__typename"`
 	*BookFr
 	*AuthorFr
-	Typename *string `json:"__typename"`
 }
 
 func (f *UnionSearchResultNoTypenameSearch) UnmarshalJSON(data []byte) error {
@@ -442,6 +442,8 @@ func (f UnionSearchResultNoTypenameSearch) MarshalJSON() ([]byte, error) {
 		Updated  string
 	}{}
 
+	data.Typename = f.Typename
+
 	if f.Typename != nil && *f.Typename == "Book" {
 		data.Title = f.BookFr.Title
 	}
@@ -458,8 +460,6 @@ func (f UnionSearchResultNoTypenameSearch) MarshalJSON() ([]byte, error) {
 		data.Updated = f.AuthorFr.Updated
 	}
 
-	data.Typename = f.Typename
-
 	return json.Marshal(data)
 }
 
@@ -474,6 +474,7 @@ func (c *gqlclient) UnionSearchResultNoTypename(ctx context.Context) (*UnionSear
 	var unionSearchResultNoTypenameOperation string = `
 	query UnionSearchResultNoTypename {
 	search {
+		__typename
 		... BookFr
 		... AuthorFr
 	}
@@ -637,10 +638,10 @@ fragment AuthorFr on Author {
 }
 
 type InterfaceGetCreatedNoTypenameGetCreated struct {
-	Created string
+	Created  string
+	Typename *string `json:"__typename"`
 	*BookFr
 	*AuthorFr
-	Typename *string `json:"__typename"`
 }
 
 func (f *InterfaceGetCreatedNoTypenameGetCreated) UnmarshalJSON(data []byte) error {
@@ -682,6 +683,8 @@ func (f InterfaceGetCreatedNoTypenameGetCreated) MarshalJSON() ([]byte, error) {
 
 	data.Created = f.Created
 
+	data.Typename = f.Typename
+
 	if f.Typename != nil && *f.Typename == "Book" {
 		data.Title = f.BookFr.Title
 	}
@@ -698,8 +701,6 @@ func (f InterfaceGetCreatedNoTypenameGetCreated) MarshalJSON() ([]byte, error) {
 		data.Updated = f.AuthorFr.Updated
 	}
 
-	data.Typename = f.Typename
-
 	return json.Marshal(data)
 }
 
@@ -715,6 +716,7 @@ func (c *gqlclient) InterfaceGetCreatedNoTypename(ctx context.Context) (*Interfa
 	query InterfaceGetCreatedNoTypename {
 	getCreated {
 		created
+		__typename
 		... BookFr
 		... AuthorFr
 	}
