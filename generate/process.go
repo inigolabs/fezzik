@@ -336,7 +336,7 @@ func getResponseTypes(cfg *config.Config, schema *ast.Schema, doc *fezzik_ast.Do
 
 				typeToMetaInfo[operationName].Fields = append(typeToMetaInfo[operationName].Fields, Field{
 					Field:     name,
-					Signature: name + " " + ptr + typeToMetaInfo[operationName+name].Prefix + operationName + name,
+					Signature: ptr + typeToMetaInfo[operationName+name].Prefix + operationName + name,
 				})
 
 				b.Writeln(" ", name+" "+ptr+typeToMetaInfo[operationName+name].Prefix+operationName+name)
