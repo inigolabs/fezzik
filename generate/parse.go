@@ -2,6 +2,7 @@ package generate
 
 import (
 	"path/filepath"
+	"strings"
 
 	"github.com/vektah/gqlparser/v2/ast"
 	"github.com/vektah/gqlparser/v2/parser"
@@ -75,6 +76,8 @@ func ParseOperations(cfg *config.Config, schema *ast.Schema) *ast.QueryDocument 
 
 	result := &ast.QueryDocument{}
 	for _, source := range sources {
+		source.Input = strings.Replace(source.Input, "...", "__typename ...", -1)
+
 		doc, err := parser.ParseQuery(source)
 		common.Check(err)
 
@@ -82,8 +85,38 @@ func ParseOperations(cfg *config.Config, schema *ast.Schema) *ast.QueryDocument 
 		result.Operations = append(result.Operations, doc.Operations...)
 	}
 
+	for i := range result.Operations {
+		result.Operations[i].SelectionSet = removeTypenameDuplicates(result.Operations[i].SelectionSet, result.Fragments)
+	}
+
 	err := validator.Validate(schema, result)
 	common.Check(err)
 
 	return result
+}
+
+func removeTypenameDuplicates(set []ast.Selection, fragments ast.FragmentDefinitionList) []ast.Selection {
+	var newSet []ast.Selection
+	var hasTypeName bool
+	for i := range set {
+		switch f := set[i].(type) {
+		case *ast.Field:
+			if f.Name == "__typename" {
+				if hasTypeName {
+					continue
+				}
+
+				hasTypeName = true
+			}
+			f.SelectionSet = removeTypenameDuplicates(f.SelectionSet, fragments)
+		case *ast.InlineFragment:
+			f.SelectionSet = removeTypenameDuplicates(f.SelectionSet, fragments)
+		case *ast.FragmentSpread:
+			fragments.ForName(f.Name).SelectionSet = removeTypenameDuplicates(fragments.ForName(f.Name).SelectionSet, fragments)
+		}
+
+		newSet = append(newSet, set[i])
+	}
+
+	return newSet
 }
